@@ -1,0 +1,32 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\source\\pubg\\private\\actor\\weaponpreview.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\intermediate\\build\\win64\\x64\\pubgeditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.valexpapi.cpp20.h.pch",
+        "Includes": [
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\pubg\\definitions.pubg.h",
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\source\\pubg\\public\\actor\\weaponpreview.h",
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\intermediate\\build\\win64\\unrealeditor\\inc\\pubg\\uht\\weaponpreview.generated.h",
+            "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\engine\\classes\\components\\scenecapturecomponent2d.h",
+            "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\engine\\classes\\components\\scenecapturecomponent.h",
+            "d:\\epic games\\ue_5.6\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\scenecapturecomponent.generated.h",
+            "d:\\epic games\\ue_5.6\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\scenecapturecomponent2d.generated.h",
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\source\\pubg\\public\\object\\backpackitemdefinition.h",
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\source\\pubg\\public\\pubgtype.h",
+            "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\gameplaytags\\classes\\gameplaytagcontainer.h",
+            "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\core\\public\\misc\\comparisonutility.h",
+            "d:\\epic games\\ue_5.6\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\gameplaytags\\uht\\gameplaytagcontainer.generated.h",
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\intermediate\\build\\win64\\unrealeditor\\inc\\pubg\\uht\\pubgtype.generated.h",
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\intermediate\\build\\win64\\unrealeditor\\inc\\pubg\\uht\\backpackitemdefinition.generated.h",
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\source\\pubg\\public\\object\\backpackitemfragment_attachment.h",
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\source\\pubg\\public\\object\\backpackitemfragment.h",
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\intermediate\\build\\win64\\unrealeditor\\inc\\pubg\\uht\\backpackitemfragment.generated.h",
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\intermediate\\build\\win64\\unrealeditor\\inc\\pubg\\uht\\backpackitemfragment_attachment.generated.h",
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\source\\pubg\\public\\object\\backpackiteminstance.h",
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\intermediate\\build\\win64\\unrealeditor\\inc\\pubg\\uht\\backpackiteminstance.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

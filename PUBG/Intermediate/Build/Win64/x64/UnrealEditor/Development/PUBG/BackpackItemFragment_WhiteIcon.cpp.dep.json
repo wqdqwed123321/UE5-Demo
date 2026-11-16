@@ -1,0 +1,17 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\source\\pubg\\private\\object\\backpackitemfragment_whiteicon.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\intermediate\\build\\win64\\x64\\pubgeditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.valexpapi.cpp20.h.pch",
+        "Includes": [
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\pubg\\definitions.pubg.h",
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\source\\pubg\\public\\object\\backpackitemfragment_whiteicon.h",
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\source\\pubg\\public\\object\\backpackitemfragment.h",
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\intermediate\\build\\win64\\unrealeditor\\inc\\pubg\\uht\\backpackitemfragment.generated.h",
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\intermediate\\build\\win64\\unrealeditor\\inc\\pubg\\uht\\backpackitemfragment_whiteicon.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

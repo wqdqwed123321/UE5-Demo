@@ -1,0 +1,37 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\users\\xieqi\\documents\\unreal projects\\pubg\\source\\pubg\\private\\actorcomponent\\backpackmanagercomponent.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\users\\xieqi\\documents\\unreal projects\\pubg\\intermediate\\build\\win64\\x64\\pubgeditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.valexpapi.cpp20.h.pch",
+        "Includes": [
+            "c:\\users\\xieqi\\documents\\unreal projects\\pubg\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\pubg\\definitions.pubg.h",
+            "c:\\users\\xieqi\\documents\\unreal projects\\pubg\\source\\pubg\\public\\actorcomponent\\backpackmanagercomponent.h",
+            "c:\\users\\xieqi\\documents\\unreal projects\\pubg\\source\\pubg\\public\\pubgfastarray.h",
+            "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\net\\core\\classes\\net\\serialization\\fastarrayserializer.h",
+            "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\net\\core\\public\\net\\core\\misc\\guidreferences.h",
+            "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\net\\core\\public\\net\\core\\pushmodel\\pushmodel.h",
+            "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\net\\core\\public\\net\\core\\netcoremodule.h",
+            "d:\\epic games\\ue_5.6\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\netcore\\uht\\fastarrayserializer.generated.h",
+            "c:\\users\\xieqi\\documents\\unreal projects\\pubg\\intermediate\\build\\win64\\unrealeditor\\inc\\pubg\\uht\\pubgfastarray.generated.h",
+            "c:\\users\\xieqi\\documents\\unreal projects\\pubg\\intermediate\\build\\win64\\unrealeditor\\inc\\pubg\\uht\\backpackmanagercomponent.generated.h",
+            "c:\\users\\xieqi\\documents\\unreal projects\\pubg\\source\\pubg\\public\\actor\\pickupitem.h",
+            "c:\\users\\xieqi\\documents\\unreal projects\\pubg\\intermediate\\build\\win64\\unrealeditor\\inc\\pubg\\uht\\pickupitem.generated.h",
+            "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\engine\\classes\\engine\\actorchannel.h",
+            "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\engine\\public\\net\\datareplication.h",
+            "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\core\\public\\containers\\staticbitarray.h",
+            "d:\\epic games\\ue_5.6\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\actorchannel.generated.h",
+            "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\engine\\public\\net\\unrealnetwork.h",
+            "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\net\\core\\public\\net\\core\\propertyconditions\\propertyconditions.h",
+            "c:\\users\\xieqi\\documents\\unreal projects\\pubg\\source\\pubg\\public\\object\\backpackiteminstance.h",
+            "c:\\users\\xieqi\\documents\\unreal projects\\pubg\\source\\pubg\\public\\pubgtype.h",
+            "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\gameplaytags\\classes\\gameplaytagcontainer.h",
+            "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\core\\public\\misc\\comparisonutility.h",
+            "d:\\epic games\\ue_5.6\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\gameplaytags\\uht\\gameplaytagcontainer.generated.h",
+            "c:\\users\\xieqi\\documents\\unreal projects\\pubg\\intermediate\\build\\win64\\unrealeditor\\inc\\pubg\\uht\\pubgtype.generated.h",
+            "c:\\users\\xieqi\\documents\\unreal projects\\pubg\\intermediate\\build\\win64\\unrealeditor\\inc\\pubg\\uht\\backpackiteminstance.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

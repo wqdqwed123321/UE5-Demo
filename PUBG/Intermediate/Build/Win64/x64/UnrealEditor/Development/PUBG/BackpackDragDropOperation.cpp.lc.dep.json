@@ -1,0 +1,17 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\users\\xieqi\\documents\\unreal projects\\pubg\\source\\pubg\\private\\dragdropoperation\\backpackdragdropoperation.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\users\\xieqi\\documents\\unreal projects\\pubg\\intermediate\\build\\win64\\x64\\pubgeditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.valexpapi.cpp20.h.pch",
+        "Includes": [
+            "c:\\users\\xieqi\\documents\\unreal projects\\pubg\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\pubg\\definitions.pubg.h",
+            "c:\\users\\xieqi\\documents\\unreal projects\\pubg\\source\\pubg\\public\\dragdropoperation\\backpackdragdropoperation.h",
+            "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\umg\\public\\blueprint\\dragdropoperation.h",
+            "d:\\epic games\\ue_5.6\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\umg\\uht\\dragdropoperation.generated.h",
+            "c:\\users\\xieqi\\documents\\unreal projects\\pubg\\intermediate\\build\\win64\\unrealeditor\\inc\\pubg\\uht\\backpackdragdropoperation.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\intermediate\\build\\win64\\unrealeditor\\inc\\pubg\\uht\\bulletprojectile.gen.cpp",
+        "ProvidedModule": "",
+        "PCH": "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\intermediate\\build\\win64\\x64\\pubgeditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.valexpapi.cpp20.h.pch",
+        "Includes": [
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\pubg\\definitions.pubg.h",
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\source\\pubg\\public\\actor\\bulletprojectile.h",
+            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\intermediate\\build\\win64\\unrealeditor\\inc\\pubg\\uht\\bulletprojectile.generated.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

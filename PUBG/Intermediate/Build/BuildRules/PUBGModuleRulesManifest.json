@@ -1,0 +1,17 @@
+{
+	"SourceFiles": [
+		"C:\\Users\\XieQi\\Documents\\GitHub\\UE-Demo\\PUBG\\Source\\PUBG\\PUBG.Build.cs",
+		"C:\\Users\\XieQi\\Documents\\GitHub\\UE-Demo\\PUBG\\Plugins\\Developer\\RiderLink\\Source\\RD\\RD.Build.cs",
+		"C:\\Users\\XieQi\\Documents\\GitHub\\UE-Demo\\PUBG\\Plugins\\Developer\\RiderLink\\Source\\RiderAgentTools\\RiderAgentTools.Build.cs",
+		"C:\\Users\\XieQi\\Documents\\GitHub\\UE-Demo\\PUBG\\Plugins\\Developer\\RiderLink\\Source\\RiderBlueprint\\RiderBlueprint.Build.cs",
+		"C:\\Users\\XieQi\\Documents\\GitHub\\UE-Demo\\PUBG\\Plugins\\Developer\\RiderLink\\Source\\RiderDebuggerSupport\\RiderDebuggerSupport.Build.cs",
+		"C:\\Users\\XieQi\\Documents\\GitHub\\UE-Demo\\PUBG\\Plugins\\Developer\\RiderLink\\Source\\RiderGameControl\\RiderGameControl.Build.cs",
+		"C:\\Users\\XieQi\\Documents\\GitHub\\UE-Demo\\PUBG\\Plugins\\Developer\\RiderLink\\Source\\RiderLC\\RiderLC.Build.cs",
+		"C:\\Users\\XieQi\\Documents\\GitHub\\UE-Demo\\PUBG\\Plugins\\Developer\\RiderLink\\Source\\RiderLink\\RiderLink.Build.cs",
+		"C:\\Users\\XieQi\\Documents\\GitHub\\UE-Demo\\PUBG\\Plugins\\Developer\\RiderLink\\Source\\RiderLogging\\RiderLogging.Build.cs",
+		"C:\\Users\\XieQi\\Documents\\GitHub\\UE-Demo\\PUBG\\Plugins\\Developer\\RiderLink\\Source\\RiderShaderInfo\\RiderShaderInfo.Build.cs",
+		"C:\\Users\\XieQi\\Documents\\GitHub\\UE-Demo\\PUBG\\Source\\PUBG.Target.cs",
+		"C:\\Users\\XieQi\\Documents\\GitHub\\UE-Demo\\PUBG\\Source\\PUBGEditor.Target.cs"
+	],
+	"EngineVersion": "5.6.1"
+}

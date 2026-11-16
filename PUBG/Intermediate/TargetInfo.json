@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "PUBG",
+			"Path": "..\\Source\\PUBG.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "PUBGEditor",
+			"Path": "..\\Source\\PUBGEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}

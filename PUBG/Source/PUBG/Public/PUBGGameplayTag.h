@@ -1,0 +1,28 @@
+﻿#pragma once
+
+#include "CoreMinimal.h"
+#include "NativeGameplayTags.h"
+
+namespace PUBGGameplayTag
+{
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PUBG_UI_Stack_Hud);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PUBG_UI_Stack_Menu);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PUBG_UI_Stack_Modal);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PUBG_UI_Stack_Frontend);
+
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PUBG_Ability_HealItem_Bandage);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PUBG_Ability_Movement_ClimbVault);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PUBG_Ability_Combat_Punch);
+	
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PUBG_Event_Punch_End);
+	
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PUBG_BackpackItemInstance_MagazineSize);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PUBG_BackpackItemInstance_CurrentAmmo);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PUBG_BackpackItemInstance_HelmetDurability);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PUBG_BackpackItemInstance_VestDurability);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PUBG_BackpackItemInstance_CurrentFireMode);
+	
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PUBG_GE_BackpackCapacity);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PUBG_GE_MaxBackpackCapacity);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(PUBG_GE_Damage);
+}

@@ -1,0 +1,69 @@
+// Copyright Epic Games, Inc. All Rights Reserved.
+/*===========================================================================
+	Generated code exported from UnrealHeaderTool.
+	DO NOT modify this manually! Edit the corresponding .h files instead!
+===========================================================================*/
+
+// IWYU pragma: private, include "GameInstanceSubsystem/UIGameInstanceSubsystem.h"
+
+#ifdef PUBG_UIGameInstanceSubsystem_generated_h
+#error "UIGameInstanceSubsystem.generated.h already included, missing '#pragma once' in UIGameInstanceSubsystem.h"
+#endif
+#define PUBG_UIGameInstanceSubsystem_generated_h
+
+#include "UObject/ObjectMacros.h"
+#include "UObject/ScriptMacros.h"
+
+PRAGMA_DISABLE_DEPRECATION_WARNINGS
+
+class UGameCommonUserWidget;
+
+// ********** Begin Class UUIGameInstanceSubsystem *************************************************
+#define FID_PUBG_Source_PUBG_Public_GameInstanceSubsystem_UIGameInstanceSubsystem_h_18_RPC_WRAPPERS_NO_PURE_DECLS \
+	DECLARE_FUNCTION(execRegisterCreatedPrimaryLayoutWidget);
+
+
+PUBG_API UClass* Z_Construct_UClass_UUIGameInstanceSubsystem_NoRegister();
+
+#define FID_PUBG_Source_PUBG_Public_GameInstanceSubsystem_UIGameInstanceSubsystem_h_18_INCLASS_NO_PURE_DECLS \
+private: \
+	static void StaticRegisterNativesUUIGameInstanceSubsystem(); \
+	friend struct Z_Construct_UClass_UUIGameInstanceSubsystem_Statics; \
+	static UClass* GetPrivateStaticClass(); \
+	friend PUBG_API UClass* Z_Construct_UClass_UUIGameInstanceSubsystem_NoRegister(); \
+public: \
+	DECLARE_CLASS2(UUIGameInstanceSubsystem, UGameInstanceSubsystem, COMPILED_IN_FLAGS(0), CASTCLASS_None, TEXT("/Script/PUBG"), Z_Construct_UClass_UUIGameInstanceSubsystem_NoRegister) \
+	DECLARE_SERIALIZER(UUIGameInstanceSubsystem)
+
+
+#define FID_PUBG_Source_PUBG_Public_GameInstanceSubsystem_UIGameInstanceSubsystem_h_18_ENHANCED_CONSTRUCTORS \
+	/** Standard constructor, called after all reflected properties have been initialized */ \
+	NO_API UUIGameInstanceSubsystem(); \
+	/** Deleted move- and copy-constructors, should never be used */ \
+	UUIGameInstanceSubsystem(UUIGameInstanceSubsystem&&) = delete; \
+	UUIGameInstanceSubsystem(const UUIGameInstanceSubsystem&) = delete; \
+	DECLARE_VTABLE_PTR_HELPER_CTOR(NO_API, UUIGameInstanceSubsystem); \
+	DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(UUIGameInstanceSubsystem); \
+	DEFINE_DEFAULT_CONSTRUCTOR_CALL(UUIGameInstanceSubsystem) \
+	NO_API virtual ~UUIGameInstanceSubsystem();
+
+
+#define FID_PUBG_Source_PUBG_Public_GameInstanceSubsystem_UIGameInstanceSubsystem_h_15_PROLOG
+#define FID_PUBG_Source_PUBG_Public_GameInstanceSubsystem_UIGameInstanceSubsystem_h_18_GENERATED_BODY \
+PRAGMA_DISABLE_DEPRECATION_WARNINGS \
+public: \
+	FID_PUBG_Source_PUBG_Public_GameInstanceSubsystem_UIGameInstanceSubsystem_h_18_RPC_WRAPPERS_NO_PURE_DECLS \
+	FID_PUBG_Source_PUBG_Public_GameInstanceSubsystem_UIGameInstanceSubsystem_h_18_INCLASS_NO_PURE_DECLS \
+	FID_PUBG_Source_PUBG_Public_GameInstanceSubsystem_UIGameInstanceSubsystem_h_18_ENHANCED_CONSTRUCTORS \
+private: \
+PRAGMA_ENABLE_DEPRECATION_WARNINGS
+
+
+class UUIGameInstanceSubsystem;
+
+// ********** End Class UUIGameInstanceSubsystem ***************************************************
+
+#undef CURRENT_FILE_ID
+#define CURRENT_FILE_ID FID_PUBG_Source_PUBG_Public_GameInstanceSubsystem_UIGameInstanceSubsystem_h
+
+PRAGMA_ENABLE_DEPRECATION_WARNINGS

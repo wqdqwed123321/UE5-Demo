@@ -1,0 +1,14 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UnrealEditor-PUBG.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Intermediate/Build/Win64/x64/PUBGEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.obj"
+"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Intermediate/Build/Win64/x64/UnrealEditor/Development/PUBG/Module.PUBG.1.cpp.obj"
+"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Intermediate/Build/Win64/x64/UnrealEditor/Development/PUBG/Module.PUBG.2.cpp.obj"
+"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Intermediate/Build/Win64/x64/UnrealEditor/Development/PUBG/Module.PUBG.3.cpp.obj"
+"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Intermediate/Build/Win64/x64/UnrealEditor/Development/PUBG/Default.rc2.res"
+/OUT:"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Intermediate/Build/Win64/x64/UnrealEditor/Development/PUBG/UnrealEditor-PUBG.lib"
