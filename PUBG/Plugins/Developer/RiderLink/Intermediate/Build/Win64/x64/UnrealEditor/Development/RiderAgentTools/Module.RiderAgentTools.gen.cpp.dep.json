@@ -1,11 +1,11 @@
 {
     "Version": "1.2",
     "Data": {
-        "Source": "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\rideragenttools\\module.rideragenttools.gen.cpp",
+        "Source": "c:\\users\\xieqi\\documents\\github\\ue5-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\rideragenttools\\module.rideragenttools.gen.cpp",
         "ProvidedModule": "",
         "Includes": [
-            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\rideragenttools\\definitions.h",
-            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\unrealeditor\\inc\\rideragenttools\\uht\\rideragentbridgelibrary.gen.cpp",
+            "c:\\users\\xieqi\\documents\\github\\ue5-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\rideragenttools\\definitions.h",
+            "c:\\users\\xieqi\\documents\\github\\ue5-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\unrealeditor\\inc\\rideragenttools\\uht\\rideragentbridgelibrary.gen.cpp",
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\coreuobject\\public\\uobject\\generatedcppincludes.h",
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\coreuobject\\public\\uobject\\object.h",
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\coreuobject\\public\\uobject\\script.h",
@@ -607,11 +607,11 @@
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\coreuobject\\public\\uobject\\utf8strproperty.h",
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\coreuobject\\public\\uobject\\strproperty.h.inl",
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\coreuobject\\public\\uobject\\textproperty.h",
-            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\plugins\\developer\\riderlink\\source\\rideragenttools\\private\\rideragentbridgelibrary.h",
+            "c:\\users\\xieqi\\documents\\github\\ue5-demo\\pubg\\plugins\\developer\\riderlink\\source\\rideragenttools\\private\\rideragentbridgelibrary.h",
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\engine\\classes\\kismet\\blueprintfunctionlibrary.h",
             "d:\\epic games\\ue_5.6\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\blueprintfunctionlibrary.generated.h",
-            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\unrealeditor\\inc\\rideragenttools\\uht\\rideragentbridgelibrary.generated.h",
-            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\unrealeditor\\inc\\rideragenttools\\uht\\rideragenttools.init.gen.cpp"
+            "c:\\users\\xieqi\\documents\\github\\ue5-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\unrealeditor\\inc\\rideragenttools\\uht\\rideragentbridgelibrary.generated.h",
+            "c:\\users\\xieqi\\documents\\github\\ue5-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\unrealeditor\\inc\\rideragenttools\\uht\\rideragenttools.init.gen.cpp"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []

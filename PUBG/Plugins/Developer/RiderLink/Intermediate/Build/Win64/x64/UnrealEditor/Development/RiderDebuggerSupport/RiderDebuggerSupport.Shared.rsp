@@ -1,5 +1,5 @@
 /I "."
-/I "C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Source/RiderDebuggerSupport/Private"
+/I "C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Plugins/Developer/RiderLink/Source/RiderDebuggerSupport/Private"
 /I "Runtime/Core/Public"
 /I "Runtime/TraceLog/Public"
 /I "Runtime/AutoRTFM/Public"
@@ -283,7 +283,7 @@
 /I "Editor/SceneDepthPickerMode/Public"
 /I "../Intermediate/Build/Win64/UnrealEditor/Inc/AnimationEditMode/UHT"
 /I "Editor/AnimationEditMode/Public"
-/I "C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Source"
+/I "C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Plugins/Developer/RiderLink/Source"
 /external:W0
 /external:I "ThirdParty/GuidelinesSupportLibrary/GSL-1144/include"
 /external:I "ThirdParty/AtomicQueue"

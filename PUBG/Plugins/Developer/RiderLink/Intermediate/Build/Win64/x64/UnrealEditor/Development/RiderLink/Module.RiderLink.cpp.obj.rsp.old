@@ -1,9 +1,9 @@
-"C:/Users/XieQi/Documents/Unreal Projects/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderLink/Module.RiderLink.cpp"
-@"C:/Users/XieQi/Documents/Unreal Projects/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderLink/RiderLink.Shared.rsp"
-/FI"C:/Users/XieQi/Documents/Unreal Projects/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderLink/Definitions.h"
-/Fo"C:/Users/XieQi/Documents/Unreal Projects/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderLink/Module.RiderLink.cpp.obj"
-/experimental:log "C:/Users/XieQi/Documents/Unreal Projects/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderLink/Module.RiderLink.cpp.sarif"
-/sourceDependencies "C:/Users/XieQi/Documents/Unreal Projects/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderLink/Module.RiderLink.cpp.dep.json"
+"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderLink/Module.RiderLink.cpp"
+@"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderLink/RiderLink.Shared.rsp"
+/FI"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderLink/Definitions.h"
+/Fo"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderLink/Module.RiderLink.cpp.obj"
+/experimental:log "C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderLink/Module.RiderLink.cpp.sarif"
+/sourceDependencies "C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderLink/Module.RiderLink.cpp.dep.json"
 /d2ssa-cfg-question-
 /Zc:inline
 /nologo

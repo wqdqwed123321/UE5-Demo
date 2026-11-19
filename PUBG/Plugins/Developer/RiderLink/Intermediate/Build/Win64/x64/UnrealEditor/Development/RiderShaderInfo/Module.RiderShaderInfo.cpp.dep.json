@@ -1,11 +1,11 @@
 {
     "Version": "1.2",
     "Data": {
-        "Source": "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\ridershaderinfo\\module.ridershaderinfo.cpp",
+        "Source": "c:\\users\\xieqi\\documents\\github\\ue5-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\ridershaderinfo\\module.ridershaderinfo.cpp",
         "ProvidedModule": "",
         "Includes": [
-            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\ridershaderinfo\\definitions.h",
-            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\ridershaderinfo\\permoduleinline.gen.cpp",
+            "c:\\users\\xieqi\\documents\\github\\ue5-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\ridershaderinfo\\definitions.h",
+            "c:\\users\\xieqi\\documents\\github\\ue5-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\ridershaderinfo\\permoduleinline.gen.cpp",
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\core\\public\\hal\\permoduleinline.inl",
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\core\\public\\coreglobals.h",
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\core\\public\\containers\\unrealstring.h",
@@ -314,8 +314,8 @@
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\core\\public\\profilingdebugging\\formatargstrace.h",
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\core\\public\\modules\\boilerplate\\moduleboilerplate.h",
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\core\\public\\modules\\visualizerdebuggingstate.h",
-            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\plugins\\developer\\riderlink\\source\\ridershaderinfo\\ridershaderinfo.cpp",
-            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\plugins\\developer\\riderlink\\source\\ridershaderinfo\\ridershaderinfo.h",
+            "c:\\users\\xieqi\\documents\\github\\ue5-demo\\pubg\\plugins\\developer\\riderlink\\source\\ridershaderinfo\\ridershaderinfo.cpp",
+            "c:\\users\\xieqi\\documents\\github\\ue5-demo\\pubg\\plugins\\developer\\riderlink\\source\\ridershaderinfo\\ridershaderinfo.h",
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\core\\public\\modules\\moduleinterface.h",
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\core\\public\\hal\\filemanager.h",
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\core\\public\\misc\\datetime.h",

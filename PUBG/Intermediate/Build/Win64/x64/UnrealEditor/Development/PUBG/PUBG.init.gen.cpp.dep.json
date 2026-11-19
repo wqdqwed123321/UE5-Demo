@@ -1,11 +1,11 @@
 {
     "Version": "1.2",
     "Data": {
-        "Source": "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\intermediate\\build\\win64\\unrealeditor\\inc\\pubg\\uht\\pubg.init.gen.cpp",
+        "Source": "c:\\users\\xieqi\\documents\\github\\ue5-demo\\pubg\\intermediate\\build\\win64\\unrealeditor\\inc\\pubg\\uht\\pubg.init.gen.cpp",
         "ProvidedModule": "",
-        "PCH": "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\intermediate\\build\\win64\\x64\\pubgeditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.valexpapi.cpp20.h.pch",
+        "PCH": "c:\\users\\xieqi\\documents\\github\\ue5-demo\\pubg\\intermediate\\build\\win64\\x64\\pubgeditor\\development\\unrealed\\sharedpch.unrealed.project.valapi.valexpapi.cpp20.h.pch",
         "Includes": [
-            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\pubg\\definitions.pubg.h"
+            "c:\\users\\xieqi\\documents\\github\\ue5-demo\\pubg\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\pubg\\definitions.pubg.h"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []

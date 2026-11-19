@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #include "Character/PlayerCharacter.h"
 
 #include "EnhancedInputComponent.h"
@@ -38,18 +36,18 @@ APlayerCharacter::APlayerCharacter()
 	PersonHead->SetLeaderPoseComponent(GetMesh());
 	PersonHead->SetCastShadow(true);
 	PersonHead->bCastHiddenShadow = true;
-	
+
 	FirstPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	FirstPersonCamera->SetupAttachment(GetMesh(), TEXT("Socket_FirstPersonCamera"));
 	FirstPersonCamera->bUsePawnControlRotation = true;
-	
+
 	ThirdPersonSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("ThirdPersonSpringArm"));
 	ThirdPersonSpringArm->SetupAttachment(RootComponent);
 	ThirdPersonSpringArm->bUsePawnControlRotation = true;
-	
+
 	ThirdPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("ThirdPersonCamera"));
 	ThirdPersonCamera->SetupAttachment(ThirdPersonSpringArm, USpringArmComponent::SocketName);
-	
+
 	Sphere = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere"));
 	Sphere->SetupAttachment(GetCapsuleComponent());
 	Sphere->InitSphereRadius(200.f);
@@ -58,7 +56,7 @@ APlayerCharacter::APlayerCharacter()
 	Sphere->SetCollisionResponseToAllChannels(ECR_Ignore);
 	Sphere->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Overlap);
 	Sphere->SetGenerateOverlapEvents(true);
-	
+
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
@@ -89,11 +87,11 @@ void APlayerCharacter::BeginPlay()
 	CharacterAnimInstance = Cast<UCharacterAnimInstance>(GetMesh()->GetAnimInstance());
 	FirstPersonCamera->SetActive(false);
 	ThirdPersonCamera->SetActive(true);
-	PersonHead->SetOwnerNoSee(false); 
+	PersonHead->SetOwnerNoSee(false);
 	ApplyCharacterGait();
-	
+
 	UpdateCharacterHeldSlotAnimLayer();
-	
+
 	if (DT_TPPCameraSettings)
 	{
 		FTPPCameraSettings* Settings = DT_TPPCameraSettings->FindRow<FTPPCameraSettings>(TEXT("TPP"), TEXT(""));
@@ -103,13 +101,13 @@ void APlayerCharacter::BeginPlay()
 			TargetSocketOffset = Settings->SocketOffset;
 		}
 	}
-	
+
 	if (Sphere)
 	{
 		Sphere->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnSphereBeginOverlap);
 		Sphere->OnComponentEndOverlap.AddDynamic(this, &APlayerCharacter::OnSphereEndOverlap);
 	}
-	
+
 	if (APlayerState* PS = GetPlayerState())
 	{
 		if (UBackpackManagerComponent* Comp = PS->FindComponentByClass<UBackpackManagerComponent>())
@@ -137,17 +135,17 @@ void APlayerCharacter::Tick(float DeltaTime)
 			LastSentControllerYaw = ControllerRotator_Yaw;
 			LastSentControllerPitch = ControllerRotator_Pitch;
 		}
-		
+
 		if (FMath::Abs(TargetRecoilPitch) > 0.01f || FMath::Abs(TargetRecoilYaw) > 0.01f)
 		{
 			float ConsumePitch = FMath::FInterpTo(0.f, TargetRecoilPitch, DeltaTime, 30.f);
 			float ConsumeYaw = FMath::FInterpTo(0.f, TargetRecoilYaw, DeltaTime, 30.f);
-			AddControllerPitchInput(-ConsumePitch); 
-			AddControllerYawInput(ConsumeYaw);      
+			AddControllerPitchInput(-ConsumePitch);
+			AddControllerYawInput(ConsumeYaw);
 			TargetRecoilPitch -= ConsumePitch;
 			TargetRecoilYaw -= ConsumeYaw;
 		}
-		
+
 		if (bWantsToSprint && CharacterGait != ECharacterGait::Sprint && CharacterGait != ECharacterGait::Walk)
 		{
 			float Now = GetWorld()->GetTimeSeconds();
@@ -161,7 +159,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 			}
 		}
 	}
-	
+
 	if (HasAuthority() || IsLocallyControlled())
 	{
 		if (GetVelocity().Size() > 0.f)
@@ -172,7 +170,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 			SetActorRotation(FMath::RInterpTo(GetActorRotation(), TargetRotation, DeltaTime, 15.f));
 		}
 	}
-	
+
 	if (IsLocallyControlled() && CharacterAnimInstance)
 	{
 		const float TurnYawDelta = CharacterAnimInstance->GetTurnYawCurveDeltaValue();
@@ -184,15 +182,15 @@ void APlayerCharacter::Tick(float DeltaTime)
 			Server_SetActorYaw(TargetRotation.Yaw);
 		}
 	}
-	
+
 	if (IsLocallyControlled())
 	{
 		CurrentLeanOffset = FMath::FInterpTo(CurrentLeanOffset, CurrentLeanDirection * LeanOffsetDistance, DeltaTime, LeanInterpSpeed);
-        
+
 		if (ThirdPersonSpringArm)
 		{
 			FVector DesiredSocketOffset = TargetSocketOffset;
-			DesiredSocketOffset.Y += CurrentLeanOffset; 
+			DesiredSocketOffset.Y += CurrentLeanOffset;
 
 			bool bNeedsInterp = !FMath::IsNearlyEqual(ThirdPersonSpringArm->TargetArmLength, TargetArmLength, 0.1f) || !ThirdPersonSpringArm->SocketOffset.Equals(DesiredSocketOffset, 0.1f);
 			if (bNeedsInterp)
@@ -234,17 +232,17 @@ void APlayerCharacter::Tick(float DeltaTime)
 			FRotator TargetRot = GetMesh()->GetSocketRotation(InterpTargetSocket);
 
 			InterpAlpha = FMath::Min(1.f, InterpAlpha + DeltaTime / 0.15f);
-			
 			float SmoothAlpha = FMath::InterpEaseOut(0.f, 1.f, InterpAlpha, 2.f);
 
-			WeaponMesh->SetWorldLocationAndRotation(FMath::Lerp(InterpStartLoc, TargetLoc, SmoothAlpha),FMath::Lerp(InterpStartRot, TargetRot, SmoothAlpha));
+			FVector NewLoc = FMath::Lerp(InterpStartLoc, TargetLoc, SmoothAlpha);
+			FQuat NewQuat = FQuat::Slerp(InterpStartRot.Quaternion(), TargetRot.Quaternion(), SmoothAlpha);
+			WeaponMesh->SetWorldLocationAndRotation(NewLoc, NewQuat.Rotator());
 
 			if (InterpAlpha >= 1.f)
 			{
 				WeaponMesh->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, InterpTargetSocket);
 				bIsInterpolatingWeapon = false;
 				InterpWeaponMesh = nullptr;
-				
 				RefreshWeaponVisuals();
 			}
 		}
@@ -313,7 +311,7 @@ float APlayerCharacter::GetCrosshairSpreadDegrees() const
 	if (GetCharacterMovement()->IsFalling()) Spread *= WeaponFrag->SpreadSettings.AirMultiplier;
 	else if (GetVelocity().Size() > 10.f)
 	{
-		if (CharacterGait == ECharacterGait::Walk) Spread *= WeaponFrag->SpreadSettings.WalkMultiplier; 
+		if (CharacterGait == ECharacterGait::Walk) Spread *= WeaponFrag->SpreadSettings.WalkMultiplier;
 		else Spread *= WeaponFrag->SpreadSettings.MoveMultiplier;
 	}
 	if (bIsAiming) Spread *= WeaponFrag->SpreadSettings.ADSSpreadMultiplier;
@@ -324,7 +322,7 @@ float APlayerCharacter::GetCrosshairSpreadDegrees() const
 void APlayerCharacter::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	
+
 	DOREPLIFETIME(APlayerCharacter, CharacterGait)
 	DOREPLIFETIME(APlayerCharacter, CharacterStance)
 	DOREPLIFETIME(APlayerCharacter, CharacterHeldSlot)
@@ -380,13 +378,13 @@ void APlayerCharacter::RefreshEquipmentVisuals()
 	APlayerState* PS = GetPlayerState();
 	UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
 	if (!Comp || !GetMesh()) return;
-	
+
 	for (int32 i = 0; i <= static_cast<int32>(EEquipmentSlot::Mask); ++i)
 	{
 		EEquipmentSlot SlotType = static_cast<EEquipmentSlot>(i);
 		UBackpackItemInstance* EquipItem = Comp->GetEquipmentItem(SlotType);
 		bool bHasMesh = EquippedMeshComponents.Contains(SlotType) && IsValid(EquippedMeshComponents[SlotType]);
-		
+
 		if (!EquipItem)
 		{
 			if (bHasMesh)
@@ -408,7 +406,7 @@ void APlayerCharacter::RefreshEquipmentVisuals()
 				}
 				continue;
 			}
-			if (bHasMesh && EquippedMeshComponents[SlotType]->GetSkeletalMeshAsset() == MountFrag->EquipmentMesh) continue; 
+			if (bHasMesh && EquippedMeshComponents[SlotType]->GetSkeletalMeshAsset() == MountFrag->EquipmentMesh) continue;
 			if (bHasMesh)
 			{
 				EquippedMeshComponents[SlotType]->DestroyComponent();
@@ -432,7 +430,7 @@ void APlayerCharacter::RefreshWeaponVisuals()
 	APlayerState* PS = GetPlayerState();
 	UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
 	if (!Comp || !GetMesh()) return;
-	
+
 	if (!bIsInterpolatingWeapon)
 	{
 		if (WeaponMeshComponents.Num() < 5) WeaponMeshComponents.SetNum(5);
@@ -451,7 +449,7 @@ void APlayerCharacter::RefreshWeaponVisuals()
 		for (int32 i = 0; i < 5; ++i)
 		{
 			UBackpackItemInstance* WeaponItem = Comp->GetWeaponSlotItem(i);
-			
+
 			if (!WeaponItem || !WeaponItem->Definition)
 			{
 				if (IsValid(WeaponMeshComponents[i]))
@@ -466,16 +464,29 @@ void APlayerCharacter::RefreshWeaponVisuals()
 			if (!MountFrag || !MountFrag->EquipmentMesh) continue;
 
 			USceneComponent* TargetParent = GetMesh();
+
 			FName TargetSocket = NAME_None;
-			if (i == HeldIndex) TargetSocket = MountFrag->HeldSocketName; 
-			else if (i == 0) TargetSocket = Primary1Socket_Character;
+			if (i == 0) TargetSocket = Primary1Socket_Character;
 			else if (i == 1) TargetSocket = Primary2Socket_Character;
 			else TargetSocket = MountFrag->AttachSocketName;
 
+			if (i == HeldIndex)
+			{
+				const bool bTransitioning = bIsSwitchingWeapon || bIsInterpolatingWeapon || PendingHeldSlotProcessing;
+				if (!bTransitioning)
+				{
+					TargetSocket = MountFrag->HeldSocketName;
+				}
+				else if (IsValid(WeaponMeshComponents[i]))
+				{
+					TargetSocket = WeaponMeshComponents[i]->GetAttachSocketName();
+				}
+			}
+
 			if (TargetSocket == NAME_None) continue;
 
-			bool bAlreadySpawned = IsValid(WeaponMeshComponents[i]) 
-				&& WeaponMeshComponents[i]->GetSkeletalMeshAsset() == MountFrag->EquipmentMesh 
+			bool bAlreadySpawned = IsValid(WeaponMeshComponents[i])
+				&& WeaponMeshComponents[i]->GetSkeletalMeshAsset() == MountFrag->EquipmentMesh
 				&& WeaponMeshComponents[i]->GetAttachSocketName() == TargetSocket;
 
 			if (!bAlreadySpawned)
@@ -495,7 +506,7 @@ void APlayerCharacter::RefreshWeaponVisuals()
 			}
 		}
 	}
-	
+
 	RefreshAttachmentsOnly();
 }
 
@@ -544,7 +555,7 @@ void APlayerCharacter::RefreshAttachmentsOnly()
 				ProcessedSlots.Add(Attach.Slot);
 
 				UBackpackItemDefinition* AttachDef = Attach.ItemInstance->Definition;
-				UStaticMesh* AttachMesh = AttachDef->WorldMesh; 
+				UStaticMesh* AttachMesh = AttachDef->WorldMesh;
 
 				UBackpackItemFragment_Attachment* AttachFrag = Cast<UBackpackItemFragment_Attachment>(
 					UBackpackItemDefinition::FindBackpackItemFragmentByClass(AttachDef->GetClass(), UBackpackItemFragment_Attachment::StaticClass())
@@ -570,7 +581,7 @@ void APlayerCharacter::RefreshAttachmentsOnly()
 						AttachMeshComp->SetStaticMesh(AttachMesh);
 						AttachMeshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 						AttachMeshComp->SetVisibility(true);
-						
+
 						AttachMeshComp->AttachToComponent(WeaponMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, TargetAttachSocket);
 						AttachMeshComp->SetRelativeLocationAndRotation(FVector::ZeroVector, FRotator::ZeroRotator);
 					}
@@ -602,17 +613,17 @@ void APlayerCharacter::FireOneShot()
 
 	UBackpackItemFragment_Weapon* WeaponFrag = Cast<UBackpackItemFragment_Weapon>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(WeaponItem->Definition->GetClass(), UBackpackItemFragment_Weapon::StaticClass()));
 	if (!WeaponFrag) return;
-	
+
 	int32 CurrentAmmo = 0;
 	for (const FItemAttribute& Attr : WeaponItem->ItemAttributes)
 	{
 		if (Attr.Tag == PUBGGameplayTag::PUBG_BackpackItemInstance_CurrentAmmo)
-		{ 
+		{
 			CurrentAmmo = FMath::RoundToInt(Attr.Value);
 			break;
 		}
 	}
-	
+
 	if (CurrentAmmo <= 0)
 	{
 		GetWorldTimerManager().ClearTimer(FireTimerHandle);
@@ -630,8 +641,8 @@ void APlayerCharacter::FireOneShot()
 		}
 		return;
 	}
-	
-	if (IsLocallyControlled() && !HasAuthority()) 
+
+	if (IsLocallyControlled() && !HasAuthority())
 	{
 		bool bLocalDeducted = false;
 		for (FItemAttribute& Attr : WeaponItem->ItemAttributes)
@@ -646,13 +657,13 @@ void APlayerCharacter::FireOneShot()
 				break;
 			}
 		}
-		
+
 		if (bLocalDeducted)
 		{
 			Comp->OnInventoryChanged.Broadcast();
 		}
 	}
-	
+
 	APlayerController* PC = Cast<APlayerController>(GetController());
 	if (!PC) return;
 	FVector CamLoc; FRotator CamRot;
@@ -660,13 +671,13 @@ void APlayerCharacter::FireOneShot()
 	float CurrentSpread = WeaponFrag->SpreadSettings.BaseSpreadAngle;
 	if (CharacterStance == ECharacterStance::Crouch) CurrentSpread *= WeaponFrag->SpreadSettings.CrouchMultiplier;
 	if (GetCharacterMovement()->IsFalling()) CurrentSpread *= WeaponFrag->SpreadSettings.AirMultiplier;
-	else if (GetVelocity().Size() > 10.f) 
+	else if (GetVelocity().Size() > 10.f)
 	{
 		if (CharacterGait == ECharacterGait::Walk) CurrentSpread *= WeaponFrag->SpreadSettings.WalkMultiplier;
 		else CurrentSpread *= WeaponFrag->SpreadSettings.MoveMultiplier;
 	}
 	if (bIsAiming) CurrentSpread *= WeaponFrag->SpreadSettings.ADSSpreadMultiplier;
-	
+
 	CurrentSpread += CurrentRecoilSpread;
 	CurrentSpread = FMath::Min(CurrentSpread, WeaponFrag->SpreadSettings.MaxSpreadAngle);
 
@@ -677,7 +688,7 @@ void APlayerCharacter::FireOneShot()
 	QueryParams.AddIgnoredActor(this);
 	bool bViewHit = GetWorld()->LineTraceSingleByChannel(ViewHit, CamLoc, CamLoc + SpreadDirection * MaxTrace, ECC_Visibility, QueryParams);
 	FVector AimPoint = bViewHit ? ViewHit.ImpactPoint : (CamLoc + SpreadDirection * MaxTrace);
-	
+
 	USkeletalMeshComponent* WeaponMesh = GetHeldWeaponComp();
 	FVector MuzzleLoc = (WeaponMesh && WeaponFrag->MuzzleSocketName != NAME_None && WeaponMesh->DoesSocketExist(WeaponFrag->MuzzleSocketName)) ? WeaponMesh->GetSocketLocation(WeaponFrag->MuzzleSocketName) : (WeaponMesh ? WeaponMesh->GetComponentLocation() : CamLoc);
 
@@ -686,14 +697,14 @@ void APlayerCharacter::FireOneShot()
 	if (bIsAiming) StanceMultiplier *= WeaponFrag->RecoilSettings.ADSRecoilMultiplier;
 
 	ConsecutiveShots++;
-	const float Decay = FMath::Max(0.5f, 1.f - 0.08f * ConsecutiveShots); 
+	const float Decay = FMath::Max(0.5f, 1.f - 0.08f * ConsecutiveShots);
 	float VerticalStep = WeaponFrag->RecoilSettings.VerticalRecoil * Decay * StanceMultiplier;
 	float HorizontalStep = FMath::FRandRange(-WeaponFrag->RecoilSettings.HorizontalRecoil, WeaponFrag->RecoilSettings.HorizontalRecoil) * StanceMultiplier;
 
 	TargetRecoilPitch = FMath::Min(TargetRecoilPitch + VerticalStep, 10.0f);
-	TargetRecoilYaw += HorizontalStep; 
+	TargetRecoilYaw += HorizontalStep;
 	LastFireTimeForRecoil = GetWorld()->GetTimeSeconds();
-	
+
 	Server_Fire(MuzzleLoc, AimPoint);
 	CurrentRecoilSpread = FMath::Min(CurrentRecoilSpread + WeaponFrag->SpreadSettings.SpreadPerShot, WeaponFrag->SpreadSettings.MaxSpreadAngle);
 	LastFireTimeForSpread = GetWorld()->GetTimeSeconds();
@@ -707,7 +718,7 @@ void APlayerCharacter::FireBurstShot()
 		BurstShotsRemaining--;
 		if (BurstShotsRemaining > 0)
 		{
-			float FireInterval = 0.1f; 
+			float FireInterval = 0.1f;
 			if (CurrentHeldWeaponInstance && CurrentHeldWeaponInstance->Definition)
 			{
 				UBackpackItemFragment_Weapon* WeaponFrag = Cast<UBackpackItemFragment_Weapon>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(CurrentHeldWeaponInstance->Definition->GetClass(), UBackpackItemFragment_Weapon::StaticClass()));
@@ -748,10 +759,50 @@ USkeletalMeshComponent* APlayerCharacter::GetHeldWeaponComp() const
 
 void APlayerCharacter::OnRep_CharacterGait() { ApplyCharacterGait(); }
 void APlayerCharacter::OnRep_CharacterStance() { ApplyCharacterGait(); }
+
 void APlayerCharacter::OnInventoryChangedHandler()
 {
 	RefreshEquipmentVisuals();
-	
+
+	if (!bIsSwitchingWeapon && !PendingHeldSlotProcessing && CurrentHeldWeaponInstance && IsHoldingFireArm())
+	{
+		APlayerState* PS = GetPlayerState();
+		UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
+		if (Comp)
+		{
+			int32 NewIndex = -1;
+			for (int32 i = 0; i < 5; ++i)
+			{
+				if (Comp->GetWeaponSlotItem(i) == CurrentHeldWeaponInstance) { NewIndex = i; break; }
+			}
+
+			const int32 OldIndex = GetCurrentWeaponSlotIndex();
+			if (NewIndex != -1 && NewIndex != OldIndex)
+			{
+				if (WeaponMeshComponents.Num() < 5) WeaponMeshComponents.SetNum(5);
+				USkeletalMeshComponent* HandMesh = WeaponMeshComponents.IsValidIndex(OldIndex) ? WeaponMeshComponents[OldIndex] : nullptr;
+				USkeletalMeshComponent* OtherMesh = WeaponMeshComponents[NewIndex];
+				WeaponMeshComponents[NewIndex] = HandMesh;
+				WeaponMeshComponents[OldIndex] = OtherMesh;
+
+				switch (NewIndex)
+				{
+				case 0: CharacterHeldSlot = ECharacterHeldSlot::Primary1; break;
+				case 1: CharacterHeldSlot = ECharacterHeldSlot::Primary2; break;
+				case 2: CharacterHeldSlot = ECharacterHeldSlot::Secondary; break;
+				default: break;
+				}
+
+				if (IsLocallyControlled() && !HasAuthority())
+				{
+					Server_SetCharacterHeldSlot(CharacterHeldSlot);
+				}
+
+				UpdateCharacterHeldSlotAnimLayer();
+			}
+		}
+	}
+
 	GetWorldTimerManager().ClearTimer(AttachmentRefreshTimer);
 	GetWorldTimerManager().SetTimer(AttachmentRefreshTimer, this, &APlayerCharacter::RefreshWeaponVisuals, 0.2f, false);
 }
@@ -759,6 +810,28 @@ void APlayerCharacter::OnInventoryChangedHandler()
 void APlayerCharacter::OnRep_CharacterHeldSlot()
 {
 	if (bIsSwitchingWeapon || PendingHeldSlotProcessing) return;
+
+	int32 HeldIndex = GetCurrentWeaponSlotIndex();
+	if (HeldIndex != -1 && CurrentHeldWeaponInstance && CurrentHeldWeaponInstance->Definition)
+	{
+		UBackpackItemFragment_Mount* MountFrag = Cast<UBackpackItemFragment_Mount>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(CurrentHeldWeaponInstance->Definition->GetClass(), UBackpackItemFragment_Mount::StaticClass()));
+		if (MountFrag)
+		{
+			if (WeaponMeshComponents.Num() < 5) WeaponMeshComponents.SetNum(5);
+			for (int32 i = 0; i < 5; ++i)
+			{
+				USkeletalMeshComponent* HeldMesh = WeaponMeshComponents[i];
+				if (IsValid(HeldMesh) && HeldMesh->GetAttachSocketName() == MountFrag->HeldSocketName && i != HeldIndex)
+				{
+					USkeletalMeshComponent* Tmp = WeaponMeshComponents[HeldIndex];
+					WeaponMeshComponents[HeldIndex] = HeldMesh;
+					WeaponMeshComponents[i] = Tmp;
+					break;
+				}
+			}
+		}
+	}
+
 	RefreshWeaponVisuals();
 	UpdateCharacterHeldSlotAnimLayer();
 }
@@ -776,7 +849,7 @@ void APlayerCharacter::OnReloadMontageEnded(UAnimMontage* Montage, bool bInterru
 	if (!Comp) return;
 	UBackpackItemInstance* WeaponItem = Comp->GetWeaponSlotItem(SlotIndex);
 	if (!WeaponItem || !WeaponItem->Definition) return;
-	
+
 	UBackpackItemFragment_Weapon* WeaponFrag = Cast<UBackpackItemFragment_Weapon>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(WeaponItem->Definition->GetClass(), UBackpackItemFragment_Weapon::StaticClass()));
 	if (WeaponFrag && Montage == WeaponFrag->ReloadMontage)
 	{
@@ -799,14 +872,21 @@ void APlayerCharacter::OnSwitchFireModeMontageEnded(UAnimMontage* Montage, bool 
 
 void APlayerCharacter::OnSwitchWeaponMontageEnded(UAnimMontage* Montage, bool bInterrupted)
 {
-	if (Montage != CurrentSwitchWeaponMontage) 
+	if (Montage != CurrentSwitchWeaponMontage)
 	{
-		if (!IsLocallyControlled()) 
+		if (!IsLocallyControlled())
 		{
 			bIsSwitchingWeapon = false;
 			RefreshWeaponVisuals();
 			UpdateCharacterHeldSlotAnimLayer();
 		}
+		return;
+	}
+
+	if (PendingHeldSlotProcessing)
+	{
+		PendingHeldSlotProcessing = false;
+		PlayPendingEquip();
 		return;
 	}
 
@@ -820,8 +900,31 @@ void APlayerCharacter::OnSwitchWeaponMontageEnded(UAnimMontage* Montage, bool bI
 
 void APlayerCharacter::OnSwitchWeaponMontageBlendOut(UAnimMontage* Montage, bool bInterrupted)
 {
+	if (!bInterrupted && IsLocallyControlled() && bIsSwitchingWeapon && Montage == CurrentSwitchWeaponMontage)
+	{
+		if (PendingHeldSlotProcessing)
+		{
+			UAnimMontage* NextMontage = ResolveEquipMontage(PendingTargetSlot);
+			if (PendingTargetSlot == ECharacterHeldSlot::Unarmed || NextMontage != Montage)
+			{
+				PendingHeldSlotProcessing = false;
+				PlayPendingEquip();
+			}
+			return;
+		}
+
+		UpdateCharacterHeldSlotAnimLayer();
+		return;
+	}
+
 	if (bInterrupted && IsLocallyControlled() && bIsSwitchingWeapon && Montage == CurrentSwitchWeaponMontage)
 	{
+		if (PendingHeldSlotProcessing)
+		{
+			PendingHeldSlotProcessing = false;
+			PlayPendingEquip();
+			return;
+		}
 		OnSwitchWeaponMontageEnded(Montage, true);
 	}
 }
@@ -858,8 +961,7 @@ void APlayerCharacter::Server_SetCharacterHeldSlot_Implementation(ECharacterHeld
 	if (NewSlot == ECharacterHeldSlot::Unarmed)
 	{
 		CharacterHeldSlot = NewSlot;
-		UAnimMontage* MontageToPlay = ResolveEquipMontage(NewSlot);
-		if (MontageToPlay) Multicast_PlaySwitchWeaponMontage(MontageToPlay, 1.0f);
+		CurrentHeldWeaponInstance = nullptr;
 		return;
 	}
 
@@ -869,21 +971,15 @@ void APlayerCharacter::Server_SetCharacterHeldSlot_Implementation(ECharacterHeld
 	else if (NewSlot == ECharacterHeldSlot::Secondary) SlotIndex = 2;
 	else if (NewSlot == ECharacterHeldSlot::Melee) SlotIndex = 3;
 	else if (NewSlot == ECharacterHeldSlot::Throwable) SlotIndex = 4;
-    
+
 	if (SlotIndex != -1)
 	{
 		APlayerState* PS = GetPlayerState();
 		UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
-		if (Comp && Comp->GetWeaponSlotItem(SlotIndex)) 
+		if (Comp && Comp->GetWeaponSlotItem(SlotIndex))
 		{
 			CharacterHeldSlot = NewSlot;
-			
-			UAnimMontage* MontageToPlay = ResolveEquipMontage(NewSlot);
-			if (MontageToPlay)
-			{
-				float PlayRate = (NewSlot == ECharacterHeldSlot::Primary1 || NewSlot == ECharacterHeldSlot::Primary2 || NewSlot == ECharacterHeldSlot::Secondary) ? -1.0f : 1.0f;
-				Multicast_PlaySwitchWeaponMontage(MontageToPlay, PlayRate);
-			}
+			CurrentHeldWeaponInstance = Comp->GetWeaponSlotItem(SlotIndex);
 		}
 	}
 }
@@ -915,7 +1011,7 @@ void APlayerCharacter::Server_FinishReload_Implementation()
 	if (!WeaponItem || !WeaponItem->Definition) return;
 	UBackpackItemFragment_Weapon* WeaponFrag = Cast<UBackpackItemFragment_Weapon>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(WeaponItem->Definition->GetClass(), UBackpackItemFragment_Weapon::StaticClass()));
 	if (!WeaponFrag) return;
-	
+
 	int32 CurrentAmmo = 0;
 	int32 MaxMagazineSize = WeaponFrag->MagazineSize;
 	for (const FItemAttribute& Attr : WeaponItem->ItemAttributes)
@@ -925,7 +1021,7 @@ void APlayerCharacter::Server_FinishReload_Implementation()
 	}
 	int32 NeededAmmo = MaxMagazineSize - CurrentAmmo;
 	if (NeededAmmo <= 0) return;
-	
+
 	TArray<UBackpackItemInstance*> BackpackItems = Comp->GetBackpackItems();
 	int32 AmmoLoaded = 0;
 	for (int32 i = BackpackItems.Num() - 1; i >= 0; --i)
@@ -935,17 +1031,17 @@ void APlayerCharacter::Server_FinishReload_Implementation()
 		if (Item->Definition->ItemType == EItemType::Ammo)
 		{
 			UBackpackItemFragment_Ammo* AmmoFrag = Cast<UBackpackItemFragment_Ammo>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(Item->Definition->GetClass(), UBackpackItemFragment_Ammo::StaticClass()));
-			if (!AmmoFrag || AmmoFrag->AmmoType != WeaponFrag->WeaponAmmoType) continue; 
+			if (!AmmoFrag || AmmoFrag->AmmoType != WeaponFrag->WeaponAmmoType) continue;
 			int32 TakeAmount = FMath::Min(NeededAmmo - AmmoLoaded, Item->Quantity);
 			if (TakeAmount > 0)
 			{
 				Comp->ConsumeBackpackItem(Item, TakeAmount);
 				AmmoLoaded += TakeAmount;
-				if (AmmoLoaded >= NeededAmmo) break; 
+				if (AmmoLoaded >= NeededAmmo) break;
 			}
 		}
 	}
-	
+
 	if (AmmoLoaded > 0)
 	{
 		bool bFoundAmmoTag = false;
@@ -965,7 +1061,7 @@ void APlayerCharacter::Server_FinishReload_Implementation()
 			NewAmmoAttr.Value = AmmoLoaded;
 			WeaponItem->ItemAttributes.Add(NewAmmoAttr);
 		}
-		WeaponItem->ItemAttributes = WeaponItem->ItemAttributes; 
+		WeaponItem->ItemAttributes = WeaponItem->ItemAttributes;
 		Comp->OnInventoryChanged.Broadcast();
 	}
 }
@@ -986,11 +1082,11 @@ void APlayerCharacter::Server_Fire_Implementation(const FVector_NetQuantize& Muz
 
 	UBackpackItemFragment_Weapon* WeaponFrag = Cast<UBackpackItemFragment_Weapon>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(WeaponItem->Definition->GetClass(), UBackpackItemFragment_Weapon::StaticClass()));
 	if (!WeaponFrag || !WeaponFrag->BulletClass) return;
-	
+
 	const float FireInterval = 60.f / FMath::Max(WeaponFrag->RoundsPerMinute, 1.f);
 	const float Now = GetWorld()->GetTimeSeconds();
-	if (Now - LastFireTime < FireInterval * 0.9f) return; 
-	
+	if (Now - LastFireTime < FireInterval * 0.9f) return;
+
 	bool bAmmoDeducted = false;
 	for (FItemAttribute& Attr : WeaponItem->ItemAttributes)
 	{
@@ -1008,14 +1104,14 @@ void APlayerCharacter::Server_Fire_Implementation(const FVector_NetQuantize& Muz
 	if (!bAmmoDeducted) return;
 
 	LastFireTime = Now;
-	
+
 	if (Comp && Comp->WeaponSlots.Entries.IsValidIndex(SlotIndex))
 	{
 		Comp->WeaponSlots.MarkItemDirty(Comp->WeaponSlots.Entries[SlotIndex]);
 	}
-	
+
 	Comp->OnInventoryChanged.Broadcast();
-	
+
 	FVector FireDirection = AimPoint - MuzzleLocation;
 	if (FireDirection.IsNearlyZero()) return;
 
@@ -1052,12 +1148,12 @@ void APlayerCharacter::Multicast_FireEffect_Implementation(const FVector_NetQuan
 
 	UBackpackItemFragment_Weapon* WeaponFrag = Cast<UBackpackItemFragment_Weapon>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(WeaponItem->Definition->GetClass(), UBackpackItemFragment_Weapon::StaticClass()));
 	if (!WeaponFrag) return;
-    
+
 	if (WeaponFrag->FireSound) UGameplayStatics::PlaySoundAtLocation(this, WeaponFrag->FireSound, MuzzleLocation, FRotator::ZeroRotator, 1.f, 1.f, 0.f, GunFireAttenuation);
 	USkeletalMeshComponent* WeaponMesh = GetHeldWeaponComp();
 	if (WeaponFrag->MuzzleFlashFX && WeaponMesh && WeaponFrag->MuzzleSocketName != NAME_None)
 	{
-		UNiagaraFunctionLibrary::SpawnSystemAttached(WeaponFrag->MuzzleFlashFX, WeaponMesh, WeaponFrag->MuzzleSocketName, FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, true); 
+		UNiagaraFunctionLibrary::SpawnSystemAttached(WeaponFrag->MuzzleFlashFX, WeaponMesh, WeaponFrag->MuzzleSocketName, FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, true);
 	}
 }
 
@@ -1074,10 +1170,10 @@ void APlayerCharacter::Multicast_PlaySwitchWeaponMontage_Implementation(UAnimMon
 {
 	UAnimInstance* AnimInst = GetMesh() ? GetMesh()->GetAnimInstance() : nullptr;
 	if (!MontageToPlay || !AnimInst) return;
-	
-	if (bIsSwitchingWeapon && AnimInst->Montage_IsPlaying(MontageToPlay))
+
+	if (AnimInst->Montage_IsPlaying(MontageToPlay))
 	{
-		return; 
+		return;
 	}
 
 	if (PlayRate >= 0.f) AnimInst->Montage_Play(MontageToPlay, PlayRate);
@@ -1111,13 +1207,13 @@ void APlayerCharacter::Server_ToggleFireMode_Implementation()
 
 	UBackpackItemFragment_Weapon* WeaponFrag = Cast<UBackpackItemFragment_Weapon>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(WeaponItem->Definition->GetClass(), UBackpackItemFragment_Weapon::StaticClass()));
 	if (!WeaponFrag || WeaponFrag->SupportedFireModes.Num() <= 1) return;
-	
+
 	EWeaponFireMode CurrentMode = GetCurrentFireMode(WeaponItem, WeaponFrag);
 	int32 CurrentIndex = WeaponFrag->SupportedFireModes.IndexOfByKey(CurrentMode);
 	if (CurrentIndex == INDEX_NONE) CurrentIndex = 0;
 	int32 NextIndex = (CurrentIndex + 1) % WeaponFrag->SupportedFireModes.Num();
 	EWeaponFireMode NextMode = WeaponFrag->SupportedFireModes[NextIndex];
-	
+
 	bool bFoundTag = false;
 	for (FItemAttribute& Attr : WeaponItem->ItemAttributes)
 	{
@@ -1143,12 +1239,12 @@ void APlayerCharacter::Server_ToggleFireMode_Implementation()
 void APlayerCharacter::Multicast_PlaySwitchFireModeMontage_Implementation(UAnimMontage* MontageToPlay)
 {
 	if (!MontageToPlay) return;
-	
+
 	UAnimInstance* AnimInst = GetMesh() ? GetMesh()->GetAnimInstance() : nullptr;
-	if (!AnimInst) 
-	{ 
-		bIsTogglingFireMode = false; 
-		return; 
+	if (!AnimInst)
+	{
+		bIsTogglingFireMode = false;
+		return;
 	}
 
 	GetWorldTimerManager().ClearTimer(FireModeLockTimerHandle);
@@ -1161,6 +1257,11 @@ void APlayerCharacter::Multicast_PlaySwitchFireModeMontage_Implementation(UAnimM
 void APlayerCharacter::Server_SetLeanDirection_Implementation(float NewLeanDirection)
 {
 	CurrentLeanDirection = NewLeanDirection;
+}
+
+void APlayerCharacter::Server_PlaySwitchWeaponMontage_Implementation(UAnimMontage* MontageToPlay, float PlayRate)
+{
+	Multicast_PlaySwitchWeaponMontage(MontageToPlay, PlayRate);
 }
 
 void APlayerCharacter::OnCrouch(const FInputActionValue& Value)
@@ -1236,33 +1337,15 @@ void APlayerCharacter::OnSwitchHeld(const FInputActionValue& Value)
 	APlayerState* PS = GetPlayerState();
 	UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
 	if (!Comp) return;
+	if (!Comp->GetWeaponSlotItem(SlotIndex)) return;
 
-	if (Comp->GetWeaponSlotItem(SlotIndex))
+	ResetWeaponRuntimeState();
+	if (GetMesh() && GetMesh()->GetAnimInstance())
 	{
-		ResetWeaponRuntimeState();
-		if (GetMesh() && GetMesh()->GetAnimInstance()) GetMesh()->GetAnimInstance()->Montage_Stop(0.2f);
-		
-		UAnimMontage* MontageToPlay = ResolveEquipMontage(NewSlot);
-
-		Server_SetCharacterHeldSlot(NewSlot);
-		LastHeldSlot = NewSlot;
-		CharacterHeldSlot = NewSlot;
-		OnWeaponSlotChanged.Broadcast();
-		CurrentHeldWeaponInstance = Comp->GetWeaponSlotItem(SlotIndex);
-		UpdateCharacterHeldSlotAnimLayer();
-
-		if (MontageToPlay)
-		{
-			bIsSwitchingWeapon = true;
-			CurrentSwitchWeaponMontage = MontageToPlay;
-			PendingHeldSlotProcessing = false;
-			bAttachToHandWhenNotifyFires = true;
-
-			float PlayRate = (NewSlot == ECharacterHeldSlot::Primary1 || NewSlot == ECharacterHeldSlot::Primary2 || NewSlot == ECharacterHeldSlot::Secondary) ? -1.0f : 1.0f;
-			
-			Multicast_PlaySwitchWeaponMontage(MontageToPlay, PlayRate);
-		}
+		GetMesh()->GetAnimInstance()->Montage_Stop(0.2f);
 	}
+
+	BeginSwitchWeapon(NewSlot);
 }
 
 void APlayerCharacter::OnTogglePerspective(const FInputActionValue& Value)
@@ -1295,7 +1378,7 @@ void APlayerCharacter::OnWalk(const FInputActionInstance& Value)
 void APlayerCharacter::OnFire(const FInputActionInstance& Value)
 {
 	ETriggerEvent Event = Value.GetTriggerEvent();
-	
+
 	if (Event == ETriggerEvent::Started)
 	{
 		if (bIsReloading || bIsTogglingFireMode || bIsSwitchingWeapon || !IsHoldingFireArm()) return;
@@ -1321,7 +1404,7 @@ void APlayerCharacter::OnFire(const FInputActionInstance& Value)
 		EWeaponFireMode CurrentMode = GetCurrentFireMode(WeaponItem, WeaponFrag);
 		float FireInterval = 60.f / FMath::Max(WeaponFrag->RoundsPerMinute, 1.f);
 
-		if (CurrentMode == EWeaponFireMode::SemiAuto) 
+		if (CurrentMode == EWeaponFireMode::SemiAuto)
 		{
 			FireOneShot();
 		}
@@ -1367,13 +1450,13 @@ void APlayerCharacter::OnReload(const FInputActionValue& Value)
 	APlayerState* PS = GetPlayerState();
 	UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
 	if (!Comp) return;
-	
+
 	UBackpackItemInstance* WeaponItem = Comp->GetWeaponSlotItem(SlotIndex);
 	if (!WeaponItem || !WeaponItem->Definition) return;
 
 	UBackpackItemFragment_Weapon* WeaponFrag = Cast<UBackpackItemFragment_Weapon>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(WeaponItem->Definition->GetClass(), UBackpackItemFragment_Weapon::StaticClass()));
 	if (!WeaponFrag || !WeaponFrag->ReloadMontage) return;
-	
+
 	int32 CurrentAmmo = 0, MaxMagazineSize = WeaponFrag->MagazineSize;
 	for (const FItemAttribute& Attr : WeaponItem->ItemAttributes)
 	{
@@ -1381,7 +1464,7 @@ void APlayerCharacter::OnReload(const FInputActionValue& Value)
 		else if (Attr.Tag == PUBGGameplayTag::PUBG_BackpackItemInstance_MagazineSize) MaxMagazineSize = FMath::RoundToInt(Attr.Value);
 	}
 	if (CurrentAmmo >= MaxMagazineSize) return;
-	
+
 	bool bHasAmmo = false;
 	for (UBackpackItemInstance* Item : Comp->GetBackpackItems())
 	{
@@ -1390,7 +1473,7 @@ void APlayerCharacter::OnReload(const FInputActionValue& Value)
 		if (AmmoFrag && AmmoFrag->AmmoType == WeaponFrag->WeaponAmmoType && Item->Quantity > 0) { bHasAmmo = true; break; }
 	}
 	if (!bHasAmmo) return;
-	
+
 	Server_StartReload(WeaponFrag->ReloadMontage);
 }
 
@@ -1407,66 +1490,25 @@ void APlayerCharacter::OnHolster(const FInputActionValue& Value)
 	if (CharacterHeldSlot != ECharacterHeldSlot::Unarmed)
 	{
 		ResetWeaponRuntimeState();
-		if (GetMesh() && GetMesh()->GetAnimInstance()) GetMesh()->GetAnimInstance()->Montage_Stop(0.2f);
-		
-		UAnimMontage* MontageToPlay = ResolveEquipMontage(CharacterHeldSlot); 
-		LastHeldSlot = CharacterHeldSlot;
-		
-		Server_SetCharacterHeldSlot(TargetSlot);
-		CharacterHeldSlot = TargetSlot;
-		OnWeaponSlotChanged.Broadcast();
-		CurrentHeldWeaponInstance = nullptr;
-		UpdateCharacterHeldSlotAnimLayer();
-
-		if (MontageToPlay)
+		if (GetMesh() && GetMesh()->GetAnimInstance())
 		{
-			bIsSwitchingWeapon = true;
-			CurrentSwitchWeaponMontage = MontageToPlay;
-			PendingHeldSlotProcessing = false;
-			bAttachToHandWhenNotifyFires = false;
-
-			float PlayRate = (LastHeldSlot == ECharacterHeldSlot::Primary1 || LastHeldSlot == ECharacterHeldSlot::Primary2 || LastHeldSlot == ECharacterHeldSlot::Secondary) ? 1.0f : -1.0f;
-			Multicast_PlaySwitchWeaponMontage(MontageToPlay, PlayRate);
+			GetMesh()->GetAnimInstance()->Montage_Stop(0.2f);
 		}
+
+		BeginSwitchWeapon(ECharacterHeldSlot::Unarmed);
 	}
 	else
 	{
-		int32 SlotIndex = -1;
-		switch (LastHeldSlot)
+		if (!IsSlotOccupied(LastHeldSlot)) return;
+		if (LastHeldSlot == ECharacterHeldSlot::Unarmed) return;
+
+		ResetWeaponRuntimeState();
+		if (GetMesh() && GetMesh()->GetAnimInstance())
 		{
-		case ECharacterHeldSlot::Primary1:  SlotIndex = 0; break;
-		case ECharacterHeldSlot::Primary2:  SlotIndex = 1; break;
-		case ECharacterHeldSlot::Secondary: SlotIndex = 2; break;
-		case ECharacterHeldSlot::Melee:     SlotIndex = 3; break;
-		case ECharacterHeldSlot::Throwable: SlotIndex = 4; break;
-		default: break;
+			GetMesh()->GetAnimInstance()->Montage_Stop(0.2f);
 		}
 
-		if (SlotIndex != -1 && Comp->GetWeaponSlotItem(SlotIndex))
-		{
-			TargetSlot = LastHeldSlot;
-			ResetWeaponRuntimeState();
-			if (GetMesh() && GetMesh()->GetAnimInstance()) GetMesh()->GetAnimInstance()->Montage_Stop(0.2f);
-
-			UAnimMontage* MontageToPlay = ResolveEquipMontage(TargetSlot);
-
-			Server_SetCharacterHeldSlot(TargetSlot);
-			CharacterHeldSlot = TargetSlot;
-			CurrentHeldWeaponInstance = Comp->GetWeaponSlotItem(SlotIndex); 
-			UpdateCharacterHeldSlotAnimLayer();
-
-			if (MontageToPlay)
-			{
-				bIsSwitchingWeapon = true;
-				CurrentSwitchWeaponMontage = MontageToPlay;
-				PendingHeldSlotProcessing = false;
-				bAttachToHandWhenNotifyFires = true;
-
-				float PlayRate = (TargetSlot == ECharacterHeldSlot::Primary1 || TargetSlot == ECharacterHeldSlot::Primary2 || TargetSlot == ECharacterHeldSlot::Secondary) ? -1.0f : 1.0f;
-				Multicast_PlaySwitchWeaponMontage(MontageToPlay, PlayRate);
-			}
-		}
-		else return; 
+		BeginSwitchWeapon(LastHeldSlot);
 	}
 }
 
@@ -1498,14 +1540,14 @@ void APlayerCharacter::OnToggleFireMode(const FInputActionValue& Value)
 void APlayerCharacter::OnLean(const FInputActionInstance& Value)
 {
 	float AxisValue = Value.GetValue().Get<float>();
-	
+
 	if (Value.GetTriggerEvent() == ETriggerEvent::Completed)
 	{
 		AxisValue = 0.f;
 	}
-	
+
 	CurrentLeanDirection = AxisValue;
-	
+
 	if (IsLocallyControlled())
 	{
 		Server_SetLeanDirection(AxisValue);
@@ -1599,6 +1641,102 @@ void APlayerCharacter::ResetWeaponRuntimeState()
 	bIsHoldingFire = false;
 }
 
+void APlayerCharacter::PlayPendingEquip()
+{
+	PendingHeldSlotProcessing = false;
+
+	const ECharacterHeldSlot NewSlot = PendingTargetSlot;
+	if (CharacterHeldSlot != NewSlot)
+	{
+		LastHeldSlot = CharacterHeldSlot;
+		CharacterHeldSlot = NewSlot;
+	}
+
+	Server_SetCharacterHeldSlot(NewSlot);
+	RefreshWeaponVisuals();
+	OnWeaponSlotChanged.Broadcast();
+
+	APlayerState* PS = GetPlayerState();
+	UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
+	if (Comp)
+	{
+		int32 SlotIndex = -1;
+		switch (NewSlot)
+		{
+		case ECharacterHeldSlot::Primary1:  SlotIndex = 0; break;
+		case ECharacterHeldSlot::Primary2:  SlotIndex = 1; break;
+		case ECharacterHeldSlot::Secondary: SlotIndex = 2; break;
+		case ECharacterHeldSlot::Melee:     SlotIndex = 3; break;
+		case ECharacterHeldSlot::Throwable: SlotIndex = 4; break;
+		default: break;
+		}
+		CurrentHeldWeaponInstance = (SlotIndex != -1) ? Comp->GetWeaponSlotItem(SlotIndex) : nullptr;
+	}
+
+	if (UAnimMontage* EquipMontage = ResolveEquipMontage(NewSlot))
+	{
+		CurrentSwitchWeaponMontage = EquipMontage;
+		bAttachToHandWhenNotifyFires = true;
+
+		const float PlayRate = (NewSlot == ECharacterHeldSlot::Primary1 || NewSlot == ECharacterHeldSlot::Primary2 || NewSlot == ECharacterHeldSlot::Secondary) ? -1.f : 1.f;
+
+		Multicast_PlaySwitchWeaponMontage(EquipMontage, PlayRate);
+		Server_PlaySwitchWeaponMontage(EquipMontage, PlayRate);
+	}
+	else
+	{
+		bIsSwitchingWeapon = false;
+		CurrentSwitchWeaponMontage = nullptr;
+		UpdateCharacterHeldSlotAnimLayer();
+	}
+}
+
+void APlayerCharacter::BeginSwitchWeapon(ECharacterHeldSlot NewSlot)
+{
+	PendingTargetSlot = NewSlot;
+	PendingHeldSlotProcessing = true;
+	bIsSwitchingWeapon = true;
+
+	const bool bCurrentHasWeapon = (CharacterHeldSlot != ECharacterHeldSlot::Unarmed);
+	UAnimMontage* HolsterMontage = bCurrentHasWeapon ? ResolveEquipMontage(CharacterHeldSlot) : nullptr;
+
+	if (HolsterMontage)
+	{
+		CurrentSwitchWeaponMontage = HolsterMontage;
+		bAttachToHandWhenNotifyFires = false;
+
+		const float HolsterPlayRate = (CharacterHeldSlot == ECharacterHeldSlot::Primary1
+			|| CharacterHeldSlot == ECharacterHeldSlot::Primary2
+			|| CharacterHeldSlot == ECharacterHeldSlot::Secondary) ? 1.f : -1.f;
+
+		Server_PlaySwitchWeaponMontage(HolsterMontage, HolsterPlayRate);
+	}
+	else
+	{
+		PlayPendingEquip();
+	}
+}
+
+bool APlayerCharacter::IsSlotOccupied(ECharacterHeldSlot Slot) const
+{
+	if (Slot == ECharacterHeldSlot::Unarmed) return false;
+
+	int32 SlotIndex = -1;
+	switch (Slot)
+	{
+	case ECharacterHeldSlot::Primary1:  SlotIndex = 0; break;
+	case ECharacterHeldSlot::Primary2:  SlotIndex = 1; break;
+	case ECharacterHeldSlot::Secondary: SlotIndex = 2; break;
+	case ECharacterHeldSlot::Melee:     SlotIndex = 3; break;
+	case ECharacterHeldSlot::Throwable: SlotIndex = 4; break;
+	default: return false;
+	}
+
+	APlayerState* PS = GetPlayerState();
+	UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
+	return Comp && Comp->GetWeaponSlotItem(SlotIndex) != nullptr;
+}
+
 bool APlayerCharacter::IsHoldingFireArm() const
 {
 	return CharacterHeldSlot == ECharacterHeldSlot::Primary1 || CharacterHeldSlot == ECharacterHeldSlot::Primary2 || CharacterHeldSlot == ECharacterHeldSlot::Secondary;
@@ -1615,7 +1753,7 @@ EWeaponFireMode APlayerCharacter::GetCurrentFireModeEnum() const
 	APlayerState* PS = GetPlayerState();
 	UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
 	if (!Comp) return EWeaponFireMode::SemiAuto;
-	
+
 	UBackpackItemInstance* WeaponItem = Comp->GetWeaponSlotItem(SlotIndex);
 	if (!WeaponItem || !WeaponItem->Definition) return EWeaponFireMode::SemiAuto;
 
@@ -1669,6 +1807,8 @@ bool APlayerCharacter::ShouldEnableWeaponIK() const
 
 void APlayerCharacter::AnimNotify_AttachWeaponToHand()
 {
+	if (!bAttachToHandWhenNotifyFires) return;
+
 	USkeletalMeshComponent* WeaponMesh = GetHeldWeaponComp();
 	if (!WeaponMesh) return;
 
@@ -1683,7 +1823,7 @@ void APlayerCharacter::AnimNotify_AttachWeaponToHand()
 	InterpStartLoc = WeaponMesh->GetComponentLocation();
 	InterpStartRot = WeaponMesh->GetComponentRotation();
 	InterpTargetSocket = MountFrag->HeldSocketName;
-	
+
 	WeaponMesh->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 
 	InterpAlpha = 0.f;
@@ -1692,8 +1832,10 @@ void APlayerCharacter::AnimNotify_AttachWeaponToHand()
 
 void APlayerCharacter::AnimNotify_AttachWeaponToBack()
 {
+	if (bAttachToHandWhenNotifyFires) return;
+
 	int32 LastIndex = -1;
-	switch (LastHeldSlot)
+	switch (CharacterHeldSlot)
 	{
 	case ECharacterHeldSlot::Primary1:  LastIndex = 0; break;
 	case ECharacterHeldSlot::Primary2:  LastIndex = 1; break;
@@ -1720,16 +1862,14 @@ void APlayerCharacter::AnimNotify_AttachWeaponToBack()
 	if (!MountFrag) return;
 
 	FName TargetSocketName = MountFrag->AttachSocketName;
-	if (LastHeldSlot == ECharacterHeldSlot::Primary1) TargetSocketName = Primary1Socket_Character;
-	else if (LastHeldSlot == ECharacterHeldSlot::Primary2) TargetSocketName = Primary2Socket_Character;
+	if (CharacterHeldSlot == ECharacterHeldSlot::Primary1) TargetSocketName = Primary1Socket_Character;
+	else if (CharacterHeldSlot == ECharacterHeldSlot::Primary2) TargetSocketName = Primary2Socket_Character;
 
 	if (TargetSocketName == NAME_None) return;
 
 	InterpStartLoc = WeaponMesh->GetComponentLocation();
 	InterpStartRot = WeaponMesh->GetComponentRotation();
 	InterpTargetSocket = TargetSocketName;
-	
-	WeaponMesh->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 
 	InterpAlpha = 0.f;
 	bIsInterpolatingWeapon = true;

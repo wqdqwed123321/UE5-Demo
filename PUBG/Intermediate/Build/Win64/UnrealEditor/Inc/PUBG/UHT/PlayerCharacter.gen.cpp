@@ -1093,6 +1093,62 @@ DEFINE_FUNCTION(APlayerCharacter::execServer_InitASC)
 }
 // ********** End Class APlayerCharacter Function Server_InitASC ***********************************
 
+// ********** Begin Class APlayerCharacter Function Server_PlaySwitchWeaponMontage *****************
+struct PlayerCharacter_eventServer_PlaySwitchWeaponMontage_Parms
+{
+	UAnimMontage* MontageToPlay;
+	float PlayRate;
+};
+static FName NAME_APlayerCharacter_Server_PlaySwitchWeaponMontage = FName(TEXT("Server_PlaySwitchWeaponMontage"));
+void APlayerCharacter::Server_PlaySwitchWeaponMontage(UAnimMontage* MontageToPlay, float PlayRate)
+{
+	PlayerCharacter_eventServer_PlaySwitchWeaponMontage_Parms Parms;
+	Parms.MontageToPlay=MontageToPlay;
+	Parms.PlayRate=PlayRate;
+	UFunction* Func = FindFunctionChecked(NAME_APlayerCharacter_Server_PlaySwitchWeaponMontage);
+	ProcessEvent(Func,&Parms);
+}
+struct Z_Construct_UFunction_APlayerCharacter_Server_PlaySwitchWeaponMontage_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_MontageToPlay;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_PlayRate;
+	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_APlayerCharacter_Server_PlaySwitchWeaponMontage_Statics::NewProp_MontageToPlay = { "MontageToPlay", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(PlayerCharacter_eventServer_PlaySwitchWeaponMontage_Parms, MontageToPlay), Z_Construct_UClass_UAnimMontage_NoRegister, METADATA_PARAMS(0, nullptr) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_APlayerCharacter_Server_PlaySwitchWeaponMontage_Statics::NewProp_PlayRate = { "PlayRate", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(PlayerCharacter_eventServer_PlaySwitchWeaponMontage_Parms, PlayRate), METADATA_PARAMS(0, nullptr) };
+const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_APlayerCharacter_Server_PlaySwitchWeaponMontage_Statics::PropPointers[] = {
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_APlayerCharacter_Server_PlaySwitchWeaponMontage_Statics::NewProp_MontageToPlay,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_APlayerCharacter_Server_PlaySwitchWeaponMontage_Statics::NewProp_PlayRate,
+};
+static_assert(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_Server_PlaySwitchWeaponMontage_Statics::PropPointers) < 2048);
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_APlayerCharacter_Server_PlaySwitchWeaponMontage_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_APlayerCharacter, nullptr, "Server_PlaySwitchWeaponMontage", Z_Construct_UFunction_APlayerCharacter_Server_PlaySwitchWeaponMontage_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_Server_PlaySwitchWeaponMontage_Statics::PropPointers), sizeof(PlayerCharacter_eventServer_PlaySwitchWeaponMontage_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00280CC0, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_Server_PlaySwitchWeaponMontage_Statics::Function_MetaDataParams), Z_Construct_UFunction_APlayerCharacter_Server_PlaySwitchWeaponMontage_Statics::Function_MetaDataParams)},  };
+static_assert(sizeof(PlayerCharacter_eventServer_PlaySwitchWeaponMontage_Parms) < MAX_uint16);
+UFunction* Z_Construct_UFunction_APlayerCharacter_Server_PlaySwitchWeaponMontage()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_APlayerCharacter_Server_PlaySwitchWeaponMontage_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(APlayerCharacter::execServer_PlaySwitchWeaponMontage)
+{
+	P_GET_OBJECT(UAnimMontage,Z_Param_MontageToPlay);
+	P_GET_PROPERTY(FFloatProperty,Z_Param_PlayRate);
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->Server_PlaySwitchWeaponMontage_Implementation(Z_Param_MontageToPlay,Z_Param_PlayRate);
+	P_NATIVE_END;
+}
+// ********** End Class APlayerCharacter Function Server_PlaySwitchWeaponMontage *******************
+
 // ********** Begin Class APlayerCharacter Function Server_SetActorYaw *****************************
 struct PlayerCharacter_eventServer_SetActorYaw_Parms
 {
@@ -1659,6 +1715,7 @@ void APlayerCharacter::StaticRegisterNativesAPlayerCharacter()
 		{ "Server_FinishReload", &APlayerCharacter::execServer_FinishReload },
 		{ "Server_Fire", &APlayerCharacter::execServer_Fire },
 		{ "Server_InitASC", &APlayerCharacter::execServer_InitASC },
+		{ "Server_PlaySwitchWeaponMontage", &APlayerCharacter::execServer_PlaySwitchWeaponMontage },
 		{ "Server_SetActorYaw", &APlayerCharacter::execServer_SetActorYaw },
 		{ "Server_SetCharacterGait", &APlayerCharacter::execServer_SetCharacterGait },
 		{ "Server_SetCharacterHeldSlot", &APlayerCharacter::execServer_SetCharacterHeldSlot },
@@ -1999,6 +2056,7 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 		{ &Z_Construct_UFunction_APlayerCharacter_Server_FinishReload, "Server_FinishReload" }, // 2066950244
 		{ &Z_Construct_UFunction_APlayerCharacter_Server_Fire, "Server_Fire" }, // 3582500429
 		{ &Z_Construct_UFunction_APlayerCharacter_Server_InitASC, "Server_InitASC" }, // 2776463885
+		{ &Z_Construct_UFunction_APlayerCharacter_Server_PlaySwitchWeaponMontage, "Server_PlaySwitchWeaponMontage" }, // 4284497249
 		{ &Z_Construct_UFunction_APlayerCharacter_Server_SetActorYaw, "Server_SetActorYaw" }, // 698977668
 		{ &Z_Construct_UFunction_APlayerCharacter_Server_SetCharacterGait, "Server_SetCharacterGait" }, // 3670559633
 		{ &Z_Construct_UFunction_APlayerCharacter_Server_SetCharacterHeldSlot, "Server_SetCharacterHeldSlot" }, // 4256110442
@@ -2197,10 +2255,10 @@ APlayerCharacter::~APlayerCharacter() {}
 struct Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h__Script_PUBG_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_APlayerCharacter, APlayerCharacter::StaticClass, TEXT("APlayerCharacter"), &Z_Registration_Info_UClass_APlayerCharacter, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(APlayerCharacter), 2360020730U) },
+		{ Z_Construct_UClass_APlayerCharacter, APlayerCharacter::StaticClass, TEXT("APlayerCharacter"), &Z_Registration_Info_UClass_APlayerCharacter, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(APlayerCharacter), 558562827U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h__Script_PUBG_2207915660(TEXT("/Script/PUBG"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h__Script_PUBG_1934676243(TEXT("/Script/PUBG"),
 	Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h__Script_PUBG_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h__Script_PUBG_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

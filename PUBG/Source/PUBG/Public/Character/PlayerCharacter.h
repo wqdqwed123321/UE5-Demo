@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -146,7 +144,7 @@ protected:
 
 	UFUNCTION(Server, Reliable)
 	void Server_ToggleFireMode();
-	
+
 	UFUNCTION(Server, Unreliable)
 	void Server_SetLeanDirection(float NewLeanDirection);
 
@@ -158,6 +156,9 @@ protected:
 
 	UFUNCTION(NetMulticast, Reliable)
 	void Multicast_PlaySwitchFireModeMontage(UAnimMontage* MontageToPlay);
+
+	UFUNCTION(Server, Reliable)
+	void Server_PlaySwitchWeaponMontage(UAnimMontage* MontageToPlay, float PlayRate);
 
 protected:
 	void OnCrouch(const FInputActionValue& Value);
@@ -187,6 +188,9 @@ protected:
 	EWeaponFireMode GetCurrentFireMode(UBackpackItemInstance* WeaponItem, UBackpackItemFragment_Weapon* WeaponFrag) const;
 	UAnimMontage* ResolveEquipMontage(ECharacterHeldSlot Slot) const;
 	void ResetWeaponRuntimeState();
+	void PlayPendingEquip();
+	void BeginSwitchWeapon(ECharacterHeldSlot NewSlot);
+	bool IsSlotOccupied(ECharacterHeldSlot Slot) const;
 
 protected:
 	UFUNCTION()
@@ -194,7 +198,7 @@ protected:
 
 	UFUNCTION()
 	void OnSphereEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-	
+
 public:
 	UPROPERTY(BlueprintAssignable)
 	FOnWeaponSlotChanged OnWeaponSlotChanged;
@@ -241,7 +245,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UInputAction> IA_ToggleFireMode;
-	
+
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UInputAction> IA_Lean;
 
@@ -295,7 +299,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UAnimMontage> EquipThrowableMontage;
-	
+
 	UPROPERTY(EditDefaultsOnly)
 	float LeanOffsetDistance = 50.f;
 
@@ -336,8 +340,8 @@ private:
 
 	UPROPERTY(Replicated)
 	float ControllerRotator_Pitch;
-	
-	UPROPERTY(Replicated) 
+
+	UPROPERTY(Replicated)
 	float CurrentLeanDirection = 0.f;
 
 private:
@@ -349,10 +353,10 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UBackpackItemInstance> CurrentHeldWeaponInstance;
-	
+
 	UPROPERTY()
 	TObjectPtr<UAnimMontage> CurrentSwitchWeaponMontage;
-	
+
 	UPROPERTY()
 	TObjectPtr<USkeletalMeshComponent> InterpWeaponMesh;
 

@@ -1,11 +1,11 @@
 {
     "Version": "1.2",
     "Data": {
-        "Source": "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\plugins\\developer\\riderlink\\source\\rd\\rd.cpp",
+        "Source": "c:\\users\\xieqi\\documents\\github\\ue5-demo\\pubg\\plugins\\developer\\riderlink\\source\\rd\\rd.cpp",
         "ProvidedModule": "",
         "Includes": [
-            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\rd\\definitions.h",
-            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\plugins\\developer\\riderlink\\source\\rd\\rd.h",
+            "c:\\users\\xieqi\\documents\\github\\ue5-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\rd\\definitions.h",
+            "c:\\users\\xieqi\\documents\\github\\ue5-demo\\pubg\\plugins\\developer\\riderlink\\source\\rd\\rd.h",
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\core\\public\\logging\\logmacros.h",
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\core\\public\\containers\\unrealstring.h",
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\core\\public\\containers\\unrealstringincludes.h.inl",

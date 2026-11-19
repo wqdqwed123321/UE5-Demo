@@ -6,8 +6,7 @@
 /NAME:"UnrealEditor-RiderAgentTools.dll"
 /IGNORE:4221
 /NODEFAULTLIB
-"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderAgentTools/RiderAgentBridgeLibrary.gen.cpp.obj"
-"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderAgentTools/RiderAgentTools.init.gen.cpp.obj"
+"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderAgentTools/Module.RiderAgentTools.gen.cpp.obj"
 "C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderAgentTools/AssetRegistrySearcher.cpp.obj"
 "C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderAgentTools/PythonExecutor.cpp.obj"
 "C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderAgentTools/RiderAgentBridgeLibrary.cpp.obj"

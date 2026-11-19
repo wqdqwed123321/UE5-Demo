@@ -1,9 +1,9 @@
-"C:/Users/XieQi/Documents/Unreal Projects/PUBG/Plugins/Developer/RiderLink/Source/RD/src/rd_framework_cpp/src/main/base/IProtocol.cpp"
-@"C:/Users/XieQi/Documents/Unreal Projects/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RD/RD.Shared.rsp"
-/FI"C:/Users/XieQi/Documents/Unreal Projects/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RD/Definitions.h"
-/Fo"C:/Users/XieQi/Documents/Unreal Projects/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RD/IProtocol.cpp.obj"
-/experimental:log "C:/Users/XieQi/Documents/Unreal Projects/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RD/IProtocol.cpp.sarif"
-/sourceDependencies "C:/Users/XieQi/Documents/Unreal Projects/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RD/IProtocol.cpp.dep.json"
+"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Source/RD/src/rd_framework_cpp/src/main/base/IProtocol.cpp"
+@"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RD/RD.Shared.rsp"
+/FI"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RD/Definitions.h"
+/Fo"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RD/IProtocol.cpp.obj"
+/experimental:log "C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RD/IProtocol.cpp.sarif"
+/sourceDependencies "C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RD/IProtocol.cpp.dep.json"
 /d2ssa-cfg-question-
 /Zc:inline
 /nologo

@@ -6991,11 +6991,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\XieQi\\Documents\\GitHub\\UE-Demo\\PUBG\\Intermediate\\Build\\BuildRulesProjects\\PUBGModuleRules\\PUBGModuleRules.csproj",
+      "projectUniqueName": "C:\\Users\\XieQi\\Documents\\GitHub\\UE5-Demo\\PUBG\\Intermediate\\Build\\BuildRulesProjects\\PUBGModuleRules\\PUBGModuleRules.csproj",
       "projectName": "PUBGModuleRules",
-      "projectPath": "C:\\Users\\XieQi\\Documents\\GitHub\\UE-Demo\\PUBG\\Intermediate\\Build\\BuildRulesProjects\\PUBGModuleRules\\PUBGModuleRules.csproj",
+      "projectPath": "C:\\Users\\XieQi\\Documents\\GitHub\\UE5-Demo\\PUBG\\Intermediate\\Build\\BuildRulesProjects\\PUBGModuleRules\\PUBGModuleRules.csproj",
       "packagesPath": "C:\\Users\\XieQi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\XieQi\\Documents\\GitHub\\UE-Demo\\PUBG\\Intermediate\\Build\\BuildRulesProjects\\PUBGModuleRules\\obj\\",
+      "outputPath": "C:\\Users\\XieQi\\Documents\\GitHub\\UE5-Demo\\PUBG\\Intermediate\\Build\\BuildRulesProjects\\PUBGModuleRules\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\Microsoft Visual Studio\\Shared\\NuGetPackages"

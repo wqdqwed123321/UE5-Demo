@@ -1,10 +1,10 @@
 {
     "Version": "1.2",
     "Data": {
-        "Source": "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\rideragenttools\\permoduleinline.gen.cpp",
+        "Source": "c:\\users\\xieqi\\documents\\github\\ue5-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\rideragenttools\\permoduleinline.gen.cpp",
         "ProvidedModule": "",
         "Includes": [
-            "c:\\users\\xieqi\\documents\\github\\ue-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\rideragenttools\\definitions.h",
+            "c:\\users\\xieqi\\documents\\github\\ue5-demo\\pubg\\plugins\\developer\\riderlink\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\rideragenttools\\definitions.h",
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\core\\public\\hal\\permoduleinline.inl",
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\core\\public\\coreglobals.h",
             "d:\\epic games\\ue_5.6\\engine\\source\\runtime\\core\\public\\containers\\unrealstring.h",

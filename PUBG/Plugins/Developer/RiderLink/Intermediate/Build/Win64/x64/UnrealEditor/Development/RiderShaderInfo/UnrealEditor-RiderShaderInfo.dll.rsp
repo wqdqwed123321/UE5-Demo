@@ -37,8 +37,8 @@
 /NOIMPLIB
 /NOEXP
 /NATVIS:"../Intermediate/Build/Win64/x64/UnrealEditor/Development/RenderCore/RenderCore.natvis"
-"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderShaderInfo/Module.RiderShaderInfo.cpp.obj"
-"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderShaderInfo/Default.rc2.res"
+"C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderShaderInfo/Module.RiderShaderInfo.cpp.obj"
+"C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Plugins/Developer/RiderLink/Intermediate/Build/Win64/x64/UnrealEditor/Development/RiderShaderInfo/Default.rc2.res"
 "../Intermediate/Build/Win64/x64/UnrealEditor/Development/Core/UnrealEditor-Core.lib"
 "../Intermediate/Build/Win64/x64/UnrealEditor/Development/Projects/UnrealEditor-Projects.lib"
 "../Intermediate/Build/Win64/x64/UnrealEditor/Development/RenderCore/UnrealEditor-RenderCore.lib"
@@ -67,6 +67,6 @@
 "synchronization.lib"
 "dwmapi.lib"
 "imm32.lib"
-/OUT:"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Binaries/Win64/UnrealEditor-RiderShaderInfo.dll"
-/PDB:"C:/Users/XieQi/Documents/GitHub/UE-Demo/PUBG/Plugins/Developer/RiderLink/Binaries/Win64/UnrealEditor-RiderShaderInfo.pdb"
+/OUT:"C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Plugins/Developer/RiderLink/Binaries/Win64/UnrealEditor-RiderShaderInfo.dll"
+/PDB:"C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Plugins/Developer/RiderLink/Binaries/Win64/UnrealEditor-RiderShaderInfo.pdb"
 /ignore:4078
