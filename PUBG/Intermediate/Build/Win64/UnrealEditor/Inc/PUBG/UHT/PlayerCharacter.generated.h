@@ -35,6 +35,7 @@ PUBG_API void FOnWeaponSlotChanged_DelegateWrapper(const FMulticastScriptDelegat
 
 // ********** Begin Class APlayerCharacter *********************************************************
 #define FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_27_RPC_WRAPPERS_NO_PURE_DECLS \
+	virtual void Client_FireRejected_Implementation(); \
 	virtual void Server_PlaySwitchWeaponMontage_Implementation(UAnimMontage* MontageToPlay, float PlayRate); \
 	virtual void Multicast_PlaySwitchFireModeMontage_Implementation(UAnimMontage* MontageToPlay); \
 	virtual void Multicast_PlayReloadMontage_Implementation(UAnimMontage* MontageToPlay); \
@@ -53,6 +54,7 @@ PUBG_API void FOnWeaponSlotChanged_DelegateWrapper(const FMulticastScriptDelegat
 	virtual void Multicast_PlayImpactFX_Implementation(FVector ImpactPoint, FVector ImpactNormal, UNiagaraSystem* ImpactFX); \
 	DECLARE_FUNCTION(execOnSphereEndOverlap); \
 	DECLARE_FUNCTION(execOnSphereBeginOverlap); \
+	DECLARE_FUNCTION(execClient_FireRejected); \
 	DECLARE_FUNCTION(execServer_PlaySwitchWeaponMontage); \
 	DECLARE_FUNCTION(execMulticast_PlaySwitchFireModeMontage); \
 	DECLARE_FUNCTION(execMulticast_PlayReloadMontage); \
@@ -81,6 +83,9 @@ PUBG_API void FOnWeaponSlotChanged_DelegateWrapper(const FMulticastScriptDelegat
 	DECLARE_FUNCTION(execMulticast_PlaySwitchWeaponMontage); \
 	DECLARE_FUNCTION(execMulticast_PlayImpactFX); \
 	DECLARE_FUNCTION(execShouldEnableWeaponIK); \
+	DECLARE_FUNCTION(execAnimNotify_ReloadMagGrab); \
+	DECLARE_FUNCTION(execAnimNotify_ReloadMagIn); \
+	DECLARE_FUNCTION(execAnimNotify_ReloadMagOut); \
 	DECLARE_FUNCTION(execShouldShowCrosshairCenter); \
 	DECLARE_FUNCTION(execShouldShowCrosshairBars); \
 	DECLARE_FUNCTION(execGetCrosshairSpreadDegrees); \

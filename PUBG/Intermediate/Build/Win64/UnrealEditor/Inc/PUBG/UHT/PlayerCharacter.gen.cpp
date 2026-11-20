@@ -27,6 +27,7 @@ ENGINE_API UClass* Z_Construct_UClass_USkeletalMeshComponent_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_USoundAttenuation_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_USphereComponent_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_USpringArmComponent_NoRegister();
+ENGINE_API UClass* Z_Construct_UClass_UStaticMeshComponent_NoRegister();
 ENGINE_API UScriptStruct* Z_Construct_UScriptStruct_FHitResult();
 ENGINE_API UScriptStruct* Z_Construct_UScriptStruct_FVector_NetQuantize();
 ENHANCEDINPUT_API UClass* Z_Construct_UClass_UInputAction_NoRegister();
@@ -128,6 +129,128 @@ DEFINE_FUNCTION(APlayerCharacter::execAnimNotify_AttachWeaponToHand)
 	P_NATIVE_END;
 }
 // ********** End Class APlayerCharacter Function AnimNotify_AttachWeaponToHand ********************
+
+// ********** Begin Class APlayerCharacter Function AnimNotify_ReloadMagGrab ***********************
+struct Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagGrab_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagGrab_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_APlayerCharacter, nullptr, "AnimNotify_ReloadMagGrab", nullptr, 0, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagGrab_Statics::Function_MetaDataParams), Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagGrab_Statics::Function_MetaDataParams)},  };
+UFunction* Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagGrab()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagGrab_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(APlayerCharacter::execAnimNotify_ReloadMagGrab)
+{
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->AnimNotify_ReloadMagGrab();
+	P_NATIVE_END;
+}
+// ********** End Class APlayerCharacter Function AnimNotify_ReloadMagGrab *************************
+
+// ********** Begin Class APlayerCharacter Function AnimNotify_ReloadMagIn *************************
+struct Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagIn_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagIn_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_APlayerCharacter, nullptr, "AnimNotify_ReloadMagIn", nullptr, 0, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagIn_Statics::Function_MetaDataParams), Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagIn_Statics::Function_MetaDataParams)},  };
+UFunction* Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagIn()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagIn_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(APlayerCharacter::execAnimNotify_ReloadMagIn)
+{
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->AnimNotify_ReloadMagIn();
+	P_NATIVE_END;
+}
+// ********** End Class APlayerCharacter Function AnimNotify_ReloadMagIn ***************************
+
+// ********** Begin Class APlayerCharacter Function AnimNotify_ReloadMagOut ************************
+struct Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagOut_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagOut_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_APlayerCharacter, nullptr, "AnimNotify_ReloadMagOut", nullptr, 0, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x04020401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagOut_Statics::Function_MetaDataParams), Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagOut_Statics::Function_MetaDataParams)},  };
+UFunction* Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagOut()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagOut_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(APlayerCharacter::execAnimNotify_ReloadMagOut)
+{
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->AnimNotify_ReloadMagOut();
+	P_NATIVE_END;
+}
+// ********** End Class APlayerCharacter Function AnimNotify_ReloadMagOut **************************
+
+// ********** Begin Class APlayerCharacter Function Client_FireRejected ****************************
+static FName NAME_APlayerCharacter_Client_FireRejected = FName(TEXT("Client_FireRejected"));
+void APlayerCharacter::Client_FireRejected()
+{
+	UFunction* Func = FindFunctionChecked(NAME_APlayerCharacter_Client_FireRejected);
+	ProcessEvent(Func,NULL);
+}
+struct Z_Construct_UFunction_APlayerCharacter_Client_FireRejected_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_APlayerCharacter_Client_FireRejected_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_APlayerCharacter, nullptr, "Client_FireRejected", nullptr, 0, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x01080CC0, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_Client_FireRejected_Statics::Function_MetaDataParams), Z_Construct_UFunction_APlayerCharacter_Client_FireRejected_Statics::Function_MetaDataParams)},  };
+UFunction* Z_Construct_UFunction_APlayerCharacter_Client_FireRejected()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_APlayerCharacter_Client_FireRejected_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(APlayerCharacter::execClient_FireRejected)
+{
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->Client_FireRejected_Implementation();
+	P_NATIVE_END;
+}
+// ********** End Class APlayerCharacter Function Client_FireRejected ******************************
 
 // ********** Begin Class APlayerCharacter Function Client_InitASC *********************************
 struct Z_Construct_UFunction_APlayerCharacter_Client_InitASC_Statics
@@ -1694,6 +1817,10 @@ void APlayerCharacter::StaticRegisterNativesAPlayerCharacter()
 	static const FNameNativePtrPair Funcs[] = {
 		{ "AnimNotify_AttachWeaponToBack", &APlayerCharacter::execAnimNotify_AttachWeaponToBack },
 		{ "AnimNotify_AttachWeaponToHand", &APlayerCharacter::execAnimNotify_AttachWeaponToHand },
+		{ "AnimNotify_ReloadMagGrab", &APlayerCharacter::execAnimNotify_ReloadMagGrab },
+		{ "AnimNotify_ReloadMagIn", &APlayerCharacter::execAnimNotify_ReloadMagIn },
+		{ "AnimNotify_ReloadMagOut", &APlayerCharacter::execAnimNotify_ReloadMagOut },
+		{ "Client_FireRejected", &APlayerCharacter::execClient_FireRejected },
 		{ "Client_InitASC", &APlayerCharacter::execClient_InitASC },
 		{ "GetCrosshairSpreadDegrees", &APlayerCharacter::execGetCrosshairSpreadDegrees },
 		{ "Multicast_FireEffect", &APlayerCharacter::execMulticast_FireEffect },
@@ -1906,6 +2033,14 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 		{ "Category", "PlayerCharacter" },
 		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_ADSCameraInterpSpeed_MetaData[] = {
+		{ "Category", "PlayerCharacter" },
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_AimCameraSocketName_MetaData[] = {
+		{ "Category", "PlayerCharacter" },
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_FirstPersonCamera_MetaData[] = {
 		{ "Category", "PlayerCharacter" },
 		{ "EditInline", "true" },
@@ -1970,6 +2105,10 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 		{ "EditInline", "true" },
 		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_HandMagMeshComp_MetaData[] = {
+		{ "EditInline", "true" },
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FMulticastDelegatePropertyParams NewProp_OnWeaponSlotChanged;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_IA_Crouch;
@@ -2006,6 +2145,8 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_EquipThrowableMontage;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_LeanOffsetDistance;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_LeanInterpSpeed;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_ADSCameraInterpSpeed;
+	static const UECodeGen_Private::FNamePropertyParams NewProp_AimCameraSocketName;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_FirstPersonCamera;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_ThirdPersonCamera;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_ThirdPersonSpringArm;
@@ -2030,11 +2171,16 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_CurrentHeldWeaponInstance;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_CurrentSwitchWeaponMontage;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_InterpWeaponMesh;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_HandMagMeshComp;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
 	static constexpr FClassFunctionLinkInfo FuncInfo[] = {
 		{ &Z_Construct_UFunction_APlayerCharacter_AnimNotify_AttachWeaponToBack, "AnimNotify_AttachWeaponToBack" }, // 3964298625
 		{ &Z_Construct_UFunction_APlayerCharacter_AnimNotify_AttachWeaponToHand, "AnimNotify_AttachWeaponToHand" }, // 230767770
+		{ &Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagGrab, "AnimNotify_ReloadMagGrab" }, // 417130863
+		{ &Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagIn, "AnimNotify_ReloadMagIn" }, // 3582253488
+		{ &Z_Construct_UFunction_APlayerCharacter_AnimNotify_ReloadMagOut, "AnimNotify_ReloadMagOut" }, // 1609885066
+		{ &Z_Construct_UFunction_APlayerCharacter_Client_FireRejected, "Client_FireRejected" }, // 2964811186
 		{ &Z_Construct_UFunction_APlayerCharacter_Client_InitASC, "Client_InitASC" }, // 2279824267
 		{ &Z_Construct_UFunction_APlayerCharacter_GetCrosshairSpreadDegrees, "GetCrosshairSpreadDegrees" }, // 3560309385
 		{ &Z_Construct_UFunction_APlayerCharacter_Multicast_FireEffect, "Multicast_FireEffect" }, // 1581871556
@@ -2111,6 +2257,8 @@ const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharact
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_EquipThrowableMontage = { "EquipThrowableMontage", nullptr, (EPropertyFlags)0x0144000000010001, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, EquipThrowableMontage), Z_Construct_UClass_UAnimMontage_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_EquipThrowableMontage_MetaData), NewProp_EquipThrowableMontage_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_LeanOffsetDistance = { "LeanOffsetDistance", nullptr, (EPropertyFlags)0x0040000000010001, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, LeanOffsetDistance), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_LeanOffsetDistance_MetaData), NewProp_LeanOffsetDistance_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_LeanInterpSpeed = { "LeanInterpSpeed", nullptr, (EPropertyFlags)0x0040000000010001, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, LeanInterpSpeed), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_LeanInterpSpeed_MetaData), NewProp_LeanInterpSpeed_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ADSCameraInterpSpeed = { "ADSCameraInterpSpeed", nullptr, (EPropertyFlags)0x0040000000010001, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, ADSCameraInterpSpeed), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ADSCameraInterpSpeed_MetaData), NewProp_ADSCameraInterpSpeed_MetaData) };
+const UECodeGen_Private::FNamePropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_AimCameraSocketName = { "AimCameraSocketName", nullptr, (EPropertyFlags)0x0040000000010001, UECodeGen_Private::EPropertyGenFlags::Name, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, AimCameraSocketName), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_AimCameraSocketName_MetaData), NewProp_AimCameraSocketName_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_FirstPersonCamera = { "FirstPersonCamera", nullptr, (EPropertyFlags)0x01440000000b0009, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, FirstPersonCamera), Z_Construct_UClass_UCameraComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_FirstPersonCamera_MetaData), NewProp_FirstPersonCamera_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ThirdPersonCamera = { "ThirdPersonCamera", nullptr, (EPropertyFlags)0x01440000000b0009, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, ThirdPersonCamera), Z_Construct_UClass_UCameraComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ThirdPersonCamera_MetaData), NewProp_ThirdPersonCamera_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ThirdPersonSpringArm = { "ThirdPersonSpringArm", nullptr, (EPropertyFlags)0x01440000000b0009, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, ThirdPersonSpringArm), Z_Construct_UClass_USpringArmComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ThirdPersonSpringArm_MetaData), NewProp_ThirdPersonSpringArm_MetaData) };
@@ -2135,6 +2283,7 @@ const UECodeGen_Private::FArrayPropertyParams Z_Construct_UClass_APlayerCharacte
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CurrentHeldWeaponInstance = { "CurrentHeldWeaponInstance", nullptr, (EPropertyFlags)0x0144000000000000, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, CurrentHeldWeaponInstance), Z_Construct_UClass_UBackpackItemInstance_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CurrentHeldWeaponInstance_MetaData), NewProp_CurrentHeldWeaponInstance_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CurrentSwitchWeaponMontage = { "CurrentSwitchWeaponMontage", nullptr, (EPropertyFlags)0x0144000000000000, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, CurrentSwitchWeaponMontage), Z_Construct_UClass_UAnimMontage_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CurrentSwitchWeaponMontage_MetaData), NewProp_CurrentSwitchWeaponMontage_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_InterpWeaponMesh = { "InterpWeaponMesh", nullptr, (EPropertyFlags)0x0144000000080008, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, InterpWeaponMesh), Z_Construct_UClass_USkeletalMeshComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_InterpWeaponMesh_MetaData), NewProp_InterpWeaponMesh_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_HandMagMeshComp = { "HandMagMeshComp", nullptr, (EPropertyFlags)0x0144000000080008, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, HandMagMeshComp), Z_Construct_UClass_UStaticMeshComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_HandMagMeshComp_MetaData), NewProp_HandMagMeshComp_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_APlayerCharacter_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_OnWeaponSlotChanged,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_IA_Crouch,
@@ -2171,6 +2320,8 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_APlayerCh
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_EquipThrowableMontage,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_LeanOffsetDistance,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_LeanInterpSpeed,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ADSCameraInterpSpeed,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_AimCameraSocketName,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_FirstPersonCamera,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ThirdPersonCamera,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ThirdPersonSpringArm,
@@ -2195,6 +2346,7 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_APlayerCh
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CurrentHeldWeaponInstance,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CurrentSwitchWeaponMontage,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_InterpWeaponMesh,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_HandMagMeshComp,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_APlayerCharacter_Statics::PropPointers) < 2048);
 UObject* (*const Z_Construct_UClass_APlayerCharacter_Statics::DependentSingletons[])() = {
@@ -2255,10 +2407,10 @@ APlayerCharacter::~APlayerCharacter() {}
 struct Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h__Script_PUBG_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_APlayerCharacter, APlayerCharacter::StaticClass, TEXT("APlayerCharacter"), &Z_Registration_Info_UClass_APlayerCharacter, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(APlayerCharacter), 558562827U) },
+		{ Z_Construct_UClass_APlayerCharacter, APlayerCharacter::StaticClass, TEXT("APlayerCharacter"), &Z_Registration_Info_UClass_APlayerCharacter, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(APlayerCharacter), 3516084218U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h__Script_PUBG_1934676243(TEXT("/Script/PUBG"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h__Script_PUBG_2502667757(TEXT("/Script/PUBG"),
 	Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h__Script_PUBG_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h__Script_PUBG_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

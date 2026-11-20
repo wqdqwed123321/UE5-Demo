@@ -46,7 +46,8 @@ public:
 
 	UFUNCTION()
 	void Client_InitASC();
-
+	
+public:
 	UFUNCTION(BlueprintPure)
 	float GetCrosshairSpreadDegrees() const;
 
@@ -55,6 +56,15 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	bool ShouldShowCrosshairCenter() const;
+	
+	UFUNCTION(BlueprintCallable)
+	void AnimNotify_ReloadMagOut();
+
+	UFUNCTION(BlueprintCallable)
+	void AnimNotify_ReloadMagIn();
+	
+	UFUNCTION(BlueprintCallable)
+	void AnimNotify_ReloadMagGrab();
 
 public:
 	ECharacterGait GetCharacterGait() const { return CharacterGait; }
@@ -159,6 +169,9 @@ protected:
 
 	UFUNCTION(Server, Reliable)
 	void Server_PlaySwitchWeaponMontage(UAnimMontage* MontageToPlay, float PlayRate);
+	
+	UFUNCTION(Client, Reliable)
+	void Client_FireRejected();
 
 protected:
 	void OnCrouch(const FInputActionValue& Value);
@@ -171,7 +184,7 @@ protected:
 	void OnToggleBackpack(const FInputActionValue& Value);
 	void OnWalk(const FInputActionInstance& Value);
 	void OnFire(const FInputActionInstance& Value);
-	void OnAim(const FInputActionValue& Value);
+	void OnAim(const FInputActionInstance& Value);
 	void OnReload(const FInputActionValue& Value);
 	void OnHolster(const FInputActionValue& Value);
 	void OnToggleFireMode(const FInputActionValue& Value);
@@ -191,6 +204,11 @@ protected:
 	void PlayPendingEquip();
 	void BeginSwitchWeapon(ECharacterHeldSlot NewSlot);
 	bool IsSlotOccupied(ECharacterHeldSlot Slot) const;
+	UStaticMeshComponent* SpawnHandMagMesh(UStaticMesh* MagMesh);
+	UStaticMesh* GetHeldMagazineMesh() const;
+	int32 GetHeldCurrentAmmo() const;
+	void ClearAttachmentsFromWeaponMesh(USkeletalMeshComponent* WeaponMesh);
+	void ApplyCameraState(); 
 
 protected:
 	UFUNCTION()
@@ -305,6 +323,12 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	float LeanInterpSpeed = 10.f;
+	
+	UPROPERTY(EditDefaultsOnly)
+	float ADSCameraInterpSpeed = 20.f;
+	
+	UPROPERTY(EditDefaultsOnly)
+	FName AimCameraSocketName = TEXT("ScopeCamera_Socket");
 
 private:
 	UPROPERTY(VisibleDefaultsOnly)
@@ -359,6 +383,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<USkeletalMeshComponent> InterpWeaponMesh;
+	
+	UPROPERTY()
+	TObjectPtr<UStaticMeshComponent> HandMagMeshComp;
 
 private:
 	float LastSentControllerYaw;
@@ -394,4 +421,16 @@ private:
 	float CurrentLeanOffset = 0.f;
 	bool bIsHoldingFire = false;
 	FTimerHandle AttachmentRefreshTimer;
+	bool bReloadMagOut = false;
+	int32 ReloadingMagSlotIndex = -1;
+	bool bIsADS = false;
+	bool bIsSoftAiming = false;
+	bool bPreADSFirstPerson = false;
+	FTimerHandle AimHoldTimer;
+	float TargetFOV = 90.f;
+	float FOVInterpSpeed = 12.f;
+	FVector DefaultFPPCameraRelativeLoc = FVector::ZeroVector;
+	float AccumulatedRecoilPitch = 0.f;
+	float AccumulatedRecoilYaw = 0.f;
+	float CachedRecoilRecoveryRatio = 0.6f;
 };

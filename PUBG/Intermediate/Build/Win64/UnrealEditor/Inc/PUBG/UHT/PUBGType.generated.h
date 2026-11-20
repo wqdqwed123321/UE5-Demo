@@ -44,7 +44,7 @@ struct FRecoilSettings;
 // ********** End ScriptStruct FRecoilSettings *****************************************************
 
 // ********** Begin ScriptStruct FSpreadSettings ***************************************************
-#define FID_PUBG_Source_PUBG_Public_PUBGType_h_188_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_PUBGType_h_203_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FSpreadSettings_Statics; \
 	PUBG_API static class UScriptStruct* StaticStruct();
 
@@ -53,7 +53,7 @@ struct FSpreadSettings;
 // ********** End ScriptStruct FSpreadSettings *****************************************************
 
 // ********** Begin ScriptStruct FCharacterDirectionAnimations *************************************
-#define FID_PUBG_Source_PUBG_Public_PUBGType_h_227_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_PUBGType_h_242_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FCharacterDirectionAnimations_Statics; \
 	PUBG_API static class UScriptStruct* StaticStruct();
 
@@ -62,7 +62,7 @@ struct FCharacterDirectionAnimations;
 // ********** End ScriptStruct FCharacterDirectionAnimations ***************************************
 
 // ********** Begin ScriptStruct FCharacterTurnAngleAnimations *************************************
-#define FID_PUBG_Source_PUBG_Public_PUBGType_h_245_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_PUBGType_h_260_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FCharacterTurnAngleAnimations_Statics; \
 	PUBG_API static class UScriptStruct* StaticStruct();
 
@@ -71,7 +71,7 @@ struct FCharacterTurnAngleAnimations;
 // ********** End ScriptStruct FCharacterTurnAngleAnimations ***************************************
 
 // ********** Begin ScriptStruct FCharacterGaitSettings ********************************************
-#define FID_PUBG_Source_PUBG_Public_PUBGType_h_263_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_PUBGType_h_278_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FCharacterGaitSettings_Statics; \
 	PUBG_API static class UScriptStruct* StaticStruct(); \
 	typedef FTableRowBase Super;
@@ -81,7 +81,7 @@ struct FCharacterGaitSettings;
 // ********** End ScriptStruct FCharacterGaitSettings **********************************************
 
 // ********** Begin ScriptStruct FTPPCameraSettings ************************************************
-#define FID_PUBG_Source_PUBG_Public_PUBGType_h_272_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_PUBGType_h_287_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FTPPCameraSettings_Statics; \
 	PUBG_API static class UScriptStruct* StaticStruct(); \
 	typedef FTableRowBase Super;

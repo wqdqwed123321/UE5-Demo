@@ -1035,6 +1035,39 @@ struct Z_Construct_UScriptStruct_FRecoilSettings_Statics
 		{ "DisplayName", "\xe5\xbc\x80\xe9\x95\x9c\xe5\x90\x8e\xe5\x9d\x90\xe5\x8a\x9b\xe5\x80\x8d\xe7\x8e\x87" },
 		{ "ModuleRelativePath", "Public/PUBGType.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_MaxVerticalRecoil_MetaData[] = {
+		{ "Category", "RecoilSettings" },
+		{ "ClampMin", "0.0" },
+		{ "DisplayName", "\xe5\x9e\x82\xe7\x9b\xb4\xe6\x8a\xac\xe5\x8d\x87\xe4\xb8\x8a\xe9\x99\x90(\xe5\xba\xa6)" },
+		{ "ModuleRelativePath", "Public/PUBGType.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_PerShotDecay_MetaData[] = {
+		{ "Category", "RecoilSettings" },
+		{ "ClampMax", "0.5" },
+		{ "ClampMin", "0.0" },
+		{ "DisplayName", "\xe6\xaf\x8f\xe5\x8f\x91\xe8\xa1\xb0\xe5\x87\x8f\xe7\xb3\xbb\xe6\x95\xb0" },
+		{ "ModuleRelativePath", "Public/PUBGType.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_MinDecay_MetaData[] = {
+		{ "Category", "RecoilSettings" },
+		{ "ClampMax", "1.0" },
+		{ "ClampMin", "0.0" },
+		{ "DisplayName", "\xe8\xa1\xb0\xe5\x87\x8f\xe4\xb8\x8b\xe9\x99\x90" },
+		{ "ModuleRelativePath", "Public/PUBGType.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_RecoilResetWindow_MetaData[] = {
+		{ "Category", "RecoilSettings" },
+		{ "ClampMin", "0.0" },
+		{ "DisplayName", "\xe8\xbf\x9e\xe5\x8f\x91\xe9\x87\x8d\xe7\xbd\xae\xe7\xaa\x97\xe5\x8f\xa3(\xe7\xa7\x92)" },
+		{ "ModuleRelativePath", "Public/PUBGType.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_RecoveryRatio_MetaData[] = {
+		{ "Category", "RecoilSettings" },
+		{ "ClampMax", "1.0" },
+		{ "ClampMin", "0.0" },
+		{ "DisplayName", "\xe5\x90\x8e\xe5\x9d\x90\xe5\x8a\x9b\xe5\x9b\x9e\xe6\xad\xa3\xe6\xaf\x94\xe4\xbe\x8b" },
+		{ "ModuleRelativePath", "Public/PUBGType.h" },
+	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_VerticalRecoil;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_HorizontalRecoil;
@@ -1042,6 +1075,11 @@ struct Z_Construct_UScriptStruct_FRecoilSettings_Statics
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_RecoilRecoveryDelay;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_CrouchMultiplier;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_ADSRecoilMultiplier;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_MaxVerticalRecoil;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_PerShotDecay;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_MinDecay;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_RecoilResetWindow;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_RecoveryRatio;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static void* NewStructOps()
 	{
@@ -1055,6 +1093,11 @@ const UECodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FRecoilS
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewProp_RecoilRecoveryDelay = { "RecoilRecoveryDelay", nullptr, (EPropertyFlags)0x0010000000010015, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(FRecoilSettings, RecoilRecoveryDelay), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_RecoilRecoveryDelay_MetaData), NewProp_RecoilRecoveryDelay_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewProp_CrouchMultiplier = { "CrouchMultiplier", nullptr, (EPropertyFlags)0x0010000000010015, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(FRecoilSettings, CrouchMultiplier), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CrouchMultiplier_MetaData), NewProp_CrouchMultiplier_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewProp_ADSRecoilMultiplier = { "ADSRecoilMultiplier", nullptr, (EPropertyFlags)0x0010000000010015, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(FRecoilSettings, ADSRecoilMultiplier), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ADSRecoilMultiplier_MetaData), NewProp_ADSRecoilMultiplier_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewProp_MaxVerticalRecoil = { "MaxVerticalRecoil", nullptr, (EPropertyFlags)0x0010000000010015, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(FRecoilSettings, MaxVerticalRecoil), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MaxVerticalRecoil_MetaData), NewProp_MaxVerticalRecoil_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewProp_PerShotDecay = { "PerShotDecay", nullptr, (EPropertyFlags)0x0010000000010015, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(FRecoilSettings, PerShotDecay), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_PerShotDecay_MetaData), NewProp_PerShotDecay_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewProp_MinDecay = { "MinDecay", nullptr, (EPropertyFlags)0x0010000000010015, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(FRecoilSettings, MinDecay), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MinDecay_MetaData), NewProp_MinDecay_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewProp_RecoilResetWindow = { "RecoilResetWindow", nullptr, (EPropertyFlags)0x0010000000010015, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(FRecoilSettings, RecoilResetWindow), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_RecoilResetWindow_MetaData), NewProp_RecoilResetWindow_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewProp_RecoveryRatio = { "RecoveryRatio", nullptr, (EPropertyFlags)0x0010000000010015, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(FRecoilSettings, RecoveryRatio), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_RecoveryRatio_MetaData), NewProp_RecoveryRatio_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UScriptStruct_FRecoilSettings_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewProp_VerticalRecoil,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewProp_HorizontalRecoil,
@@ -1062,6 +1105,11 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UScriptStruct_FR
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewProp_RecoilRecoveryDelay,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewProp_CrouchMultiplier,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewProp_ADSRecoilMultiplier,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewProp_MaxVerticalRecoil,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewProp_PerShotDecay,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewProp_MinDecay,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewProp_RecoilResetWindow,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewProp_RecoveryRatio,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UScriptStruct_FRecoilSettings_Statics::PropPointers) < 2048);
 const UECodeGen_Private::FStructParams Z_Construct_UScriptStruct_FRecoilSettings_Statics::StructParams = {
@@ -1469,9 +1517,14 @@ struct Z_Construct_UScriptStruct_FTPPCameraSettings_Statics
 		{ "Category", "TPPCameraSettings" },
 		{ "ModuleRelativePath", "Public/PUBGType.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_FOV_MetaData[] = {
+		{ "Category", "TPPCameraSettings" },
+		{ "ModuleRelativePath", "Public/PUBGType.h" },
+	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_TargetArmLength;
 	static const UECodeGen_Private::FStructPropertyParams NewProp_SocketOffset;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_FOV;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static void* NewStructOps()
 	{
@@ -1481,9 +1534,11 @@ struct Z_Construct_UScriptStruct_FTPPCameraSettings_Statics
 };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FTPPCameraSettings_Statics::NewProp_TargetArmLength = { "TargetArmLength", nullptr, (EPropertyFlags)0x0010000000010015, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(FTPPCameraSettings, TargetArmLength), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_TargetArmLength_MetaData), NewProp_TargetArmLength_MetaData) };
 const UECodeGen_Private::FStructPropertyParams Z_Construct_UScriptStruct_FTPPCameraSettings_Statics::NewProp_SocketOffset = { "SocketOffset", nullptr, (EPropertyFlags)0x0010000000010015, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(FTPPCameraSettings, SocketOffset), Z_Construct_UScriptStruct_FVector, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_SocketOffset_MetaData), NewProp_SocketOffset_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FTPPCameraSettings_Statics::NewProp_FOV = { "FOV", nullptr, (EPropertyFlags)0x0010000000010015, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(FTPPCameraSettings, FOV), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_FOV_MetaData), NewProp_FOV_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UScriptStruct_FTPPCameraSettings_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FTPPCameraSettings_Statics::NewProp_TargetArmLength,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FTPPCameraSettings_Statics::NewProp_SocketOffset,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FTPPCameraSettings_Statics::NewProp_FOV,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UScriptStruct_FTPPCameraSettings_Statics::PropPointers) < 2048);
 const UECodeGen_Private::FStructParams Z_Construct_UScriptStruct_FTPPCameraSettings_Statics::StructParams = {
@@ -1530,15 +1585,15 @@ struct Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_PUBGType_h__Script_PUBG
 	static constexpr FStructRegisterCompiledInInfo ScriptStructInfo[] = {
 		{ FItemAttribute::StaticStruct, Z_Construct_UScriptStruct_FItemAttribute_Statics::NewStructOps, TEXT("ItemAttribute"), &Z_Registration_Info_UScriptStruct_FItemAttribute, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FItemAttribute), 3623147177U) },
 		{ FItemAttachment::StaticStruct, Z_Construct_UScriptStruct_FItemAttachment_Statics::NewStructOps, TEXT("ItemAttachment"), &Z_Registration_Info_UScriptStruct_FItemAttachment, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FItemAttachment), 3164557440U) },
-		{ FRecoilSettings::StaticStruct, Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewStructOps, TEXT("RecoilSettings"), &Z_Registration_Info_UScriptStruct_FRecoilSettings, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FRecoilSettings), 3607530075U) },
+		{ FRecoilSettings::StaticStruct, Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewStructOps, TEXT("RecoilSettings"), &Z_Registration_Info_UScriptStruct_FRecoilSettings, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FRecoilSettings), 1496086511U) },
 		{ FSpreadSettings::StaticStruct, Z_Construct_UScriptStruct_FSpreadSettings_Statics::NewStructOps, TEXT("SpreadSettings"), &Z_Registration_Info_UScriptStruct_FSpreadSettings, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FSpreadSettings), 4294589840U) },
 		{ FCharacterDirectionAnimations::StaticStruct, Z_Construct_UScriptStruct_FCharacterDirectionAnimations_Statics::NewStructOps, TEXT("CharacterDirectionAnimations"), &Z_Registration_Info_UScriptStruct_FCharacterDirectionAnimations, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FCharacterDirectionAnimations), 2475928603U) },
 		{ FCharacterTurnAngleAnimations::StaticStruct, Z_Construct_UScriptStruct_FCharacterTurnAngleAnimations_Statics::NewStructOps, TEXT("CharacterTurnAngleAnimations"), &Z_Registration_Info_UScriptStruct_FCharacterTurnAngleAnimations, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FCharacterTurnAngleAnimations), 3528204426U) },
 		{ FCharacterGaitSettings::StaticStruct, Z_Construct_UScriptStruct_FCharacterGaitSettings_Statics::NewStructOps, TEXT("CharacterGaitSettings"), &Z_Registration_Info_UScriptStruct_FCharacterGaitSettings, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FCharacterGaitSettings), 3482465836U) },
-		{ FTPPCameraSettings::StaticStruct, Z_Construct_UScriptStruct_FTPPCameraSettings_Statics::NewStructOps, TEXT("TPPCameraSettings"), &Z_Registration_Info_UScriptStruct_FTPPCameraSettings, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FTPPCameraSettings), 185474248U) },
+		{ FTPPCameraSettings::StaticStruct, Z_Construct_UScriptStruct_FTPPCameraSettings_Statics::NewStructOps, TEXT("TPPCameraSettings"), &Z_Registration_Info_UScriptStruct_FTPPCameraSettings, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FTPPCameraSettings), 2260429809U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_PUBGType_h__Script_PUBG_316313253(TEXT("/Script/PUBG"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_PUBGType_h__Script_PUBG_2717010212(TEXT("/Script/PUBG"),
 	nullptr, 0,
 	Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_PUBGType_h__Script_PUBG_Statics::ScriptStructInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_PUBGType_h__Script_PUBG_Statics::ScriptStructInfo),
 	Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_PUBGType_h__Script_PUBG_Statics::EnumInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_PUBGType_h__Script_PUBG_Statics::EnumInfo));

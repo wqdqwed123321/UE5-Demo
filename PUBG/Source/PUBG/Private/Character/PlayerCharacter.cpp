@@ -1,6 +1,7 @@
 #include "Character/PlayerCharacter.h"
 
 #include "EnhancedInputComponent.h"
+#include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"
 #include "PUBGGameplayTag.h"
 #include "AbilitySystemComponent/CharacterAbilitySystemComponent.h"
@@ -73,6 +74,8 @@ APlayerCharacter::APlayerCharacter()
 	ConsecutiveShots = 0;
 	TargetRecoilPitch = 0.f;
 	TargetRecoilYaw = 0.f;
+	AccumulatedRecoilPitch = 0.f;
+	AccumulatedRecoilYaw = 0.f;
 	LastFireTimeForRecoil = -100.f;
 	bWantsToSprint = false;
 	bIsInterpolatingWeapon = false;
@@ -88,19 +91,11 @@ void APlayerCharacter::BeginPlay()
 	FirstPersonCamera->SetActive(false);
 	ThirdPersonCamera->SetActive(true);
 	PersonHead->SetOwnerNoSee(false);
+	
 	ApplyCharacterGait();
-
 	UpdateCharacterHeldSlotAnimLayer();
-
-	if (DT_TPPCameraSettings)
-	{
-		FTPPCameraSettings* Settings = DT_TPPCameraSettings->FindRow<FTPPCameraSettings>(TEXT("TPP"), TEXT(""));
-		if (Settings)
-		{
-			TargetArmLength = Settings->TargetArmLength;
-			TargetSocketOffset = Settings->SocketOffset;
-		}
-	}
+	DefaultFPPCameraRelativeLoc = FirstPersonCamera->GetRelativeLocation();
+	ApplyCameraState();
 
 	if (Sphere)
 	{
@@ -144,6 +139,8 @@ void APlayerCharacter::Tick(float DeltaTime)
 			AddControllerYawInput(ConsumeYaw);
 			TargetRecoilPitch -= ConsumePitch;
 			TargetRecoilYaw -= ConsumeYaw;
+			AccumulatedRecoilPitch += ConsumePitch * CachedRecoilRecoveryRatio;
+			AccumulatedRecoilYaw += ConsumeYaw * CachedRecoilRecoveryRatio;
 		}
 
 		if (bWantsToSprint && CharacterGait != ECharacterGait::Sprint && CharacterGait != ECharacterGait::Walk)
@@ -185,6 +182,17 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 	if (IsLocallyControlled())
 	{
+		const FVector RelTarget = (FirstPersonCamera->GetAttachParent() != GetMesh()) ? FVector::ZeroVector : DefaultFPPCameraRelativeLoc;
+		if (!FirstPersonCamera->GetRelativeLocation().Equals(RelTarget, 0.1f))
+		{
+			const FVector NewRelLoc = FMath::VInterpTo(FirstPersonCamera->GetRelativeLocation(), RelTarget, DeltaTime, ADSCameraInterpSpeed);
+			FirstPersonCamera->SetRelativeLocation(NewRelLoc);
+			if (NewRelLoc.Equals(RelTarget, 0.1f)) FirstPersonCamera->SetRelativeLocation(RelTarget);
+		}
+		
+		UCameraComponent* ActiveCam = FirstPersonCamera->IsActive() ? (UCameraComponent*)FirstPersonCamera.Get() : (UCameraComponent*)ThirdPersonCamera.Get();
+    	ActiveCam->SetFieldOfView(FMath::FInterpTo(ActiveCam->FieldOfView, TargetFOV, DeltaTime, FOVInterpSpeed));
+	
 		CurrentLeanOffset = FMath::FInterpTo(CurrentLeanOffset, CurrentLeanDirection * LeanOffsetDistance, DeltaTime, LeanInterpSpeed);
 
 		if (ThirdPersonSpringArm)
@@ -212,13 +220,26 @@ void APlayerCharacter::Tick(float DeltaTime)
 		if (WeaponFrag)
 		{
 			float Now = GetWorld()->GetTimeSeconds();
+			
 			if (Now - LastFireTimeForSpread > WeaponFrag->SpreadSettings.SpreadRecoveryDelay)
 			{
 				CurrentRecoilSpread = FMath::FInterpTo(CurrentRecoilSpread, 0.f, DeltaTime, WeaponFrag->SpreadSettings.SpreadRecoverySpeed);
 			}
-			if (Now - LastFireTimeForRecoil > 0.5f)
+			
+			if (Now - LastFireTimeForRecoil > WeaponFrag->RecoilSettings.RecoilRecoveryDelay)
 			{
-				ConsecutiveShots = 0;
+				if (IsLocallyControlled() && (FMath::Abs(AccumulatedRecoilPitch) > 0.01f || FMath::Abs(AccumulatedRecoilYaw) > 0.01f))
+				{
+					const float Step = WeaponFrag->RecoilSettings.RecoilRecoverySpeed * DeltaTime;
+					const float BackPitch = FMath::Min(Step, AccumulatedRecoilPitch);
+					const float BackYaw = FMath::Min(Step, FMath::Abs(AccumulatedRecoilYaw));
+
+					AddControllerPitchInput(BackPitch);
+					AddControllerYawInput(-FMath::Sign(AccumulatedRecoilYaw) * BackYaw);
+
+					AccumulatedRecoilPitch -= BackPitch;
+					AccumulatedRecoilYaw -= FMath::Sign(AccumulatedRecoilYaw) * BackYaw;
+				}
 			}
 		}
 	}
@@ -274,6 +295,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		EnhancedInputComponent->BindAction(IA_Fire, ETriggerEvent::Started, this, &APlayerCharacter::OnFire);
 		EnhancedInputComponent->BindAction(IA_Fire, ETriggerEvent::Completed, this, &APlayerCharacter::OnFire);
 		EnhancedInputComponent->BindAction(IA_Aim, ETriggerEvent::Started, this, &APlayerCharacter::OnAim);
+		EnhancedInputComponent->BindAction(IA_Aim, ETriggerEvent::Completed, this, &APlayerCharacter::OnAim);
 		EnhancedInputComponent->BindAction(IA_Reload, ETriggerEvent::Started, this, &APlayerCharacter::OnReload);
 		EnhancedInputComponent->BindAction(IA_Holster, ETriggerEvent::Started, this, &APlayerCharacter::OnHolster);
 		EnhancedInputComponent->BindAction(IA_ToggleFireMode, ETriggerEvent::Started, this, &APlayerCharacter::OnToggleFireMode);
@@ -290,6 +312,7 @@ UAbilitySystemComponent* APlayerCharacter::GetAbilitySystemComponent() const
 
 bool APlayerCharacter::ShouldShowCrosshairBars() const
 {
+	if (bIsADS) return false;
 	if (CharacterGait == ECharacterGait::Sprint) return false;
 	if (!IsHoldingFireArm()) return false;
 	return true;
@@ -297,8 +320,68 @@ bool APlayerCharacter::ShouldShowCrosshairBars() const
 
 bool APlayerCharacter::ShouldShowCrosshairCenter() const
 {
+	if (bIsADS) return false;
 	if (CharacterGait == ECharacterGait::Sprint) return false;
 	return true;
+}
+
+void APlayerCharacter::AnimNotify_ReloadMagOut()
+{
+	if (!bIsReloading || bReloadMagOut) return;
+	bReloadMagOut = true;
+	ReloadingMagSlotIndex = GetCurrentWeaponSlotIndex();
+
+	GetWorldTimerManager().ClearTimer(AttachmentRefreshTimer);
+	RefreshAttachmentsOnly();
+
+	UStaticMesh* MagMesh = GetHeldMagazineMesh();
+	USkeletalMeshComponent* WeaponMesh = GetHeldWeaponComp();
+
+	if (GetHeldCurrentAmmo() <= 0)
+	{
+		if (MagMesh && WeaponMesh)
+		{
+			const FVector Loc = WeaponMesh->GetSocketLocation(TEXT("Gun_Mag_Socket"));
+			const FRotator Rot = WeaponMesh->GetSocketRotation(TEXT("Gun_Mag_Socket"));
+
+			UStaticMeshComponent* DroppedMag = NewObject<UStaticMeshComponent>(this);
+			DroppedMag->RegisterComponent();
+			DroppedMag->SetStaticMesh(MagMesh);
+			DroppedMag->SetWorldLocationAndRotation(Loc, Rot);
+			DroppedMag->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+			DroppedMag->SetSimulatePhysics(true);
+			DroppedMag->AddImpulse(GetActorForwardVector() * 120.f + FVector::UpVector * 60.f);
+
+			FTimerHandle DropTimer;
+			TWeakObjectPtr<UStaticMeshComponent> WeakDropped = DroppedMag;
+			GetWorldTimerManager().SetTimer(DropTimer, FTimerDelegate::CreateLambda([WeakDropped]()
+			{
+				if (WeakDropped.IsValid()) WeakDropped->DestroyComponent();
+			}), 10.f, false);
+		}
+	}
+	else
+	{
+		SpawnHandMagMesh(MagMesh);
+	}
+}
+
+void APlayerCharacter::AnimNotify_ReloadMagIn()
+{
+	if (!bReloadMagOut) return;
+	if (HandMagMeshComp != nullptr)
+	{
+		HandMagMeshComp->DestroyComponent();
+		HandMagMeshComp = nullptr;
+	}
+	bReloadMagOut = false;
+	ReloadingMagSlotIndex = -1;
+	RefreshAttachmentsOnly();
+}
+void APlayerCharacter::AnimNotify_ReloadMagGrab()
+{
+	if (!bReloadMagOut || HandMagMeshComp != nullptr) return;
+	SpawnHandMagMesh(GetHeldMagazineMesh());
 }
 
 float APlayerCharacter::GetCrosshairSpreadDegrees() const
@@ -430,6 +513,15 @@ void APlayerCharacter::RefreshWeaponVisuals()
 	APlayerState* PS = GetPlayerState();
 	UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
 	if (!Comp || !GetMesh()) return;
+	
+	if (IsHoldingFireArm())
+	{
+		const int32 HeldIdx = GetCurrentWeaponSlotIndex();
+		if (HeldIdx != -1 && Comp->GetWeaponSlotItem(HeldIdx))
+		{
+			CurrentHeldWeaponInstance = Comp->GetWeaponSlotItem(HeldIdx);
+		}
+	}
 
 	if (!bIsInterpolatingWeapon)
 	{
@@ -454,6 +546,7 @@ void APlayerCharacter::RefreshWeaponVisuals()
 			{
 				if (IsValid(WeaponMeshComponents[i]))
 				{
+					ClearAttachmentsFromWeaponMesh(WeaponMeshComponents[i]);
 					WeaponMeshComponents[i]->DestroyComponent();
 					WeaponMeshComponents[i] = nullptr;
 				}
@@ -493,16 +586,27 @@ void APlayerCharacter::RefreshWeaponVisuals()
 			{
 				if (IsValid(WeaponMeshComponents[i]))
 				{
+					ClearAttachmentsFromWeaponMesh(WeaponMeshComponents[i]);
 					WeaponMeshComponents[i]->DestroyComponent();
 				}
 
 				USkeletalMeshComponent* NewMeshComp = NewObject<USkeletalMeshComponent>(this);
 				NewMeshComp->RegisterComponent();
 				NewMeshComp->SetSkeletalMesh(MountFrag->EquipmentMesh);
+				UBackpackItemFragment_Weapon* WeaponFrag = Cast<UBackpackItemFragment_Weapon>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(WeaponItem->Definition->GetClass(), UBackpackItemFragment_Weapon::StaticClass()));
+				if (WeaponFrag && WeaponFrag->WeaponAnimInstanceClass)
+				{
+					NewMeshComp->SetAnimInstanceClass(WeaponFrag->WeaponAnimInstanceClass);
+				}
 				NewMeshComp->AttachToComponent(TargetParent, FAttachmentTransformRules::SnapToTargetNotIncludingScale, TargetSocket);
 				NewMeshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 				NewMeshComp->SetVisibility(true);
 				WeaponMeshComponents[i] = NewMeshComp;
+			}
+			
+			if (IsValid(WeaponMeshComponents[i]))
+			{
+				WeaponMeshComponents[i]->SetComponentTickEnabled(i == HeldIndex);
 			}
 		}
 	}
@@ -512,84 +616,103 @@ void APlayerCharacter::RefreshWeaponVisuals()
 
 void APlayerCharacter::RefreshAttachmentsOnly()
 {
-	APlayerState* PS = GetPlayerState();
-	UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
-	if (!Comp) return;
+    APlayerState* PS = GetPlayerState();
+    UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
+    if (!Comp) return;
 
-	int32 HeldIndex = -1;
-	switch (CharacterHeldSlot)
-	{
-	case ECharacterHeldSlot::Primary1:  HeldIndex = 0; break;
-	case ECharacterHeldSlot::Primary2:  HeldIndex = 1; break;
-	case ECharacterHeldSlot::Secondary: HeldIndex = 2; break;
-	case ECharacterHeldSlot::Melee:     HeldIndex = 3; break;
-	case ECharacterHeldSlot::Throwable: HeldIndex = 4; break;
-	default: break;
-	}
+    for (int32 i = 0; i < 5; ++i)
+    {
+        USkeletalMeshComponent* WeaponMesh = WeaponMeshComponents.IsValidIndex(i) ? WeaponMeshComponents[i] : nullptr;
+        if (!IsValid(WeaponMesh)) continue;
 
-	for (int32 i = 0; i < 5; ++i)
-	{
-		USkeletalMeshComponent* WeaponMesh = WeaponMeshComponents.IsValidIndex(i) ? WeaponMeshComponents[i] : nullptr;
-		if (!IsValid(WeaponMesh)) continue;
+        UBackpackItemInstance* WeaponItem = Comp->GetWeaponSlotItem(i);
 
-		TArray<USceneComponent*> AttachedChildren;
-		WeaponMesh->GetChildrenComponents(false, AttachedChildren);
-		for (USceneComponent* Child : AttachedChildren)
-		{
-			if (Child->IsA<UStaticMeshComponent>())
-			{
-				Child->DestroyComponent();
-			}
-		}
+        TMap<FName, UStaticMesh*> Desired;
+        if (WeaponItem && WeaponItem->Definition)
+        {
+            TSet<EAttachmentSlot> ProcessedSlots;
+            for (const FItemAttachment& Attach : WeaponItem->ItemAttachments)
+            {
+                if (!Attach.ItemInstance || !Attach.ItemInstance->Definition) continue;
+                if (ProcessedSlots.Contains(Attach.Slot)) continue;
+                ProcessedSlots.Add(Attach.Slot);
 
-		UBackpackItemInstance* WeaponItem = Comp->GetWeaponSlotItem(i);
-		if (!WeaponItem || !WeaponItem->Definition) continue;
+                UBackpackItemFragment_Attachment* AttachFrag = Cast<UBackpackItemFragment_Attachment>(
+                    UBackpackItemDefinition::FindBackpackItemFragmentByClass(Attach.ItemInstance->Definition->GetClass(), UBackpackItemFragment_Attachment::StaticClass()));
+                if (!AttachFrag) continue;
 
-		TSet<EAttachmentSlot> ProcessedSlots;
+            	if (AttachFrag->TargetSlot == EAttachmentSlot::Magazine && bReloadMagOut && i == ReloadingMagSlotIndex)
+                {
+                    continue;
+                }
 
-		for (const FItemAttachment& Attach : WeaponItem->ItemAttachments)
-		{
-			if (Attach.ItemInstance && Attach.ItemInstance->Definition)
-			{
-				if (ProcessedSlots.Contains(Attach.Slot)) continue;
-				ProcessedSlots.Add(Attach.Slot);
+                UStaticMesh* AttachMesh = Attach.ItemInstance->Definition->WorldMesh;
+                if (!AttachMesh) continue;
 
-				UBackpackItemDefinition* AttachDef = Attach.ItemInstance->Definition;
-				UStaticMesh* AttachMesh = AttachDef->WorldMesh;
+                FName Socket = NAME_None;
+                switch (AttachFrag->TargetSlot)
+                {
+                case EAttachmentSlot::Scope:    Socket = TEXT("Scope_Socket"); break;
+                case EAttachmentSlot::Muzzle:   Socket = TEXT("Muzzle_Socket"); break;
+                case EAttachmentSlot::Grip:     Socket = TEXT("Grip_Socket"); break;
+                case EAttachmentSlot::Magazine: Socket = TEXT("Gun_Mag_Socket"); break;
+                case EAttachmentSlot::Stock:    Socket = TEXT("Gun_Stock_Socket"); break;
+                default: break;
+                }
+                if (Socket == NAME_None) continue;
 
-				UBackpackItemFragment_Attachment* AttachFrag = Cast<UBackpackItemFragment_Attachment>(
-					UBackpackItemDefinition::FindBackpackItemFragmentByClass(AttachDef->GetClass(), UBackpackItemFragment_Attachment::StaticClass())
-				);
+                if (UStaticMesh** Found = Desired.Find(Socket)) *Found = AttachMesh;
+                else Desired.Add(Socket, AttachMesh);
+            }
+        }
+    	
+    	TMap<FName, UStaticMeshComponent*> Existing;
+    	TArray<USceneComponent*> AttachChildren;
+    	WeaponMesh->GetChildrenComponents(true, AttachChildren);
+    	for (USceneComponent* Child : AttachChildren)
+        {
+            UStaticMeshComponent* SM = Cast<UStaticMeshComponent>(Child);
+            if (!SM) continue;
 
-				if (AttachMesh && AttachFrag)
-				{
-					FName TargetAttachSocket = NAME_None;
-					switch (AttachFrag->TargetSlot)
-					{
-					case EAttachmentSlot::Scope:     TargetAttachSocket = TEXT("Scope_Socket"); break;
-					case EAttachmentSlot::Muzzle:    TargetAttachSocket = TEXT("Muzzle_Socket"); break;
-					case EAttachmentSlot::Grip:      TargetAttachSocket = TEXT("Grip_Socket"); break;
-					case EAttachmentSlot::Magazine:  TargetAttachSocket = TEXT("Gun_Mag_Socket"); break;
-					case EAttachmentSlot::Stock:     TargetAttachSocket = TEXT("Gun_Stock_Socket"); break;
-					default: break;
-					}
+            if (Existing.Contains(SM->GetAttachSocketName()))
+            {
+                SM->DestroyComponent();
+            }
+            else
+            {
+                Existing.Add(SM->GetAttachSocketName(), SM);
+            }
+        }
+    	
+        for (const auto& Pair : Desired)
+        {
+            UStaticMeshComponent* SM = nullptr;
+            if (UStaticMeshComponent** Found = Existing.Find(Pair.Key)) SM = *Found;
+            Existing.Remove(Pair.Key);
 
-					if (TargetAttachSocket != NAME_None)
-					{
-						UStaticMeshComponent* AttachMeshComp = NewObject<UStaticMeshComponent>(WeaponMesh);
-						AttachMeshComp->RegisterComponent();
-						AttachMeshComp->SetStaticMesh(AttachMesh);
-						AttachMeshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-						AttachMeshComp->SetVisibility(true);
-
-						AttachMeshComp->AttachToComponent(WeaponMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, TargetAttachSocket);
-						AttachMeshComp->SetRelativeLocationAndRotation(FVector::ZeroVector, FRotator::ZeroRotator);
-					}
-				}
-			}
-		}
-	}
+            if (IsValid(SM))
+            {
+                if (SM->GetStaticMesh() != Pair.Value) SM->SetStaticMesh(Pair.Value);
+            }
+            else
+            {
+                UStaticMeshComponent* NewComp = NewObject<UStaticMeshComponent>(WeaponMesh);
+                NewComp->RegisterComponent();
+                NewComp->SetStaticMesh(Pair.Value);
+                NewComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+                NewComp->SetVisibility(true);
+                NewComp->AttachToComponent(WeaponMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, Pair.Key);
+                NewComp->SetRelativeLocationAndRotation(FVector::ZeroVector, FRotator::ZeroRotator);
+            }
+        }
+    	
+        for (const auto& Pair : Existing)
+        {
+            if (IsValid(Pair.Value)) Pair.Value->DestroyComponent();
+        }
+    }
 }
+
 
 void APlayerCharacter::OnWeaponAttachmentsChangedHandler()
 {
@@ -622,24 +745,6 @@ void APlayerCharacter::FireOneShot()
 			CurrentAmmo = FMath::RoundToInt(Attr.Value);
 			break;
 		}
-	}
-
-	if (CurrentAmmo <= 0)
-	{
-		GetWorldTimerManager().ClearTimer(FireTimerHandle);
-		BurstShotsRemaining = 0;
-		if (WeaponFrag && WeaponFrag->EmptySound && IsLocallyControlled())
-		{
-			float CurrentTime = GetWorld()->GetTimeSeconds();
-			if (CurrentTime - LastEmptySoundTime > 0.2f)
-			{
-				LastEmptySoundTime = CurrentTime;
-				USkeletalMeshComponent* WeaponMesh = GetHeldWeaponComp();
-				FVector MuzzleLoc = (WeaponMesh && WeaponFrag->MuzzleSocketName != NAME_None && WeaponMesh->DoesSocketExist(WeaponFrag->MuzzleSocketName)) ? WeaponMesh->GetSocketLocation(WeaponFrag->MuzzleSocketName) : (WeaponMesh ? WeaponMesh->GetComponentLocation() : GetActorLocation());
-				UGameplayStatics::PlaySoundAtLocation(this, WeaponFrag->EmptySound, MuzzleLoc, FRotator::ZeroRotator, 1.f, 1.f, 0.f, GunFireAttenuation);
-			}
-		}
-		return;
 	}
 
 	if (IsLocallyControlled() && !HasAuthority())
@@ -692,22 +797,30 @@ void APlayerCharacter::FireOneShot()
 	USkeletalMeshComponent* WeaponMesh = GetHeldWeaponComp();
 	FVector MuzzleLoc = (WeaponMesh && WeaponFrag->MuzzleSocketName != NAME_None && WeaponMesh->DoesSocketExist(WeaponFrag->MuzzleSocketName)) ? WeaponMesh->GetSocketLocation(WeaponFrag->MuzzleSocketName) : (WeaponMesh ? WeaponMesh->GetComponentLocation() : CamLoc);
 
-	float StanceMultiplier = 1.0f;
-	if (CharacterStance == ECharacterStance::Crouch) StanceMultiplier *= WeaponFrag->RecoilSettings.CrouchMultiplier;
-	if (bIsAiming) StanceMultiplier *= WeaponFrag->RecoilSettings.ADSRecoilMultiplier;
-
-	ConsecutiveShots++;
-	const float Decay = FMath::Max(0.5f, 1.f - 0.08f * ConsecutiveShots);
-	float VerticalStep = WeaponFrag->RecoilSettings.VerticalRecoil * Decay * StanceMultiplier;
-	float HorizontalStep = FMath::FRandRange(-WeaponFrag->RecoilSettings.HorizontalRecoil, WeaponFrag->RecoilSettings.HorizontalRecoil) * StanceMultiplier;
-
-	TargetRecoilPitch = FMath::Min(TargetRecoilPitch + VerticalStep, 10.0f);
-	TargetRecoilYaw += HorizontalStep;
-	LastFireTimeForRecoil = GetWorld()->GetTimeSeconds();
-
 	Server_Fire(MuzzleLoc, AimPoint);
-	CurrentRecoilSpread = FMath::Min(CurrentRecoilSpread + WeaponFrag->SpreadSettings.SpreadPerShot, WeaponFrag->SpreadSettings.MaxSpreadAngle);
-	LastFireTimeForSpread = GetWorld()->GetTimeSeconds();
+
+	if (CurrentAmmo > 0)
+	{
+		float StanceMultiplier = 1.0f;
+		if (CharacterStance == ECharacterStance::Crouch) StanceMultiplier *= WeaponFrag->RecoilSettings.CrouchMultiplier;
+		if (bIsAiming) StanceMultiplier *= WeaponFrag->RecoilSettings.ADSRecoilMultiplier;
+		
+		const float Now = GetWorld()->GetTimeSeconds();
+		if (Now - LastFireTimeForRecoil > WeaponFrag->RecoilSettings.RecoilResetWindow) ConsecutiveShots = 0;
+
+		ConsecutiveShots++;
+		const float Decay = FMath::Max(WeaponFrag->RecoilSettings.MinDecay, 1.f - WeaponFrag->RecoilSettings.PerShotDecay * ConsecutiveShots);
+		float VerticalStep = WeaponFrag->RecoilSettings.VerticalRecoil * Decay * StanceMultiplier;
+		float HorizontalStep = FMath::FRandRange(-WeaponFrag->RecoilSettings.HorizontalRecoil, WeaponFrag->RecoilSettings.HorizontalRecoil) * StanceMultiplier;
+		CachedRecoilRecoveryRatio = WeaponFrag->RecoilSettings.RecoveryRatio;
+
+		TargetRecoilPitch = FMath::Min(TargetRecoilPitch + VerticalStep, WeaponFrag->RecoilSettings.MaxVerticalRecoil);
+		TargetRecoilYaw += HorizontalStep;
+		LastFireTimeForRecoil = Now;
+
+		CurrentRecoilSpread = FMath::Min(CurrentRecoilSpread + WeaponFrag->SpreadSettings.SpreadPerShot, WeaponFrag->SpreadSettings.MaxSpreadAngle);
+		LastFireTimeForSpread = Now;
+	}
 }
 
 void APlayerCharacter::FireBurstShot()
@@ -764,7 +877,7 @@ void APlayerCharacter::OnInventoryChangedHandler()
 {
 	RefreshEquipmentVisuals();
 
-	if (!bIsSwitchingWeapon && !PendingHeldSlotProcessing && CurrentHeldWeaponInstance && IsHoldingFireArm())
+	if (CurrentHeldWeaponInstance && IsHoldingFireArm())
 	{
 		APlayerState* PS = GetPlayerState();
 		UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
@@ -838,24 +951,38 @@ void APlayerCharacter::OnRep_CharacterHeldSlot()
 
 void APlayerCharacter::OnReloadMontageEnded(UAnimMontage* Montage, bool bInterrupted)
 {
-	int32 SlotIndex = -1;
-	if (CharacterHeldSlot == ECharacterHeldSlot::Primary1) SlotIndex = 0;
-	else if (CharacterHeldSlot == ECharacterHeldSlot::Primary2) SlotIndex = 1;
-	else if (CharacterHeldSlot == ECharacterHeldSlot::Secondary) SlotIndex = 2;
+	if (!bIsReloading) return;
+
+	bIsReloading = false;
+	const bool bWasMagOut = bReloadMagOut;
+	bReloadMagOut = false;
+	ReloadingMagSlotIndex = -1;
+
+	if (bWasMagOut) RefreshAttachmentsOnly();
+
+	if (HandMagMeshComp != nullptr)
+	{
+		HandMagMeshComp->DestroyComponent();
+		HandMagMeshComp = nullptr;
+	}
+
+	if (bInterrupted || !HasAuthority()) return;
+
+	const int32 SlotIndex = GetCurrentWeaponSlotIndex();
 	if (SlotIndex == -1) return;
 
 	APlayerState* PS = GetPlayerState();
 	UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
 	if (!Comp) return;
+
 	UBackpackItemInstance* WeaponItem = Comp->GetWeaponSlotItem(SlotIndex);
 	if (!WeaponItem || !WeaponItem->Definition) return;
 
 	UBackpackItemFragment_Weapon* WeaponFrag = Cast<UBackpackItemFragment_Weapon>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(WeaponItem->Definition->GetClass(), UBackpackItemFragment_Weapon::StaticClass()));
-	if (WeaponFrag && Montage == WeaponFrag->ReloadMontage)
-	{
-		bIsReloading = false;
-		if (!bInterrupted && HasAuthority()) Server_FinishReload();
-	}
+	if (!WeaponFrag) return;
+	if (Montage != WeaponFrag->ReloadMontage && Montage != WeaponFrag->ReloadEmptyMontage) return;
+
+	Server_FinishReload();
 }
 
 void APlayerCharacter::OnSwitchFireModeMontageEnded(UAnimMontage* Montage, bool bInterrupted)
@@ -989,8 +1116,15 @@ void APlayerCharacter::Multicast_PlayReloadMontage_Implementation(UAnimMontage* 
 	if (!MontageToPlay) return;
 	UAnimInstance* AnimInst = GetMesh() ? GetMesh()->GetAnimInstance() : nullptr;
 	if (!AnimInst) return;
+	if (bIsReloading && AnimInst->Montage_IsPlaying(MontageToPlay)) return;
 
+	const bool bWasMagOut = bReloadMagOut;
+	bReloadMagOut = false;
+	ReloadingMagSlotIndex = -1;
 	bIsReloading = true;
+
+	if (bWasMagOut) RefreshAttachmentsOnly();
+
 	AnimInst->Montage_Play(MontageToPlay);
 	AnimInst->OnMontageEnded.RemoveDynamic(this, &APlayerCharacter::OnReloadMontageEnded);
 	AnimInst->OnMontageEnded.AddDynamic(this, &APlayerCharacter::OnReloadMontageEnded);
@@ -1101,7 +1235,11 @@ void APlayerCharacter::Server_Fire_Implementation(const FVector_NetQuantize& Muz
 			break;
 		}
 	}
-	if (!bAmmoDeducted) return;
+	if (!bAmmoDeducted)
+	{
+		Client_FireRejected();
+		return;
+	}
 
 	LastFireTime = Now;
 
@@ -1150,10 +1288,43 @@ void APlayerCharacter::Multicast_FireEffect_Implementation(const FVector_NetQuan
 	if (!WeaponFrag) return;
 
 	if (WeaponFrag->FireSound) UGameplayStatics::PlaySoundAtLocation(this, WeaponFrag->FireSound, MuzzleLocation, FRotator::ZeroRotator, 1.f, 1.f, 0.f, GunFireAttenuation);
+
 	USkeletalMeshComponent* WeaponMesh = GetHeldWeaponComp();
+
+	if (WeaponFrag->WeaponFireMontage && WeaponMesh)
+	{
+		if (UAnimInstance* WeaponAnimInst = WeaponMesh->GetAnimInstance())
+		{
+			const float FireInterval = 60.f / FMath::Max(WeaponFrag->RoundsPerMinute, 1.f);
+			const float MontageLength = WeaponFrag->WeaponFireMontage->GetPlayLength();
+			float PlayRate = MontageLength / FMath::Max(FireInterval, KINDA_SMALL_NUMBER);
+			PlayRate = FMath::Clamp(PlayRate, 1.f, 3.f);
+
+			WeaponAnimInst->Montage_Play(WeaponFrag->WeaponFireMontage, PlayRate);
+		}
+	}
+
 	if (WeaponFrag->MuzzleFlashFX && WeaponMesh && WeaponFrag->MuzzleSocketName != NAME_None)
 	{
 		UNiagaraFunctionLibrary::SpawnSystemAttached(WeaponFrag->MuzzleFlashFX, WeaponMesh, WeaponFrag->MuzzleSocketName, FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, true);
+	}
+	
+	if (WeaponFrag->ShellEjectFX && WeaponMesh
+		&& WeaponFrag->ShellEjectSocketName != NAME_None
+		&& WeaponMesh->DoesSocketExist(WeaponFrag->ShellEjectSocketName))
+	{
+		const FTransform EjectXf = WeaponMesh->GetSocketTransform(WeaponFrag->ShellEjectSocketName);
+
+		UNiagaraComponent* ShellComp = UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), WeaponFrag->ShellEjectFX, EjectXf.GetLocation(), EjectXf.Rotator(), FVector::OneVector, true, false);
+
+		if (ShellComp)
+		{
+			if (WeaponFrag->ShellEjectMesh)
+			{
+				ShellComp->SetVariableStaticMesh(TEXT("ShellEjectStaticMesh"), WeaponFrag->ShellEjectMesh);
+			}
+			ShellComp->Activate(true);
+		}
 	}
 }
 
@@ -1170,6 +1341,20 @@ void APlayerCharacter::Multicast_PlaySwitchWeaponMontage_Implementation(UAnimMon
 {
 	UAnimInstance* AnimInst = GetMesh() ? GetMesh()->GetAnimInstance() : nullptr;
 	if (!MontageToPlay || !AnimInst) return;
+	
+	const float SafetyTime = FMath::Max(MontageToPlay->GetPlayLength(), 0.5f) + 0.5f;
+	GetWorldTimerManager().ClearTimer(WeaponSwitchSafetyTimerHandle);
+	GetWorldTimerManager().SetTimer(WeaponSwitchSafetyTimerHandle, [this]()
+	{
+		if (bIsSwitchingWeapon)
+		{
+			PendingHeldSlotProcessing = false;
+			bIsSwitchingWeapon = false;
+			CurrentSwitchWeaponMontage = nullptr;
+			RefreshWeaponVisuals();
+			UpdateCharacterHeldSlotAnimLayer();
+		}
+	}, SafetyTime, false);
 
 	if (AnimInst->Montage_IsPlaying(MontageToPlay))
 	{
@@ -1189,7 +1374,30 @@ void APlayerCharacter::Multicast_PlaySwitchWeaponMontage_Implementation(UAnimMon
 	AnimInst->OnMontageEnded.AddDynamic(this, &APlayerCharacter::OnSwitchWeaponMontageEnded);
 }
 
-void APlayerCharacter::Server_StartReload_Implementation(UAnimMontage* MontageToPlay) { Multicast_PlayReloadMontage(MontageToPlay); }
+void APlayerCharacter::Server_StartReload_Implementation(UAnimMontage* MontageToPlay)
+{
+	if (!MontageToPlay) return;
+
+	int32 SlotIndex = GetCurrentWeaponSlotIndex();
+	APlayerState* PS = GetPlayerState();
+	UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
+	UBackpackItemInstance* WeaponItem = (Comp && SlotIndex != -1) ? Comp->GetWeaponSlotItem(SlotIndex) : nullptr;
+	if (!Comp || !WeaponItem || !WeaponItem->Definition) return;
+
+	UBackpackItemFragment_Weapon* WeaponFrag = Cast<UBackpackItemFragment_Weapon>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(WeaponItem->Definition->GetClass(), UBackpackItemFragment_Weapon::StaticClass()));
+	if (!WeaponFrag) return;
+
+	bool bHasAmmo = false;
+	for (UBackpackItemInstance* Item : Comp->GetBackpackItems())
+	{
+		if (!Item || !Item->Definition || Item->Definition->ItemType != EItemType::Ammo) continue;
+		UBackpackItemFragment_Ammo* AmmoFrag = Cast<UBackpackItemFragment_Ammo>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(Item->Definition->GetClass(), UBackpackItemFragment_Ammo::StaticClass()));
+		if (AmmoFrag && AmmoFrag->AmmoType == WeaponFrag->WeaponAmmoType && Item->Quantity > 0) { bHasAmmo = true; break; }
+	}
+	if (!bHasAmmo) return;
+
+	Multicast_PlayReloadMontage(MontageToPlay);
+}
 
 void APlayerCharacter::Server_ToggleFireMode_Implementation()
 {
@@ -1262,6 +1470,39 @@ void APlayerCharacter::Server_SetLeanDirection_Implementation(float NewLeanDirec
 void APlayerCharacter::Server_PlaySwitchWeaponMontage_Implementation(UAnimMontage* MontageToPlay, float PlayRate)
 {
 	Multicast_PlaySwitchWeaponMontage(MontageToPlay, PlayRate);
+}
+
+void APlayerCharacter::Client_FireRejected_Implementation()
+{
+	GetWorldTimerManager().ClearTimer(FireTimerHandle);
+	BurstShotsRemaining = 0;
+
+	int32 SlotIndex = GetCurrentWeaponSlotIndex();
+	APlayerState* PS = GetPlayerState();
+	UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
+	UBackpackItemInstance* WeaponItem = (Comp && SlotIndex != -1) ? Comp->GetWeaponSlotItem(SlotIndex) : nullptr;
+	if (WeaponItem)
+	{
+		for (FItemAttribute& Attr : WeaponItem->ItemAttributes)
+		{
+			if (Attr.Tag == PUBGGameplayTag::PUBG_BackpackItemInstance_CurrentAmmo)
+			{
+				Attr.Value = 0.f;
+				break;
+			}
+		}
+		if (Comp) Comp->OnInventoryChanged.Broadcast();
+	}
+
+	UBackpackItemFragment_Weapon* WeaponFrag = (WeaponItem && WeaponItem->Definition)
+		? Cast<UBackpackItemFragment_Weapon>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(WeaponItem->Definition->GetClass(), UBackpackItemFragment_Weapon::StaticClass()))
+		: nullptr;
+	if (WeaponFrag && WeaponFrag->EmptySound)
+	{
+		USkeletalMeshComponent* WeaponMesh = GetHeldWeaponComp();
+		FVector MuzzleLoc = (WeaponMesh && WeaponFrag->MuzzleSocketName != NAME_None && WeaponMesh->DoesSocketExist(WeaponFrag->MuzzleSocketName)) ? WeaponMesh->GetSocketLocation(WeaponFrag->MuzzleSocketName) : (WeaponMesh ? WeaponMesh->GetComponentLocation() : GetActorLocation());
+		UGameplayStatics::PlaySoundAtLocation(this, WeaponFrag->EmptySound, MuzzleLoc, FRotator::ZeroRotator, 1.f, 1.f, 0.f, GunFireAttenuation);
+	}
 }
 
 void APlayerCharacter::OnCrouch(const FInputActionValue& Value)
@@ -1350,6 +1591,8 @@ void APlayerCharacter::OnSwitchHeld(const FInputActionValue& Value)
 
 void APlayerCharacter::OnTogglePerspective(const FInputActionValue& Value)
 {
+	if (bIsADS) return;
+
 	if (FirstPersonCamera->IsActive()) { FirstPersonCamera->SetActive(false); ThirdPersonCamera->SetActive(true); PersonHead->SetOwnerNoSee(false); }
 	else { FirstPersonCamera->SetActive(true); ThirdPersonCamera->SetActive(false); PersonHead->SetOwnerNoSee(true); }
 }
@@ -1431,10 +1674,41 @@ void APlayerCharacter::OnFire(const FInputActionInstance& Value)
 	}
 }
 
-void APlayerCharacter::OnAim(const FInputActionValue& Value)
+void APlayerCharacter::OnAim(const FInputActionInstance& Value)
 {
 	if (!IsHoldingFireArm()) return;
-	bIsAiming = !bIsAiming;
+
+	const ETriggerEvent Event = Value.GetTriggerEvent();
+	if (Event == ETriggerEvent::Started)
+	{
+		if (bIsReloading || bIsSwitchingWeapon || bIsTogglingFireMode) return;
+		
+		GetWorldTimerManager().SetTimer(AimHoldTimer, [this]()
+		{
+			if (bIsReloading || bIsSwitchingWeapon || bIsTogglingFireMode) return;
+			if (!bIsADS)
+			{
+				bIsSoftAiming = true;
+				bIsAiming = true;
+				ApplyCameraState();
+			}
+		}, 0.2f, false);
+	}
+	else if (Event == ETriggerEvent::Completed || Event == ETriggerEvent::Canceled)
+	{
+		const bool bWasSoftAiming = bIsSoftAiming;
+		GetWorldTimerManager().ClearTimer(AimHoldTimer);
+		bIsSoftAiming = false;
+
+		if (!bWasSoftAiming && !bIsReloading && !bIsSwitchingWeapon && !bIsTogglingFireMode)
+		{
+			bIsADS = !bIsADS;
+			if (bIsADS) bPreADSFirstPerson = FirstPersonCamera->IsActive();
+		}
+
+		bIsAiming = bIsADS;
+		ApplyCameraState();
+	}
 }
 
 void APlayerCharacter::OnReload(const FInputActionValue& Value)
@@ -1455,7 +1729,7 @@ void APlayerCharacter::OnReload(const FInputActionValue& Value)
 	if (!WeaponItem || !WeaponItem->Definition) return;
 
 	UBackpackItemFragment_Weapon* WeaponFrag = Cast<UBackpackItemFragment_Weapon>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(WeaponItem->Definition->GetClass(), UBackpackItemFragment_Weapon::StaticClass()));
-	if (!WeaponFrag || !WeaponFrag->ReloadMontage) return;
+	if (!WeaponFrag || (!WeaponFrag->ReloadMontage && !WeaponFrag->ReloadEmptyMontage)) return;
 
 	int32 CurrentAmmo = 0, MaxMagazineSize = WeaponFrag->MagazineSize;
 	for (const FItemAttribute& Attr : WeaponItem->ItemAttributes)
@@ -1473,8 +1747,13 @@ void APlayerCharacter::OnReload(const FInputActionValue& Value)
 		if (AmmoFrag && AmmoFrag->AmmoType == WeaponFrag->WeaponAmmoType && Item->Quantity > 0) { bHasAmmo = true; break; }
 	}
 	if (!bHasAmmo) return;
+	
+	UAnimMontage* MontageToPlay = (CurrentAmmo <= 0 && WeaponFrag->ReloadEmptyMontage)
+		? WeaponFrag->ReloadEmptyMontage
+		: WeaponFrag->ReloadMontage;
 
-	Server_StartReload(WeaponFrag->ReloadMontage);
+	if (bIsADS) { bIsADS = false; bIsAiming = false; ApplyCameraState(); }
+	Server_StartReload(MontageToPlay);
 }
 
 void APlayerCharacter::OnHolster(const FInputActionValue& Value)
@@ -1628,6 +1907,12 @@ void APlayerCharacter::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComp, A
 
 void APlayerCharacter::ResetWeaponRuntimeState()
 {
+	if (IsLocallyControlled())
+	{
+		if (FMath::Abs(AccumulatedRecoilPitch) > 0.01f) AddControllerPitchInput(AccumulatedRecoilPitch);
+		if (FMath::Abs(AccumulatedRecoilYaw) > 0.01f) AddControllerYawInput(-AccumulatedRecoilYaw);
+	}
+
 	GetWorldTimerManager().ClearTimer(FireTimerHandle);
 	BurstShotsRemaining = 0;
 	bIsReloading = false;
@@ -1637,8 +1922,26 @@ void APlayerCharacter::ResetWeaponRuntimeState()
 	LastFireTimeForSpread = -100.f;
 	TargetRecoilPitch = 0.f;
 	TargetRecoilYaw = 0.f;
+	AccumulatedRecoilPitch = 0.f;
+	AccumulatedRecoilYaw = 0.f;
 	ConsecutiveShots = 0;
 	bIsHoldingFire = false;
+	bReloadMagOut = false;
+	ReloadingMagSlotIndex = -1;
+	
+	if (HandMagMeshComp != nullptr)
+	{
+		HandMagMeshComp->DestroyComponent();
+		HandMagMeshComp = nullptr;
+	}
+	
+	if (USkeletalMeshComponent* WeaponMesh = GetHeldWeaponComp())
+	{
+		if (UAnimInstance* WeaponAnimInst = WeaponMesh->GetAnimInstance())
+		{
+			WeaponAnimInst->Montage_Stop(0.1f);
+		}
+	}
 }
 
 void APlayerCharacter::PlayPendingEquip()
@@ -1693,6 +1996,8 @@ void APlayerCharacter::PlayPendingEquip()
 
 void APlayerCharacter::BeginSwitchWeapon(ECharacterHeldSlot NewSlot)
 {
+	if (bIsADS) { bIsADS = false; bIsAiming = false; ApplyCameraState(); }
+	
 	PendingTargetSlot = NewSlot;
 	PendingHeldSlotProcessing = true;
 	bIsSwitchingWeapon = true;
@@ -1735,6 +2040,97 @@ bool APlayerCharacter::IsSlotOccupied(ECharacterHeldSlot Slot) const
 	APlayerState* PS = GetPlayerState();
 	UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
 	return Comp && Comp->GetWeaponSlotItem(SlotIndex) != nullptr;
+}
+
+UStaticMeshComponent* APlayerCharacter::SpawnHandMagMesh(UStaticMesh* MagMesh)
+{
+	if (!MagMesh || !GetMesh()) return nullptr;
+	if (HandMagMeshComp != nullptr) return HandMagMeshComp.Get();
+
+	UStaticMeshComponent* NewComp = NewObject<UStaticMeshComponent>(this);
+	NewComp->RegisterComponent();
+	NewComp->SetStaticMesh(MagMesh);
+	NewComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	NewComp->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, TEXT("hand_l_socket"));
+	HandMagMeshComp = NewComp;
+	return NewComp;
+}
+
+UStaticMesh* APlayerCharacter::GetHeldMagazineMesh() const
+{
+	int32 SlotIndex = GetCurrentWeaponSlotIndex();
+	APlayerState* PS = GetPlayerState();
+	UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
+	UBackpackItemInstance* WeaponItem = (Comp && SlotIndex != -1) ? Comp->GetWeaponSlotItem(SlotIndex) : nullptr;
+	if (!WeaponItem) return nullptr;
+
+	UBackpackItemInstance* MagInst = WeaponItem->GetItemAttachment(EAttachmentSlot::Magazine);
+	return (MagInst && MagInst->Definition) ? MagInst->Definition->WorldMesh : nullptr;
+}
+
+int32 APlayerCharacter::GetHeldCurrentAmmo() const
+{
+	int32 SlotIndex = GetCurrentWeaponSlotIndex();
+	APlayerState* PS = GetPlayerState();
+	UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
+	UBackpackItemInstance* WeaponItem = (Comp && SlotIndex != -1) ? Comp->GetWeaponSlotItem(SlotIndex) : nullptr;
+	if (!WeaponItem) return 0;
+
+	return FMath::RoundToInt(WeaponItem->GetItemAttribute(PUBGGameplayTag::PUBG_BackpackItemInstance_CurrentAmmo));
+}
+
+void APlayerCharacter::ClearAttachmentsFromWeaponMesh(USkeletalMeshComponent* WeaponMesh)
+{
+	if (!IsValid(WeaponMesh)) return;
+
+	TArray<USceneComponent*> AttachedChildren;
+	WeaponMesh->GetChildrenComponents(true, AttachedChildren);
+	for (USceneComponent* Child : AttachedChildren)
+	{
+		if (UStaticMeshComponent* SM = Cast<UStaticMeshComponent>(Child))
+		{
+			SM->DestroyComponent();
+		}
+	}
+}
+
+void APlayerCharacter::ApplyCameraState()
+{
+	if (bIsADS)
+	{
+		if (USkeletalMeshComponent* WeaponMesh = GetHeldWeaponComp())
+		{
+			if (WeaponMesh->DoesSocketExist(AimCameraSocketName))
+			{
+				FirstPersonCamera->AttachToComponent(WeaponMesh, FAttachmentTransformRules::KeepWorldTransform, AimCameraSocketName);
+			}
+		}
+		FirstPersonCamera->SetActive(true);
+		ThirdPersonCamera->SetActive(false);
+		PersonHead->SetOwnerNoSee(true);
+	}
+	else
+	{
+		if (FirstPersonCamera->GetAttachParent() != GetMesh())
+		{
+			FirstPersonCamera->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepWorldTransform, TEXT("Socket_FirstPersonCamera"));
+		}
+		FirstPersonCamera->SetActive(bPreADSFirstPerson);
+		ThirdPersonCamera->SetActive(!bPreADSFirstPerson);
+		PersonHead->SetOwnerNoSee(bPreADSFirstPerson);
+	}
+	
+	FName RowName = TEXT("TPP");
+	if (bIsADS) RowName = TEXT("ADS");
+	else if (bIsSoftAiming) RowName = TEXT("HipFire");
+
+	if (!DT_TPPCameraSettings) return;
+	if (FTPPCameraSettings* Settings = DT_TPPCameraSettings->FindRow<FTPPCameraSettings>(RowName, TEXT("")))
+	{
+		TargetArmLength = Settings->TargetArmLength;
+		TargetSocketOffset = Settings->SocketOffset;
+		TargetFOV = Settings->FOV;
+	}
 }
 
 bool APlayerCharacter::IsHoldingFireArm() const
@@ -1791,8 +2187,8 @@ bool APlayerCharacter::ShouldEnableWeaponIK() const
 	{
 		return false;
 	}
-
-	if (bIsSwitchingWeapon || bIsReloading || bIsInterpolatingWeapon || PendingHeldSlotProcessing)
+	
+	if (bIsSwitchingWeapon || bIsInterpolatingWeapon || PendingHeldSlotProcessing)
 	{
 		return false;
 	}

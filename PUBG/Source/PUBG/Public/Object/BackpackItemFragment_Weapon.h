@@ -7,6 +7,7 @@
 #include "PUBGType.h"
 #include "BackpackItemFragment_Weapon.generated.h"
 
+class UBackpackItemDefinition;
 class UNiagaraSystem;
 class ABulletProjectile;
 /**
@@ -48,8 +49,11 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "弹匣容量"))
 	int32 MagazineSize = 30;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "换弹动画"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "换弹动画(有弹)"))
 	TObjectPtr<UAnimMontage> ReloadMontage;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "换弹动画(空仓)"))
+	TObjectPtr<UAnimMontage> ReloadEmptyMontage;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "使用弹药类型"))
 	EAmmoType WeaponAmmoType;
@@ -86,7 +90,25 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "切换射击模式动画"))
 	TObjectPtr<UAnimMontage> SwitchFireModeMontage;
-	
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "武器开火动画"))
+	TObjectPtr<UAnimMontage> WeaponFireMontage;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "枪口粒子特效"))
 	TObjectPtr<UNiagaraSystem> MuzzleFlashFX;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "默认配件"))
+	TMap<EAttachmentSlot, TSoftClassPtr<UBackpackItemDefinition>> DefaultAttachments;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "武器动画蓝图类"))
+	TSubclassOf<UAnimInstance> WeaponAnimInstanceClass;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "弹壳抛出特效"))
+	TObjectPtr<UNiagaraSystem> ShellEjectFX;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "抛壳插槽名"))
+	FName ShellEjectSocketName = TEXT("OutBullet_Socket");
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "弹壳网格"))
+	TObjectPtr<UStaticMesh> ShellEjectMesh;
 };

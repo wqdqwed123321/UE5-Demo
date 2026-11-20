@@ -180,6 +180,21 @@ struct FRecoilSettings
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "开镜后坐力倍率"))
 	float ADSRecoilMultiplier;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "垂直抬升上限(度)", ClampMin = "0.0"))
+	float MaxVerticalRecoil = 10.f;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "每发衰减系数", ClampMin = "0.0", ClampMax = "0.5"))
+	float PerShotDecay = 0.08f;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "衰减下限", ClampMin = "0.0", ClampMax = "1.0"))
+	float MinDecay = 0.5f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "连发重置窗口(秒)", ClampMin = "0.0"))
+	float RecoilResetWindow = 0.35f;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "后坐力回正比例", ClampMin = "0.0", ClampMax = "1.0"))
+	float RecoveryRatio = 0.6f;
 };
 
 USTRUCT(BlueprintType)
@@ -276,4 +291,7 @@ struct FTPPCameraSettings : public FTableRowBase
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FVector SocketOffset;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	float FOV = 90.f;
 };

@@ -1759,6 +1759,15 @@
     <Filter Include="Source\PUBG\Private\AnimNotify">
       <UniqueIdentifier>{D7929401-8C44-36D6-9EF9-1D3FD1ABF5A9}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="..\..\Source\PUBG\Private\AnimNotify\AnimNotify_ReloadMagGrab.cpp">
+      <Filter>Source\PUBG\Private\AnimNotify</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PUBG\Private\AnimNotify\AnimNotify_ReloadMagIn.cpp">
+      <Filter>Source\PUBG\Private\AnimNotify</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PUBG\Private\AnimNotify\AnimNotify_ReloadMagOut.cpp">
+      <Filter>Source\PUBG\Private\AnimNotify</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\PUBG\Private\AnimNotify\AnimNotify_WeaponSwitch.cpp">
       <Filter>Source\PUBG\Private\AnimNotify</Filter>
     </ClCompile>
@@ -1969,6 +1978,15 @@
     <Filter Include="Source\PUBG\Public\AnimNotify">
       <UniqueIdentifier>{085D597A-D666-30FE-968B-22F3A2CD0BBC}</UniqueIdentifier>
     </Filter>
+    <ClInclude Include="..\..\Source\PUBG\Public\AnimNotify\AnimNotify_ReloadMagGrab.h">
+      <Filter>Source\PUBG\Public\AnimNotify</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PUBG\Public\AnimNotify\AnimNotify_ReloadMagIn.h">
+      <Filter>Source\PUBG\Public\AnimNotify</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PUBG\Public\AnimNotify\AnimNotify_ReloadMagOut.h">
+      <Filter>Source\PUBG\Public\AnimNotify</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\PUBG\Public\AnimNotify\AnimNotify_WeaponSwitch.h">
       <Filter>Source\PUBG\Public\AnimNotify</Filter>
     </ClInclude>

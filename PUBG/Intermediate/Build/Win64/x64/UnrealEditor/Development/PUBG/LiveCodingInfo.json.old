@@ -27,6 +27,9 @@
 			"BackpackItemFragment_Mount.gen.cpp.obj",
 			"BackpackItemFragment_Preview.gen.cpp.obj",
 			"BackpackItemFragment_Stackable.gen.cpp.obj",
+			"AnimNotify_ReloadMagGrab.gen.cpp.obj",
+			"AnimNotify_ReloadMagIn.gen.cpp.obj",
+			"AnimNotify_ReloadMagOut.gen.cpp.obj",
 			"BackpackItemFragment_Weapon.gen.cpp.obj"
 		],
 		"Module.PUBG.2.cpp.obj": [
@@ -37,7 +40,6 @@
 			"BaseCommonActivatableWidget.gen.cpp.obj",
 			"BulletProjectile.gen.cpp.obj",
 			"CharacterAbilitySystemComponent.gen.cpp.obj",
-			"CharacterAnimInstance.gen.cpp.obj",
 			"CharacterAnimLayerInstance.gen.cpp.obj",
 			"CharacterAttributeSet.gen.cpp.obj",
 			"CharacterClimbVaultGA.gen.cpp.obj",
@@ -46,23 +48,22 @@
 			"GlobalPlayerController.gen.cpp.obj",
 			"GlobalPlayerState.gen.cpp.obj",
 			"PickupItem.gen.cpp.obj",
+			"CharacterAnimInstance.gen.cpp.obj",
 			"PlayerCharacter.gen.cpp.obj"
 		],
 		"Module.PUBG.3.cpp.obj": [
 			"PUBGFastArray.gen.cpp.obj",
-			"PUBGType.gen.cpp.obj",
 			"PushSoftWidgetAsyncAction.gen.cpp.obj",
 			"UIGameInstanceSubsystem.gen.cpp.obj",
 			"UserWidget_DragVisual.gen.cpp.obj",
 			"WeaponPreview.gen.cpp.obj",
 			"PerModuleInline.gen.cpp.obj",
 			"CharacterAbilitySystemComponent.cpp.obj",
-			"BackpackManagerComponent.cpp.obj",
 			"BulletProjectile.cpp.obj",
 			"PickupItem.cpp.obj",
 			"WeaponPreview.cpp.obj",
-			"CharacterAnimInstance.cpp.obj",
 			"CharacterAnimLayerInstance.cpp.obj",
+			"AnimNotify_WeaponSwitch.cpp.obj",
 			"CharacterAttributeSet.cpp.obj",
 			"PushSoftWidgetAsyncAction.cpp.obj",
 			"ActivatableWidget_AttachmentSlot.cpp.obj",
@@ -82,6 +83,16 @@
 			"GameCommonUserWidget.cpp.obj",
 			"BackpackDragDropOperation.cpp.obj",
 			"UIGameInstanceSubsystem.cpp.obj",
+			"PUBG.init.gen.cpp.obj",
+			"PUBGType.gen.cpp.obj",
+			"BackpackManagerComponent.cpp.obj",
+			"CharacterAnimInstance.cpp.obj",
+			"AnimNotify_ReloadMagGrab.cpp.obj",
+			"AnimNotify_ReloadMagIn.cpp.obj",
+			"AnimNotify_ReloadMagOut.cpp.obj",
+			"PlayerCharacter.cpp.obj"
+		],
+		"Module.PUBG.4.cpp.obj": [
 			"CharacterClimbVaultGA.cpp.obj",
 			"BackpackItemDefinition.cpp.obj",
 			"BackpackItemFragment.cpp.obj",
@@ -94,7 +105,6 @@
 			"BackpackItemFragment_Mount.cpp.obj",
 			"BackpackItemFragment_Preview.cpp.obj",
 			"BackpackItemFragment_Stackable.cpp.obj",
-			"BackpackItemFragment_Weapon.cpp.obj",
 			"BackpackItemFragment_Weight.cpp.obj",
 			"BackpackItemFragment_WhiteIcon.cpp.obj",
 			"BackpackItemInstance.cpp.obj",
@@ -104,9 +114,7 @@
 			"PUBG.cpp.obj",
 			"PUBGFastArray.cpp.obj",
 			"PUBGGameplayTag.cpp.obj",
-			"PUBG.init.gen.cpp.obj",
-			"AnimNotify_WeaponSwitch.cpp.obj",
-			"PlayerCharacter.cpp.obj"
+			"BackpackItemFragment_Weapon.cpp.obj"
 		]
 	}
 }

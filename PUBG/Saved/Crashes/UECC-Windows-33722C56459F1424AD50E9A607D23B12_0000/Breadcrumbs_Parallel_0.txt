@@ -1,0 +1,5 @@
+Breadcrumbs 'Parallel'
+ - GaussianBlur
+ - SlateUI Title = PUBG 预览 [NetMode: Client 2]  （64-bit/PC D3D SM6）
+ - RenderGraphExecute - Slate
+ - Frame 2536

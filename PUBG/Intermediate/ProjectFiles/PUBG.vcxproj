@@ -1377,6 +1377,21 @@
       <ForcedIncludeFiles>$(ClCompile_ForcedIncludeFiles_9)</ForcedIncludeFiles>
       <AdditionalOptions>$(ClCompile_AdditionalOptions)</AdditionalOptions>
     </ClCompile>
+    <ClCompile Include="..\..\Source\PUBG\Private\AnimNotify\AnimNotify_ReloadMagGrab.cpp">
+      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories_8)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>$(ClCompile_ForcedIncludeFiles_9)</ForcedIncludeFiles>
+      <AdditionalOptions>$(ClCompile_AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PUBG\Private\AnimNotify\AnimNotify_ReloadMagIn.cpp">
+      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories_8)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>$(ClCompile_ForcedIncludeFiles_9)</ForcedIncludeFiles>
+      <AdditionalOptions>$(ClCompile_AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PUBG\Private\AnimNotify\AnimNotify_ReloadMagOut.cpp">
+      <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories_8)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>$(ClCompile_ForcedIncludeFiles_9)</ForcedIncludeFiles>
+      <AdditionalOptions>$(ClCompile_AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
     <ClCompile Include="..\..\Source\PUBG\Private\AnimNotify\AnimNotify_WeaponSwitch.cpp">
       <AdditionalIncludeDirectories>$(ClCompile_AdditionalIncludeDirectories_8)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ClCompile_ForcedIncludeFiles_9)</ForcedIncludeFiles>
@@ -1597,6 +1612,9 @@
     <ClInclude Include="..\..\Source\PUBG\Public\ActorComponent\BackpackManagerComponent.h"/>
     <ClInclude Include="..\..\Source\PUBG\Public\AnimInstance\CharacterAnimInstance.h"/>
     <ClInclude Include="..\..\Source\PUBG\Public\AnimInstance\CharacterAnimLayerInstance.h"/>
+    <ClInclude Include="..\..\Source\PUBG\Public\AnimNotify\AnimNotify_ReloadMagGrab.h"/>
+    <ClInclude Include="..\..\Source\PUBG\Public\AnimNotify\AnimNotify_ReloadMagIn.h"/>
+    <ClInclude Include="..\..\Source\PUBG\Public\AnimNotify\AnimNotify_ReloadMagOut.h"/>
     <ClInclude Include="..\..\Source\PUBG\Public\AnimNotify\AnimNotify_WeaponSwitch.h"/>
     <ClInclude Include="..\..\Source\PUBG\Public\AttributeSet\CharacterAttributeSet.h"/>
     <ClInclude Include="..\..\Source\PUBG\Public\BlueprintAsyncActionBase\PushSoftWidgetAsyncAction.h"/>

@@ -83,15 +83,7 @@ void UCharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 	bIsCharacterStanceChanged = (LastFrameCharacterStance != CharacterStance);
 	LastFrameCharacterStance = CharacterStance;
 
-	if (CharacterVelocity.Size2D() > 0.f)
-	{
-		CharacterAO_Yaw = FMath::FInterpTo(CharacterAO_Yaw, 0.f, DeltaSeconds, 1.f);
-	}
-	else
-	{
-		CharacterAO_Yaw = FRotator::NormalizeAxis(ControllerRotator_Yaw - CharacterRotation.Yaw);
-	}
-	
+	CharacterAO_Yaw = FRotator::NormalizeAxis(ControllerRotator_Yaw - CharacterRotation.Yaw);
 	CharacterAO_Pitch = FRotator::NormalizeAxis(ControllerRotator_Pitch - CharacterRotation.Pitch);
 
 	if (bIsInAir)

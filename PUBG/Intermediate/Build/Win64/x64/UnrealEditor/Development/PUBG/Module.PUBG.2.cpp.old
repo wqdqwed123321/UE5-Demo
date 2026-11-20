@@ -6,7 +6,6 @@
 #include "C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Intermediate/Build/Win64/UnrealEditor/Inc/PUBG/UHT/BaseCommonActivatableWidget.gen.cpp"
 #include "C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Intermediate/Build/Win64/UnrealEditor/Inc/PUBG/UHT/BulletProjectile.gen.cpp"
 #include "C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Intermediate/Build/Win64/UnrealEditor/Inc/PUBG/UHT/CharacterAbilitySystemComponent.gen.cpp"
-#include "C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Intermediate/Build/Win64/UnrealEditor/Inc/PUBG/UHT/CharacterAnimInstance.gen.cpp"
 #include "C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Intermediate/Build/Win64/UnrealEditor/Inc/PUBG/UHT/CharacterAnimLayerInstance.gen.cpp"
 #include "C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Intermediate/Build/Win64/UnrealEditor/Inc/PUBG/UHT/CharacterAttributeSet.gen.cpp"
 #include "C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Intermediate/Build/Win64/UnrealEditor/Inc/PUBG/UHT/CharacterClimbVaultGA.gen.cpp"
@@ -15,4 +14,3 @@
 #include "C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Intermediate/Build/Win64/UnrealEditor/Inc/PUBG/UHT/GlobalPlayerController.gen.cpp"
 #include "C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Intermediate/Build/Win64/UnrealEditor/Inc/PUBG/UHT/GlobalPlayerState.gen.cpp"
 #include "C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Intermediate/Build/Win64/UnrealEditor/Inc/PUBG/UHT/PickupItem.gen.cpp"
-#include "C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Intermediate/Build/Win64/UnrealEditor/Inc/PUBG/UHT/PlayerCharacter.gen.cpp"

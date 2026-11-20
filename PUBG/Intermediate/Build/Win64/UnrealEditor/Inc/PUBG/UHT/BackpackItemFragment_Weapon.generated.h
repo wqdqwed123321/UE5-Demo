@@ -19,7 +19,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 // ********** Begin Class UBackpackItemFragment_Weapon *********************************************
 PUBG_API UClass* Z_Construct_UClass_UBackpackItemFragment_Weapon_NoRegister();
 
-#define FID_PUBG_Source_PUBG_Public_Object_BackpackItemFragment_Weapon_h_18_INCLASS_NO_PURE_DECLS \
+#define FID_PUBG_Source_PUBG_Public_Object_BackpackItemFragment_Weapon_h_19_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesUBackpackItemFragment_Weapon(); \
 	friend struct Z_Construct_UClass_UBackpackItemFragment_Weapon_Statics; \
@@ -30,7 +30,7 @@ public: \
 	DECLARE_SERIALIZER(UBackpackItemFragment_Weapon)
 
 
-#define FID_PUBG_Source_PUBG_Public_Object_BackpackItemFragment_Weapon_h_18_ENHANCED_CONSTRUCTORS \
+#define FID_PUBG_Source_PUBG_Public_Object_BackpackItemFragment_Weapon_h_19_ENHANCED_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API UBackpackItemFragment_Weapon(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()); \
 	/** Deleted move- and copy-constructors, should never be used */ \
@@ -42,12 +42,12 @@ public: \
 	NO_API virtual ~UBackpackItemFragment_Weapon();
 
 
-#define FID_PUBG_Source_PUBG_Public_Object_BackpackItemFragment_Weapon_h_15_PROLOG
-#define FID_PUBG_Source_PUBG_Public_Object_BackpackItemFragment_Weapon_h_18_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_Object_BackpackItemFragment_Weapon_h_16_PROLOG
+#define FID_PUBG_Source_PUBG_Public_Object_BackpackItemFragment_Weapon_h_19_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	FID_PUBG_Source_PUBG_Public_Object_BackpackItemFragment_Weapon_h_18_INCLASS_NO_PURE_DECLS \
-	FID_PUBG_Source_PUBG_Public_Object_BackpackItemFragment_Weapon_h_18_ENHANCED_CONSTRUCTORS \
+	FID_PUBG_Source_PUBG_Public_Object_BackpackItemFragment_Weapon_h_19_INCLASS_NO_PURE_DECLS \
+	FID_PUBG_Source_PUBG_Public_Object_BackpackItemFragment_Weapon_h_19_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

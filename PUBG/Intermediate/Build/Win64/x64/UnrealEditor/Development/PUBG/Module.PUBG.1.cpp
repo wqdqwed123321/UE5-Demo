@@ -24,4 +24,3 @@
 #include "C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Intermediate/Build/Win64/UnrealEditor/Inc/PUBG/UHT/BackpackItemFragment_Mount.gen.cpp"
 #include "C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Intermediate/Build/Win64/UnrealEditor/Inc/PUBG/UHT/BackpackItemFragment_Preview.gen.cpp"
 #include "C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Intermediate/Build/Win64/UnrealEditor/Inc/PUBG/UHT/BackpackItemFragment_Stackable.gen.cpp"
-#include "C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Intermediate/Build/Win64/UnrealEditor/Inc/PUBG/UHT/BackpackItemFragment_Weapon.gen.cpp"

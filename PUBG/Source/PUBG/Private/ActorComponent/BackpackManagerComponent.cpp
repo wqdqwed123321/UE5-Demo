@@ -94,6 +94,49 @@ bool UBackpackManagerComponent::ReplicateSubobjects(UActorChannel* Channel, FOut
 	return bWroteSomething;
 }
 
+UBackpackItemInstance* UBackpackManagerComponent::CreateWeaponInstance(UBackpackItemDefinition* ItemDef, int32 Quantity)
+{
+	UBackpackItemInstance* NewItem = NewObject<UBackpackItemInstance>(this);
+	NewItem->Definition = ItemDef;
+	NewItem->Quantity = Quantity;
+
+	UBackpackItemFragment_Weapon* WeaponFrag = Cast<UBackpackItemFragment_Weapon>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(ItemDef->GetClass(), UBackpackItemFragment_Weapon::StaticClass()));
+
+	if (WeaponFrag && WeaponFrag->SupportedFireModes.Num() > 0)
+	{
+		FItemAttribute FireModeAttr;
+		FireModeAttr.Tag = PUBGGameplayTag::PUBG_BackpackItemInstance_CurrentFireMode;
+		FireModeAttr.Value = static_cast<float>(WeaponFrag->SupportedFireModes[0]);
+		NewItem->ItemAttributes.Add(FireModeAttr);
+	}
+
+	if (WeaponFrag)
+	{
+		for (const auto& Pair : WeaponFrag->DefaultAttachments)
+		{
+			if (!WeaponFrag->SupportedAttachmentSlots.Contains(Pair.Key)) continue;
+
+			UClass* AttachClass = Pair.Value.LoadSynchronous();
+			if (!AttachClass) continue;
+
+			UBackpackItemDefinition* AttachDef = Cast<UBackpackItemDefinition>(AttachClass->GetDefaultObject());
+			if (!AttachDef) continue;
+
+			UBackpackItemInstance* AttachInst = NewObject<UBackpackItemInstance>(this);
+			AttachInst->Definition = AttachDef;
+			AttachInst->Quantity = 1;
+			AddReplicatedSubObject(AttachInst);
+
+			FItemAttachment Att;
+			Att.Slot = Pair.Key;
+			Att.ItemInstance = AttachInst;
+			NewItem->ItemAttachments.Add(Att);
+		}
+	}
+
+	return NewItem;
+}
+
 void UBackpackManagerComponent::OnFastArrayItemAdded(UBackpackItemInstance* Item)
 {
 	OnInventoryChanged.Broadcast();
@@ -330,10 +373,7 @@ void UBackpackManagerComponent::Server_EquipGroundWeaponToSlot_Implementation(AP
 	
 	if (TargetSlotIndex == 3 || TargetSlotIndex == 4)
 	{
-		UBackpackItemInstance* NewItem = NewObject<UBackpackItemInstance>(this);
-		NewItem->Definition = ItemDef;
-		NewItem->Quantity = 1;
-		
+		UBackpackItemInstance* NewItem = CreateWeaponInstance(ItemDef, 1);
 		if (GroundItem->SavedAttachments.Num() > 0)
 		{
 			NewItem->ItemAttachments = GroundItem->SavedAttachments;
@@ -363,29 +403,14 @@ void UBackpackManagerComponent::Server_EquipGroundWeaponToSlot_Implementation(AP
 	}
 	else
 	{
-		UBackpackItemInstance* NewItem = NewObject<UBackpackItemInstance>(this);
-		NewItem->Definition = ItemDef;
-		NewItem->Quantity = Amount;
-		NewItem->ItemAttachments = GroundItem->SavedAttachments;
-		NewItem->ItemAttributes = GroundItem->SavedAttributes;
-		
-		FItemAttribute* ExistingMode = NewItem->ItemAttributes.FindByPredicate([](const FItemAttribute& Attr)
+		UBackpackItemInstance* NewItem = CreateWeaponInstance(ItemDef, Amount);
+		if (GroundItem->SavedAttachments.Num() > 0)
 		{
-			return Attr.Tag == PUBGGameplayTag::PUBG_BackpackItemInstance_CurrentFireMode;
-		});
-		
-		if (!ExistingMode)
+			NewItem->ItemAttachments = GroundItem->SavedAttachments;
+		}
+		if (GroundItem->SavedAttributes.Num() > 0)
 		{
-			UBackpackItemFragment_Weapon* WeaponFrag = Cast<UBackpackItemFragment_Weapon>(
-				UBackpackItemDefinition::FindBackpackItemFragmentByClass(ItemDef->GetClass(), UBackpackItemFragment_Weapon::StaticClass()));
-			
-			if (WeaponFrag && WeaponFrag->SupportedFireModes.Num() > 0)
-			{
-				FItemAttribute FireModeAttr;
-				FireModeAttr.Tag = PUBGGameplayTag::PUBG_BackpackItemInstance_CurrentFireMode;
-				FireModeAttr.Value = static_cast<float>(WeaponFrag->SupportedFireModes[0]);
-				NewItem->ItemAttributes.Add(FireModeAttr);
-			}
+			NewItem->ItemAttributes = GroundItem->SavedAttributes;
 		}
 
 		WeaponSlots.Entries[TargetSlotIndex].ItemInstance = NewItem;
