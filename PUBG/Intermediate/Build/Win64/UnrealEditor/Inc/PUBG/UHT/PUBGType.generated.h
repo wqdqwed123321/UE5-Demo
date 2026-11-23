@@ -17,7 +17,7 @@
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 
 // ********** Begin ScriptStruct FItemAttribute ****************************************************
-#define FID_PUBG_Source_PUBG_Public_PUBGType_h_140_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_PUBGType_h_170_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FItemAttribute_Statics; \
 	PUBG_API static class UScriptStruct* StaticStruct();
 
@@ -26,7 +26,7 @@ struct FItemAttribute;
 // ********** End ScriptStruct FItemAttribute ******************************************************
 
 // ********** Begin ScriptStruct FItemAttachment ***************************************************
-#define FID_PUBG_Source_PUBG_Public_PUBGType_h_152_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_PUBGType_h_182_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FItemAttachment_Statics; \
 	PUBG_API static class UScriptStruct* StaticStruct();
 
@@ -35,7 +35,7 @@ struct FItemAttachment;
 // ********** End ScriptStruct FItemAttachment *****************************************************
 
 // ********** Begin ScriptStruct FRecoilSettings ***************************************************
-#define FID_PUBG_Source_PUBG_Public_PUBGType_h_164_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_PUBGType_h_194_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FRecoilSettings_Statics; \
 	PUBG_API static class UScriptStruct* StaticStruct();
 
@@ -44,7 +44,7 @@ struct FRecoilSettings;
 // ********** End ScriptStruct FRecoilSettings *****************************************************
 
 // ********** Begin ScriptStruct FSpreadSettings ***************************************************
-#define FID_PUBG_Source_PUBG_Public_PUBGType_h_203_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_PUBGType_h_233_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FSpreadSettings_Statics; \
 	PUBG_API static class UScriptStruct* StaticStruct();
 
@@ -53,7 +53,7 @@ struct FSpreadSettings;
 // ********** End ScriptStruct FSpreadSettings *****************************************************
 
 // ********** Begin ScriptStruct FCharacterDirectionAnimations *************************************
-#define FID_PUBG_Source_PUBG_Public_PUBGType_h_242_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_PUBGType_h_272_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FCharacterDirectionAnimations_Statics; \
 	PUBG_API static class UScriptStruct* StaticStruct();
 
@@ -62,7 +62,7 @@ struct FCharacterDirectionAnimations;
 // ********** End ScriptStruct FCharacterDirectionAnimations ***************************************
 
 // ********** Begin ScriptStruct FCharacterTurnAngleAnimations *************************************
-#define FID_PUBG_Source_PUBG_Public_PUBGType_h_260_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_PUBGType_h_290_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FCharacterTurnAngleAnimations_Statics; \
 	PUBG_API static class UScriptStruct* StaticStruct();
 
@@ -71,7 +71,7 @@ struct FCharacterTurnAngleAnimations;
 // ********** End ScriptStruct FCharacterTurnAngleAnimations ***************************************
 
 // ********** Begin ScriptStruct FCharacterGaitSettings ********************************************
-#define FID_PUBG_Source_PUBG_Public_PUBGType_h_278_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_PUBGType_h_302_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FCharacterGaitSettings_Statics; \
 	PUBG_API static class UScriptStruct* StaticStruct(); \
 	typedef FTableRowBase Super;
@@ -81,7 +81,7 @@ struct FCharacterGaitSettings;
 // ********** End ScriptStruct FCharacterGaitSettings **********************************************
 
 // ********** Begin ScriptStruct FTPPCameraSettings ************************************************
-#define FID_PUBG_Source_PUBG_Public_PUBGType_h_287_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_PUBGType_h_311_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FTPPCameraSettings_Statics; \
 	PUBG_API static class UScriptStruct* StaticStruct(); \
 	typedef FTableRowBase Super;
@@ -259,5 +259,47 @@ enum class EAttachmentSlot : uint8;
 template<> struct TIsUEnumClass<EAttachmentSlot> { enum { Value = true }; };
 template<> PUBG_API UEnum* StaticEnum<EAttachmentSlot>();
 // ********** End Enum EAttachmentSlot *************************************************************
+
+// ********** Begin Enum EThrowMode ****************************************************************
+#define FOREACH_ENUM_ETHROWMODE(op) \
+	op(EThrowMode::Overhand) \
+	op(EThrowMode::Underhand) 
+
+enum class EThrowMode : uint8;
+template<> struct TIsUEnumClass<EThrowMode> { enum { Value = true }; };
+template<> PUBG_API UEnum* StaticEnum<EThrowMode>();
+// ********** End Enum EThrowMode ******************************************************************
+
+// ********** Begin Enum ECharacterLifeState *******************************************************
+#define FOREACH_ENUM_ECHARACTERLIFESTATE(op) \
+	op(ECharacterLifeState::Alive) \
+	op(ECharacterLifeState::Downed) \
+	op(ECharacterLifeState::Dead) 
+
+enum class ECharacterLifeState : uint8;
+template<> struct TIsUEnumClass<ECharacterLifeState> { enum { Value = true }; };
+template<> PUBG_API UEnum* StaticEnum<ECharacterLifeState>();
+// ********** End Enum ECharacterLifeState *********************************************************
+
+// ********** Begin Enum EKillFeedType *************************************************************
+#define FOREACH_ENUM_EKILLFEEDTYPE(op) \
+	op(EKillFeedType::Knock) \
+	op(EKillFeedType::Eliminate) 
+
+enum class EKillFeedType : uint8;
+template<> struct TIsUEnumClass<EKillFeedType> { enum { Value = true }; };
+template<> PUBG_API UEnum* StaticEnum<EKillFeedType>();
+// ********** End Enum EKillFeedType ***************************************************************
+
+// ********** Begin Enum EKillMessageRole **********************************************************
+#define FOREACH_ENUM_EKILLMESSAGEROLE(op) \
+	op(EKillMessageRole::Killer) \
+	op(EKillMessageRole::Victim) \
+	op(EKillMessageRole::Teammate) 
+
+enum class EKillMessageRole : uint8;
+template<> struct TIsUEnumClass<EKillMessageRole> { enum { Value = true }; };
+template<> PUBG_API UEnum* StaticEnum<EKillMessageRole>();
+// ********** End Enum EKillMessageRole ************************************************************
 
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

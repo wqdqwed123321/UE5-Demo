@@ -48,6 +48,12 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	ECharacterDirection CharacterDirection = ECharacterDirection::Forward;
 	
+	UPROPERTY(BlueprintReadOnly)
+	float CharacterAO_Yaw;
+	
+	UPROPERTY(BlueprintReadOnly)
+	float UpperBodyAlpha;
+	
 	UPROPERTY(BlueprintReadWrite)
 	float TurnYawCurveDeltaValue;
 	
@@ -71,7 +77,6 @@ private:
 	float CharacterLeanAngle;
 	float ControllerRotator_Yaw;
 	float ControllerRotator_Pitch;
-	float CharacterAO_Yaw;
 	float CharacterAO_Pitch;
 	float CurrentLeanDirection;
 	bool bIsCharacterStanceChanged;

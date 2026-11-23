@@ -6,6 +6,9 @@
 #include "GameFramework/Character.h"
 #include "PlayerCharacter.generated.h"
 
+class UBackpackItemFragment_Throwable;
+class APickupItem;
+class UMotionWarpingComponent;
 class UBackpackItemFragment_Weapon;
 class USphereComponent;
 class UBaseCommonActivatableWidget;
@@ -39,6 +42,8 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;
+	virtual void OnStartCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust) override;
+	virtual void OnEndCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust) override;
 
 public:
 	UFUNCTION()
@@ -81,6 +86,14 @@ public:
 	bool GetIsSwitchingWeapon() const { return bIsSwitchingWeapon; }
 	int32 GetCurrentWeaponSlotIndex() const;
 	float GetCurrentLeanDirection() const { return CurrentLeanDirection; }
+	void BeginClimbState();
+	void EndClimbState();
+	void HandleHealthZero();
+	ECharacterLifeState GetLifeState() const { return LifeState; }
+	bool ShouldEnableUpperBodyAim() const;
+	void SetLastKillerPS(APlayerState* InPS) { LastKillerPS = InPS; }
+	APickupItem* GetPickupItemUnderCrosshair() const { return TracePickupItem(); }
+	FString GetCurrentWeaponName() const;
 
 public:
 	UFUNCTION(BlueprintPure)
@@ -92,7 +105,26 @@ public:
 
 	UFUNCTION(NetMulticast, Reliable)
 	void Multicast_PlaySwitchWeaponMontage(UAnimMontage* MontageToPlay, float PlayRate);
+	
+	UFUNCTION(NetMulticast, Unreliable)
+	void Multicast_PlayHitReaction(const FVector_NetQuantize& DamageSourceLocation);
+	
+	UFUNCTION(Server, Reliable)
+	void Server_SetThrowMode(EThrowMode NewMode);
 
+	UFUNCTION(Server, Reliable)
+	void Server_ThrowGrenade(FVector_NetQuantizeNormal ThrowDirection, float RemainingFuse);
+
+	UFUNCTION(Server, Reliable)
+	void Server_PlayGrenadeMontage(UAnimMontage* MontageToPlay);
+
+	UFUNCTION(NetMulticast, Reliable)
+	void Multicast_PlayGrenadeMontage(UAnimMontage* MontageToPlay);
+	
+	UFUNCTION(NetMulticast, Reliable)
+	void Multicast_PlayDownedMontage();
+	
+public:
 	UFUNCTION(BlueprintCallable)
 	void AnimNotify_AttachWeaponToHand();
 
@@ -114,6 +146,9 @@ protected:
 
 	UFUNCTION()
 	void OnRep_CharacterHeldSlot();
+	
+	UFUNCTION()
+	void OnRep_ClimbWarpTarget();
 
 	UFUNCTION()
 	void OnReloadMontageEnded(UAnimMontage* Montage, bool bInterrupted);
@@ -126,6 +161,15 @@ protected:
 
 	UFUNCTION()
 	void OnSwitchWeaponMontageBlendOut(UAnimMontage* Montage, bool bInterrupted);
+	
+	UFUNCTION()
+	void OnRep_IsClimbing();
+	
+	UFUNCTION()
+	void OnRep_ThrowMode();
+	
+	UFUNCTION()
+	void OnRep_LifeState();
 
 protected:
 	UFUNCTION(Server, Reliable)
@@ -189,6 +233,7 @@ protected:
 	void OnHolster(const FInputActionValue& Value);
 	void OnToggleFireMode(const FInputActionValue& Value);
 	void OnLean(const FInputActionInstance& Value);
+	void OnPickup(const FInputActionValue& Value);
 
 protected:
 	void ApplyCharacterGait();
@@ -208,7 +253,20 @@ protected:
 	UStaticMesh* GetHeldMagazineMesh() const;
 	int32 GetHeldCurrentAmmo() const;
 	void ClearAttachmentsFromWeaponMesh(USkeletalMeshComponent* WeaponMesh);
-	void ApplyCameraState(); 
+	void ApplyCameraState();
+	APickupItem* TracePickupItem() const;
+	void ToggleThrowMode();
+	void BeginCookGrenade();
+	void ReleaseGrenade();
+	UBackpackItemFragment_Throwable* GetThrowableFrag() const;
+	void UpdateGrenadeTrajectory();
+	void EnterDowned();
+	void EnterDead();
+	void BleedTick();
+	bool HasLivingTeammate() const;
+	void EnableRagdoll();
+	FVector GetGrenadeStartLocation(const FVector& ThrowDir) const;
+	void BroadcastKillFeed(EKillFeedType FeedType);
 
 protected:
 	UFUNCTION()
@@ -220,6 +278,16 @@ protected:
 public:
 	UPROPERTY(BlueprintAssignable)
 	FOnWeaponSlotChanged OnWeaponSlotChanged;
+	
+public:
+	UPROPERTY(ReplicatedUsing = OnRep_ClimbWarpTarget)
+	FVector_NetQuantize ClimbWarpTarget = FVector::ZeroVector;
+	
+	UPROPERTY(ReplicatedUsing = OnRep_ClimbWarpTarget)
+	FVector_NetQuantize ClimbTopTarget = FVector::ZeroVector;
+	
+	UPROPERTY(ReplicatedUsing = OnRep_IsClimbing)
+	bool bIsClimbing = false;
 
 private:
 	UPROPERTY(EditDefaultsOnly)
@@ -266,6 +334,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UInputAction> IA_Lean;
+	
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<UInputAction> IA_Pickup;
 
 	UPROPERTY(EditDefaultsOnly)
 	TObjectPtr<UDataTable> DT_CharacterGaitSettings;
@@ -287,6 +358,15 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UAnimInstance> CharacterAnimLayerInstance_Melee;
+	
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UAnimInstance> CharacterAnimLayerInstance_ThrowableOverhand;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UAnimInstance> CharacterAnimLayerInstance_ThrowableUnderhand;
+	
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UAnimInstance> CharacterAnimLayerInstance_Downed;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSoftClassPtr<UBaseCommonActivatableWidget> BackpackWidgetClass;
@@ -329,6 +409,39 @@ private:
 	
 	UPROPERTY(EditDefaultsOnly)
 	FName AimCameraSocketName = TEXT("ScopeCamera_Socket");
+	
+	UPROPERTY(EditDefaultsOnly)
+	float PickupTraceDistance = 500.f;
+	
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<UAnimMontage> HitReactMontage_Front;
+
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<UAnimMontage> HitReactMontage_Back;
+
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<UAnimMontage> HitReactMontage_Left;
+
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<UAnimMontage> HitReactMontage_Right;
+	
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<UAnimMontage> DownedMontage;
+
+	UPROPERTY(EditDefaultsOnly)
+	float HitReactionCooldown = 0.4f;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UCameraShakeBase> HitCameraShakeClass;
+	
+	UPROPERTY(EditDefaultsOnly)
+	float DownedHealthPool = 150.f;
+	
+	UPROPERTY(EditDefaultsOnly)
+	float BleedDamagePerSecond = 5.f;
+	
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<UAnimMontage> DeathMontage;
 
 private:
 	UPROPERTY(VisibleDefaultsOnly)
@@ -345,6 +458,9 @@ private:
 
 	UPROPERTY(VisibleDefaultsOnly)
 	TObjectPtr<USphereComponent> Sphere;
+	
+	UPROPERTY(VisibleDefaultsOnly)
+	TObjectPtr<UMotionWarpingComponent> MotionWarpingComp;
 
 	UPROPERTY()
 	TObjectPtr<UCharacterAnimInstance> CharacterAnimInstance;
@@ -358,6 +474,12 @@ private:
 
 	UPROPERTY(ReplicatedUsing = OnRep_CharacterHeldSlot)
 	ECharacterHeldSlot CharacterHeldSlot = ECharacterHeldSlot::Unarmed;
+	
+	UPROPERTY(ReplicatedUsing = OnRep_ThrowMode)
+	EThrowMode ThrowMode = EThrowMode::Overhand;
+	
+	UPROPERTY(ReplicatedUsing = OnRep_LifeState)
+	ECharacterLifeState LifeState = ECharacterLifeState::Alive;
 
 	UPROPERTY(Replicated)
 	float ControllerRotator_Yaw;
@@ -367,6 +489,9 @@ private:
 
 	UPROPERTY(Replicated)
 	float CurrentLeanDirection = 0.f;
+	
+	UPROPERTY(EditDefaultsOnly)
+	float CrouchCamInterpSpeed = 8.f; 
 
 private:
 	UPROPERTY()
@@ -386,6 +511,9 @@ private:
 	
 	UPROPERTY()
 	TObjectPtr<UStaticMeshComponent> HandMagMeshComp;
+	
+	UPROPERTY()
+	TObjectPtr<APlayerState> LastKillerPS;
 
 private:
 	float LastSentControllerYaw;
@@ -433,4 +561,12 @@ private:
 	float AccumulatedRecoilPitch = 0.f;
 	float AccumulatedRecoilYaw = 0.f;
 	float CachedRecoilRecoveryRatio = 0.6f;
+	float LastHitReactionTime = -100.f;
+	bool bIsCookingGrenade = false;
+	FTimerHandle BleedTimerHandle;
+	FTimerHandle RagdollTimerHandle;
+	float BoomZCompensation = 0.f;
+	float BaseBoomZ = 0.f;
+	float GrenadeCookStartTime = 0.f;
+	float SmoothGrenadeStartZ = 0.f;
 };

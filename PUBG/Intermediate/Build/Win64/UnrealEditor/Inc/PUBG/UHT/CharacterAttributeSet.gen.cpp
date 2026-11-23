@@ -65,6 +65,96 @@ DEFINE_FUNCTION(UCharacterAttributeSet::execOnRep_BackpackCapacity)
 }
 // ********** End Class UCharacterAttributeSet Function OnRep_BackpackCapacity *********************
 
+// ********** Begin Class UCharacterAttributeSet Function OnRep_DownedHealth ***********************
+struct Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedHealth_Statics
+{
+	struct CharacterAttributeSet_eventOnRep_DownedHealth_Parms
+	{
+		FGameplayAttributeData OldValue;
+	};
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/AttributeSet/CharacterAttributeSet.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_OldValue_MetaData[] = {
+		{ "NativeConst", "" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FStructPropertyParams NewProp_OldValue;
+	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedHealth_Statics::NewProp_OldValue = { "OldValue", nullptr, (EPropertyFlags)0x0010000008000182, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(CharacterAttributeSet_eventOnRep_DownedHealth_Parms, OldValue), Z_Construct_UScriptStruct_FGameplayAttributeData, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_OldValue_MetaData), NewProp_OldValue_MetaData) }; // 1532612004
+const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedHealth_Statics::PropPointers[] = {
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedHealth_Statics::NewProp_OldValue,
+};
+static_assert(UE_ARRAY_COUNT(Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedHealth_Statics::PropPointers) < 2048);
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedHealth_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_UCharacterAttributeSet, nullptr, "OnRep_DownedHealth", Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedHealth_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedHealth_Statics::PropPointers), sizeof(Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedHealth_Statics::CharacterAttributeSet_eventOnRep_DownedHealth_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00480401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedHealth_Statics::Function_MetaDataParams), Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedHealth_Statics::Function_MetaDataParams)},  };
+static_assert(sizeof(Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedHealth_Statics::CharacterAttributeSet_eventOnRep_DownedHealth_Parms) < MAX_uint16);
+UFunction* Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedHealth()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedHealth_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(UCharacterAttributeSet::execOnRep_DownedHealth)
+{
+	P_GET_STRUCT_REF(FGameplayAttributeData,Z_Param_Out_OldValue);
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->OnRep_DownedHealth(Z_Param_Out_OldValue);
+	P_NATIVE_END;
+}
+// ********** End Class UCharacterAttributeSet Function OnRep_DownedHealth *************************
+
+// ********** Begin Class UCharacterAttributeSet Function OnRep_DownedMaxHealth ********************
+struct Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedMaxHealth_Statics
+{
+	struct CharacterAttributeSet_eventOnRep_DownedMaxHealth_Parms
+	{
+		FGameplayAttributeData OldValue;
+	};
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/AttributeSet/CharacterAttributeSet.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_OldValue_MetaData[] = {
+		{ "NativeConst", "" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FStructPropertyParams NewProp_OldValue;
+	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedMaxHealth_Statics::NewProp_OldValue = { "OldValue", nullptr, (EPropertyFlags)0x0010000008000182, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(CharacterAttributeSet_eventOnRep_DownedMaxHealth_Parms, OldValue), Z_Construct_UScriptStruct_FGameplayAttributeData, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_OldValue_MetaData), NewProp_OldValue_MetaData) }; // 1532612004
+const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedMaxHealth_Statics::PropPointers[] = {
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedMaxHealth_Statics::NewProp_OldValue,
+};
+static_assert(UE_ARRAY_COUNT(Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedMaxHealth_Statics::PropPointers) < 2048);
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedMaxHealth_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_UCharacterAttributeSet, nullptr, "OnRep_DownedMaxHealth", Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedMaxHealth_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedMaxHealth_Statics::PropPointers), sizeof(Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedMaxHealth_Statics::CharacterAttributeSet_eventOnRep_DownedMaxHealth_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00480401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedMaxHealth_Statics::Function_MetaDataParams), Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedMaxHealth_Statics::Function_MetaDataParams)},  };
+static_assert(sizeof(Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedMaxHealth_Statics::CharacterAttributeSet_eventOnRep_DownedMaxHealth_Parms) < MAX_uint16);
+UFunction* Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedMaxHealth()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedMaxHealth_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(UCharacterAttributeSet::execOnRep_DownedMaxHealth)
+{
+	P_GET_STRUCT_REF(FGameplayAttributeData,Z_Param_Out_OldValue);
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->OnRep_DownedMaxHealth(Z_Param_Out_OldValue);
+	P_NATIVE_END;
+}
+// ********** End Class UCharacterAttributeSet Function OnRep_DownedMaxHealth **********************
+
 // ********** Begin Class UCharacterAttributeSet Function OnRep_Health *****************************
 struct Z_Construct_UFunction_UCharacterAttributeSet_OnRep_Health_Statics
 {
@@ -206,6 +296,8 @@ void UCharacterAttributeSet::StaticRegisterNativesUCharacterAttributeSet()
 	UClass* Class = UCharacterAttributeSet::StaticClass();
 	static const FNameNativePtrPair Funcs[] = {
 		{ "OnRep_BackpackCapacity", &UCharacterAttributeSet::execOnRep_BackpackCapacity },
+		{ "OnRep_DownedHealth", &UCharacterAttributeSet::execOnRep_DownedHealth },
+		{ "OnRep_DownedMaxHealth", &UCharacterAttributeSet::execOnRep_DownedMaxHealth },
 		{ "OnRep_Health", &UCharacterAttributeSet::execOnRep_Health },
 		{ "OnRep_MaxBackpackCapacity", &UCharacterAttributeSet::execOnRep_MaxBackpackCapacity },
 		{ "OnRep_MaxHealth", &UCharacterAttributeSet::execOnRep_MaxHealth },
@@ -263,15 +355,25 @@ struct Z_Construct_UClass_UCharacterAttributeSet_Statics
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_MaxBackpackCapacity_MetaData[] = {
 		{ "ModuleRelativePath", "Public/AttributeSet/CharacterAttributeSet.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_DownedHealth_MetaData[] = {
+		{ "ModuleRelativePath", "Public/AttributeSet/CharacterAttributeSet.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_DownedMaxHealth_MetaData[] = {
+		{ "ModuleRelativePath", "Public/AttributeSet/CharacterAttributeSet.h" },
+	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FStructPropertyParams NewProp_Health;
 	static const UECodeGen_Private::FStructPropertyParams NewProp_MaxHealth;
 	static const UECodeGen_Private::FStructPropertyParams NewProp_BackpackCapacity;
 	static const UECodeGen_Private::FStructPropertyParams NewProp_MaxBackpackCapacity;
+	static const UECodeGen_Private::FStructPropertyParams NewProp_DownedHealth;
+	static const UECodeGen_Private::FStructPropertyParams NewProp_DownedMaxHealth;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
 	static constexpr FClassFunctionLinkInfo FuncInfo[] = {
 		{ &Z_Construct_UFunction_UCharacterAttributeSet_OnRep_BackpackCapacity, "OnRep_BackpackCapacity" }, // 4037059035
+		{ &Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedHealth, "OnRep_DownedHealth" }, // 86098048
+		{ &Z_Construct_UFunction_UCharacterAttributeSet_OnRep_DownedMaxHealth, "OnRep_DownedMaxHealth" }, // 1531906355
 		{ &Z_Construct_UFunction_UCharacterAttributeSet_OnRep_Health, "OnRep_Health" }, // 4220760359
 		{ &Z_Construct_UFunction_UCharacterAttributeSet_OnRep_MaxBackpackCapacity, "OnRep_MaxBackpackCapacity" }, // 3390057569
 		{ &Z_Construct_UFunction_UCharacterAttributeSet_OnRep_MaxHealth, "OnRep_MaxHealth" }, // 2731157335
@@ -286,11 +388,15 @@ const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_UCharacterAttr
 const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_UCharacterAttributeSet_Statics::NewProp_MaxHealth = { "MaxHealth", "OnRep_MaxHealth", (EPropertyFlags)0x0040000100000020, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UCharacterAttributeSet, MaxHealth), Z_Construct_UScriptStruct_FGameplayAttributeData, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MaxHealth_MetaData), NewProp_MaxHealth_MetaData) }; // 1532612004
 const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_UCharacterAttributeSet_Statics::NewProp_BackpackCapacity = { "BackpackCapacity", "OnRep_BackpackCapacity", (EPropertyFlags)0x0040000100000020, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UCharacterAttributeSet, BackpackCapacity), Z_Construct_UScriptStruct_FGameplayAttributeData, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_BackpackCapacity_MetaData), NewProp_BackpackCapacity_MetaData) }; // 1532612004
 const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_UCharacterAttributeSet_Statics::NewProp_MaxBackpackCapacity = { "MaxBackpackCapacity", "OnRep_MaxBackpackCapacity", (EPropertyFlags)0x0040000100000020, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UCharacterAttributeSet, MaxBackpackCapacity), Z_Construct_UScriptStruct_FGameplayAttributeData, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MaxBackpackCapacity_MetaData), NewProp_MaxBackpackCapacity_MetaData) }; // 1532612004
+const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_UCharacterAttributeSet_Statics::NewProp_DownedHealth = { "DownedHealth", "OnRep_DownedHealth", (EPropertyFlags)0x0040000100000020, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UCharacterAttributeSet, DownedHealth), Z_Construct_UScriptStruct_FGameplayAttributeData, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_DownedHealth_MetaData), NewProp_DownedHealth_MetaData) }; // 1532612004
+const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_UCharacterAttributeSet_Statics::NewProp_DownedMaxHealth = { "DownedMaxHealth", "OnRep_DownedMaxHealth", (EPropertyFlags)0x0040000100000020, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UCharacterAttributeSet, DownedMaxHealth), Z_Construct_UScriptStruct_FGameplayAttributeData, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_DownedMaxHealth_MetaData), NewProp_DownedMaxHealth_MetaData) }; // 1532612004
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UCharacterAttributeSet_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCharacterAttributeSet_Statics::NewProp_Health,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCharacterAttributeSet_Statics::NewProp_MaxHealth,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCharacterAttributeSet_Statics::NewProp_BackpackCapacity,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCharacterAttributeSet_Statics::NewProp_MaxBackpackCapacity,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCharacterAttributeSet_Statics::NewProp_DownedHealth,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCharacterAttributeSet_Statics::NewProp_DownedMaxHealth,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_UCharacterAttributeSet_Statics::PropPointers) < 2048);
 UObject* (*const Z_Construct_UClass_UCharacterAttributeSet_Statics::DependentSingletons[])() = {
@@ -328,11 +434,15 @@ void UCharacterAttributeSet::ValidateGeneratedRepEnums(const TArray<struct FRepR
 	static FName Name_MaxHealth(TEXT("MaxHealth"));
 	static FName Name_BackpackCapacity(TEXT("BackpackCapacity"));
 	static FName Name_MaxBackpackCapacity(TEXT("MaxBackpackCapacity"));
+	static FName Name_DownedHealth(TEXT("DownedHealth"));
+	static FName Name_DownedMaxHealth(TEXT("DownedMaxHealth"));
 	const bool bIsValid = true
 		&& Name_Health == ClassReps[(int32)ENetFields_Private::Health].Property->GetFName()
 		&& Name_MaxHealth == ClassReps[(int32)ENetFields_Private::MaxHealth].Property->GetFName()
 		&& Name_BackpackCapacity == ClassReps[(int32)ENetFields_Private::BackpackCapacity].Property->GetFName()
-		&& Name_MaxBackpackCapacity == ClassReps[(int32)ENetFields_Private::MaxBackpackCapacity].Property->GetFName();
+		&& Name_MaxBackpackCapacity == ClassReps[(int32)ENetFields_Private::MaxBackpackCapacity].Property->GetFName()
+		&& Name_DownedHealth == ClassReps[(int32)ENetFields_Private::DownedHealth].Property->GetFName()
+		&& Name_DownedMaxHealth == ClassReps[(int32)ENetFields_Private::DownedMaxHealth].Property->GetFName();
 	checkf(bIsValid, TEXT("UHT Generated Rep Indices do not match runtime populated Rep Indices for properties in UCharacterAttributeSet"));
 }
 #endif
@@ -345,10 +455,10 @@ UCharacterAttributeSet::~UCharacterAttributeSet() {}
 struct Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_AttributeSet_CharacterAttributeSet_h__Script_PUBG_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_UCharacterAttributeSet, UCharacterAttributeSet::StaticClass, TEXT("UCharacterAttributeSet"), &Z_Registration_Info_UClass_UCharacterAttributeSet, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UCharacterAttributeSet), 1305112717U) },
+		{ Z_Construct_UClass_UCharacterAttributeSet, UCharacterAttributeSet::StaticClass, TEXT("UCharacterAttributeSet"), &Z_Registration_Info_UClass_UCharacterAttributeSet, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UCharacterAttributeSet), 122247405U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_AttributeSet_CharacterAttributeSet_h__Script_PUBG_447039226(TEXT("/Script/PUBG"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_AttributeSet_CharacterAttributeSet_h__Script_PUBG_2715480369(TEXT("/Script/PUBG"),
 	Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_AttributeSet_CharacterAttributeSet_h__Script_PUBG_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_AttributeSet_CharacterAttributeSet_h__Script_PUBG_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

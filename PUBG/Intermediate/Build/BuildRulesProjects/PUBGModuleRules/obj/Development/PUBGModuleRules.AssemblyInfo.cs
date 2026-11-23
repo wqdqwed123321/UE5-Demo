@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PUBGModuleRules")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Development")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2a38552c98ee144a3beaff5cb475264261cbe328")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+81204b93defe584c573304a1a90b816d99c82447")]
 [assembly: System.Reflection.AssemblyProductAttribute("PUBGModuleRules")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PUBGModuleRules")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

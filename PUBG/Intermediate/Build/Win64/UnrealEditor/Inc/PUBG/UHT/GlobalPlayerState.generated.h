@@ -16,10 +16,18 @@
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 
+enum class EKillFeedType : uint8;
+
 // ********** Begin Class AGlobalPlayerState *******************************************************
+#define FID_PUBG_Source_PUBG_Public_PlayerState_GlobalPlayerState_h_22_RPC_WRAPPERS_NO_PURE_DECLS \
+	virtual void Multicast_KillFeed_Implementation(const FString& KillerName, const FString& VictimName, EKillFeedType FeedType); \
+	DECLARE_FUNCTION(execMulticast_KillFeed);
+
+
+#define FID_PUBG_Source_PUBG_Public_PlayerState_GlobalPlayerState_h_22_CALLBACK_WRAPPERS
 PUBG_API UClass* Z_Construct_UClass_AGlobalPlayerState_NoRegister();
 
-#define FID_PUBG_Source_PUBG_Public_PlayerState_GlobalPlayerState_h_20_INCLASS_NO_PURE_DECLS \
+#define FID_PUBG_Source_PUBG_Public_PlayerState_GlobalPlayerState_h_22_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesAGlobalPlayerState(); \
 	friend struct Z_Construct_UClass_AGlobalPlayerState_Statics; \
@@ -28,10 +36,16 @@ private: \
 public: \
 	DECLARE_CLASS2(AGlobalPlayerState, APlayerState, COMPILED_IN_FLAGS(0 | CLASS_Config), CASTCLASS_None, TEXT("/Script/PUBG"), Z_Construct_UClass_AGlobalPlayerState_NoRegister) \
 	DECLARE_SERIALIZER(AGlobalPlayerState) \
-	virtual UObject* _getUObject() const override { return const_cast<AGlobalPlayerState*>(this); }
+	virtual UObject* _getUObject() const override { return const_cast<AGlobalPlayerState*>(this); } \
+	enum class ENetFields_Private : uint16 \
+	{ \
+		NETFIELD_REP_START=(uint16)((int32)Super::ENetFields_Private::NETFIELD_REP_END + (int32)1), \
+		TeamId=NETFIELD_REP_START, \
+		NETFIELD_REP_END=TeamId	}; \
+	DECLARE_VALIDATE_GENERATED_REP_ENUMS(NO_API)
 
 
-#define FID_PUBG_Source_PUBG_Public_PlayerState_GlobalPlayerState_h_20_ENHANCED_CONSTRUCTORS \
+#define FID_PUBG_Source_PUBG_Public_PlayerState_GlobalPlayerState_h_22_ENHANCED_CONSTRUCTORS \
 	/** Deleted move- and copy-constructors, should never be used */ \
 	AGlobalPlayerState(AGlobalPlayerState&&) = delete; \
 	AGlobalPlayerState(const AGlobalPlayerState&) = delete; \
@@ -41,12 +55,14 @@ public: \
 	NO_API virtual ~AGlobalPlayerState();
 
 
-#define FID_PUBG_Source_PUBG_Public_PlayerState_GlobalPlayerState_h_17_PROLOG
-#define FID_PUBG_Source_PUBG_Public_PlayerState_GlobalPlayerState_h_20_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_PlayerState_GlobalPlayerState_h_19_PROLOG
+#define FID_PUBG_Source_PUBG_Public_PlayerState_GlobalPlayerState_h_22_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	FID_PUBG_Source_PUBG_Public_PlayerState_GlobalPlayerState_h_20_INCLASS_NO_PURE_DECLS \
-	FID_PUBG_Source_PUBG_Public_PlayerState_GlobalPlayerState_h_20_ENHANCED_CONSTRUCTORS \
+	FID_PUBG_Source_PUBG_Public_PlayerState_GlobalPlayerState_h_22_RPC_WRAPPERS_NO_PURE_DECLS \
+	FID_PUBG_Source_PUBG_Public_PlayerState_GlobalPlayerState_h_22_CALLBACK_WRAPPERS \
+	FID_PUBG_Source_PUBG_Public_PlayerState_GlobalPlayerState_h_22_INCLASS_NO_PURE_DECLS \
+	FID_PUBG_Source_PUBG_Public_PlayerState_GlobalPlayerState_h_22_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

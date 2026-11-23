@@ -17,13 +17,13 @@
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 
 // ********** Begin Class UActivatableWidget_EquipmentSlot *****************************************
-#define FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h_19_RPC_WRAPPERS_NO_PURE_DECLS \
+#define FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h_20_RPC_WRAPPERS_NO_PURE_DECLS \
 	DECLARE_FUNCTION(execOnInventoryChangedHandler);
 
 
 PUBG_API UClass* Z_Construct_UClass_UActivatableWidget_EquipmentSlot_NoRegister();
 
-#define FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h_19_INCLASS_NO_PURE_DECLS \
+#define FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h_20_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesUActivatableWidget_EquipmentSlot(); \
 	friend struct Z_Construct_UClass_UActivatableWidget_EquipmentSlot_Statics; \
@@ -34,7 +34,7 @@ public: \
 	DECLARE_SERIALIZER(UActivatableWidget_EquipmentSlot)
 
 
-#define FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h_19_ENHANCED_CONSTRUCTORS \
+#define FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h_20_ENHANCED_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API UActivatableWidget_EquipmentSlot(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()); \
 	/** Deleted move- and copy-constructors, should never be used */ \
@@ -46,13 +46,13 @@ public: \
 	NO_API virtual ~UActivatableWidget_EquipmentSlot();
 
 
-#define FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h_16_PROLOG
-#define FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h_19_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h_17_PROLOG
+#define FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h_20_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h_19_RPC_WRAPPERS_NO_PURE_DECLS \
-	FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h_19_INCLASS_NO_PURE_DECLS \
-	FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h_19_ENHANCED_CONSTRUCTORS \
+	FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h_20_RPC_WRAPPERS_NO_PURE_DECLS \
+	FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h_20_INCLASS_NO_PURE_DECLS \
+	FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h_20_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

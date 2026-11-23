@@ -17,6 +17,8 @@
 #include "UserWidget/UserWidget_DragVisual.h"
 #include "PUBGGameplayTag.h"
 #include "Actor/WeaponPreview.h"
+#include "Blueprint/SlateBlueprintLibrary.h"
+#include "CommonActivatableWidget/ActivatableWidget_WeaponTooltip.h"
 #include "Object/BackpackItemFragment_Ammo.h"
 #include "Object/BackpackItemFragment_Preview.h"
 
@@ -50,6 +52,20 @@ void UActivatableWidget_WeaponDetail::NativeDestruct()
 	}
 	
 	Super::NativeDestruct();
+}
+
+void UActivatableWidget_WeaponDetail::NativeConstruct()
+{
+	Super::NativeConstruct();
+	
+	if (TooltipClass)
+	{
+		ActiveTooltip = CreateWidget<UActivatableWidget_WeaponTooltip>(GetOwningPlayer(), TooltipClass);
+		if (ActiveTooltip)
+		{
+			ActiveTooltip->SetVisibility(ESlateVisibility::HitTestInvisible);
+		}
+	}
 }
 
 void UActivatableWidget_WeaponDetail::OnInventoryChangedHandler()
@@ -100,7 +116,7 @@ FReply UActivatableWidget_WeaponDetail::NativeOnMouseButtonDown(const FGeometry&
 void UActivatableWidget_WeaponDetail::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation)
 {
 	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
-
+	
 	if (!CachedComp) return;
 
 	int32 RealIndex = SlotIndex - 1;
@@ -318,6 +334,12 @@ void UActivatableWidget_WeaponDetail::SetupWeaponDetail(UBackpackItemInstance* I
 	}
 
 	UpdateAmmoDisplay(ItemInstance);
+
+	if (ActiveTooltip)
+	{
+		ActiveTooltip->SetupTooltip(ItemInstance);
+		SetToolTip(ActiveTooltip);
+	}
 }
 
 void UActivatableWidget_WeaponDetail::UpdateAmmoDisplay(UBackpackItemInstance* ItemInstance)
@@ -361,6 +383,8 @@ void UActivatableWidget_WeaponDetail::UpdateAmmoDisplay(UBackpackItemInstance* I
 
 void UActivatableWidget_WeaponDetail::ClearWeaponDetail()
 {
+	SetToolTip(nullptr);
+
 	if (SizeBox_Gun) SizeBox_Gun->SetVisibility(ESlateVisibility::Collapsed);
 	
 	CachedWeaponInstance = nullptr;

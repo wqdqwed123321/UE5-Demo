@@ -1,0 +1,10 @@
+{
+	"mcpServers": {
+		"unreal-engine": {
+			"url": "http://127.0.0.1:3000/mcp",
+			"headers": {
+				"X-MCP-Capability-Token": "8189b577a68ac446aa6244d606695f94285fb4ad7473af4aa5a19b8897b8140c"
+			}
+		}
+	}
+}

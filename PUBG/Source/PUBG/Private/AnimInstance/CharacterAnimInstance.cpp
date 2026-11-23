@@ -33,6 +33,7 @@ void UCharacterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 		ControllerRotator_Pitch = PlayerCharacter->GetControllerRotator_Pitch();
 		HandIKAlpha = PlayerCharacter->ShouldEnableWeaponIK() ? 1.f : 0.f;
 		CurrentLeanDirection = PlayerCharacter->GetCurrentLeanDirection();
+		UpperBodyAlpha = PlayerCharacter->ShouldEnableUpperBodyAim() ? 1.f : 0.f;
 	}
 }
 

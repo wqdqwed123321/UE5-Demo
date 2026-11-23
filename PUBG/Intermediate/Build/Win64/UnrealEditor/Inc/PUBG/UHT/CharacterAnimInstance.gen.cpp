@@ -83,6 +83,14 @@ struct Z_Construct_UClass_UCharacterAnimInstance_Statics
 		{ "Category", "CharacterAnimInstance" },
 		{ "ModuleRelativePath", "Public/AnimInstance/CharacterAnimInstance.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_CharacterAO_Yaw_MetaData[] = {
+		{ "Category", "CharacterAnimInstance" },
+		{ "ModuleRelativePath", "Public/AnimInstance/CharacterAnimInstance.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_UpperBodyAlpha_MetaData[] = {
+		{ "Category", "CharacterAnimInstance" },
+		{ "ModuleRelativePath", "Public/AnimInstance/CharacterAnimInstance.h" },
+	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_TurnYawCurveDeltaValue_MetaData[] = {
 		{ "Category", "CharacterAnimInstance" },
 		{ "ModuleRelativePath", "Public/AnimInstance/CharacterAnimInstance.h" },
@@ -103,6 +111,8 @@ struct Z_Construct_UClass_UCharacterAnimInstance_Statics
 	static const UECodeGen_Private::FStructPropertyParams NewProp_CharacterVelocity;
 	static const UECodeGen_Private::FBytePropertyParams NewProp_CharacterDirection_Underlying;
 	static const UECodeGen_Private::FEnumPropertyParams NewProp_CharacterDirection;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_CharacterAO_Yaw;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_UpperBodyAlpha;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_TurnYawCurveDeltaValue;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_HandIKAlpha;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_PlayerCharacter;
@@ -127,6 +137,8 @@ const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UCharacterAnimI
 const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_UCharacterAnimInstance_Statics::NewProp_CharacterVelocity = { "CharacterVelocity", nullptr, (EPropertyFlags)0x0020080000000014, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UCharacterAnimInstance, CharacterVelocity), Z_Construct_UScriptStruct_FVector, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CharacterVelocity_MetaData), NewProp_CharacterVelocity_MetaData) };
 const UECodeGen_Private::FBytePropertyParams Z_Construct_UClass_UCharacterAnimInstance_Statics::NewProp_CharacterDirection_Underlying = { "UnderlyingType", nullptr, (EPropertyFlags)0x0000000000000000, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, nullptr, METADATA_PARAMS(0, nullptr) };
 const UECodeGen_Private::FEnumPropertyParams Z_Construct_UClass_UCharacterAnimInstance_Statics::NewProp_CharacterDirection = { "CharacterDirection", nullptr, (EPropertyFlags)0x0020080000000014, UECodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UCharacterAnimInstance, CharacterDirection), Z_Construct_UEnum_PUBG_ECharacterDirection, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CharacterDirection_MetaData), NewProp_CharacterDirection_MetaData) }; // 1925861661
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UCharacterAnimInstance_Statics::NewProp_CharacterAO_Yaw = { "CharacterAO_Yaw", nullptr, (EPropertyFlags)0x0020080000000014, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UCharacterAnimInstance, CharacterAO_Yaw), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CharacterAO_Yaw_MetaData), NewProp_CharacterAO_Yaw_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UCharacterAnimInstance_Statics::NewProp_UpperBodyAlpha = { "UpperBodyAlpha", nullptr, (EPropertyFlags)0x0020080000000014, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UCharacterAnimInstance, UpperBodyAlpha), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_UpperBodyAlpha_MetaData), NewProp_UpperBodyAlpha_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UCharacterAnimInstance_Statics::NewProp_TurnYawCurveDeltaValue = { "TurnYawCurveDeltaValue", nullptr, (EPropertyFlags)0x0020080000000004, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UCharacterAnimInstance, TurnYawCurveDeltaValue), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_TurnYawCurveDeltaValue_MetaData), NewProp_TurnYawCurveDeltaValue_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UCharacterAnimInstance_Statics::NewProp_HandIKAlpha = { "HandIKAlpha", nullptr, (EPropertyFlags)0x0020080000000014, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UCharacterAnimInstance, HandIKAlpha), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_HandIKAlpha_MetaData), NewProp_HandIKAlpha_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UCharacterAnimInstance_Statics::NewProp_PlayerCharacter = { "PlayerCharacter", nullptr, (EPropertyFlags)0x0144000000000000, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UCharacterAnimInstance, PlayerCharacter), Z_Construct_UClass_APlayerCharacter_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_PlayerCharacter_MetaData), NewProp_PlayerCharacter_MetaData) };
@@ -137,6 +149,8 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UCharacte
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCharacterAnimInstance_Statics::NewProp_CharacterVelocity,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCharacterAnimInstance_Statics::NewProp_CharacterDirection_Underlying,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCharacterAnimInstance_Statics::NewProp_CharacterDirection,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCharacterAnimInstance_Statics::NewProp_CharacterAO_Yaw,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCharacterAnimInstance_Statics::NewProp_UpperBodyAlpha,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCharacterAnimInstance_Statics::NewProp_TurnYawCurveDeltaValue,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCharacterAnimInstance_Statics::NewProp_HandIKAlpha,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCharacterAnimInstance_Statics::NewProp_PlayerCharacter,
@@ -179,10 +193,10 @@ UCharacterAnimInstance::~UCharacterAnimInstance() {}
 struct Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_AnimInstance_CharacterAnimInstance_h__Script_PUBG_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_UCharacterAnimInstance, UCharacterAnimInstance::StaticClass, TEXT("UCharacterAnimInstance"), &Z_Registration_Info_UClass_UCharacterAnimInstance, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UCharacterAnimInstance), 2001567749U) },
+		{ Z_Construct_UClass_UCharacterAnimInstance, UCharacterAnimInstance::StaticClass, TEXT("UCharacterAnimInstance"), &Z_Registration_Info_UClass_UCharacterAnimInstance, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UCharacterAnimInstance), 3033671252U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_AnimInstance_CharacterAnimInstance_h__Script_PUBG_1737361754(TEXT("/Script/PUBG"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_AnimInstance_CharacterAnimInstance_h__Script_PUBG_2727756987(TEXT("/Script/PUBG"),
 	Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_AnimInstance_CharacterAnimInstance_h__Script_PUBG_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_AnimInstance_CharacterAnimInstance_h__Script_PUBG_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

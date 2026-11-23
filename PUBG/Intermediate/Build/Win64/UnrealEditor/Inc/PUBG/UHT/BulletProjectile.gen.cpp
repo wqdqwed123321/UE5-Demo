@@ -23,6 +23,7 @@ ENGINE_API UClass* Z_Construct_UClass_USphereComponent_NoRegister();
 ENGINE_API UScriptStruct* Z_Construct_UScriptStruct_FHitResult();
 GAMEPLAYABILITIES_API UClass* Z_Construct_UClass_UGameplayEffect_NoRegister();
 NIAGARA_API UClass* Z_Construct_UClass_UNiagaraSystem_NoRegister();
+PHYSICSCORE_API UEnum* Z_Construct_UEnum_PhysicsCore_EPhysicalSurface();
 PUBG_API UClass* Z_Construct_UClass_ABulletProjectile();
 PUBG_API UClass* Z_Construct_UClass_ABulletProjectile_NoRegister();
 UPackage* Z_Construct_UPackage__Script_PUBG();
@@ -152,6 +153,10 @@ struct Z_Construct_UClass_ABulletProjectile_Statics
 		{ "Category", "BulletProjectile" },
 		{ "ModuleRelativePath", "Public/Actor/BulletProjectile.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_ImpactFXMap_MetaData[] = {
+		{ "Category", "BulletProjectile" },
+		{ "ModuleRelativePath", "Public/Actor/BulletProjectile.h" },
+	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_CollisionComp_MetaData[] = {
 		{ "Category", "BulletProjectile" },
 		{ "EditInline", "true" },
@@ -165,6 +170,9 @@ struct Z_Construct_UClass_ABulletProjectile_Statics
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_DefaultImpactFX;
 	static const UECodeGen_Private::FClassPropertyParams NewProp_DamageEffectClass;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_ImpactFXMap_ValueProp;
+	static const UECodeGen_Private::FBytePropertyParams NewProp_ImpactFXMap_Key_KeyProp;
+	static const UECodeGen_Private::FMapPropertyParams NewProp_ImpactFXMap;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_CollisionComp;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_ProjectileMovement;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
@@ -180,11 +188,17 @@ struct Z_Construct_UClass_ABulletProjectile_Statics
 };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ABulletProjectile_Statics::NewProp_DefaultImpactFX = { "DefaultImpactFX", nullptr, (EPropertyFlags)0x0114000000010001, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ABulletProjectile, DefaultImpactFX), Z_Construct_UClass_UNiagaraSystem_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_DefaultImpactFX_MetaData), NewProp_DefaultImpactFX_MetaData) };
 const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_ABulletProjectile_Statics::NewProp_DamageEffectClass = { "DamageEffectClass", nullptr, (EPropertyFlags)0x0014000000010001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ABulletProjectile, DamageEffectClass), Z_Construct_UClass_UClass, Z_Construct_UClass_UGameplayEffect_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_DamageEffectClass_MetaData), NewProp_DamageEffectClass_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ABulletProjectile_Statics::NewProp_ImpactFXMap_ValueProp = { "ImpactFXMap", nullptr, (EPropertyFlags)0x0104000000000001, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 1, Z_Construct_UClass_UNiagaraSystem_NoRegister, METADATA_PARAMS(0, nullptr) };
+const UECodeGen_Private::FBytePropertyParams Z_Construct_UClass_ABulletProjectile_Statics::NewProp_ImpactFXMap_Key_KeyProp = { "ImpactFXMap_Key", nullptr, (EPropertyFlags)0x0100000000000001, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, Z_Construct_UEnum_PhysicsCore_EPhysicalSurface, METADATA_PARAMS(0, nullptr) }; // 161619406
+const UECodeGen_Private::FMapPropertyParams Z_Construct_UClass_ABulletProjectile_Statics::NewProp_ImpactFXMap = { "ImpactFXMap", nullptr, (EPropertyFlags)0x0114000000010001, UECodeGen_Private::EPropertyGenFlags::Map, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ABulletProjectile, ImpactFXMap), EMapPropertyFlags::None, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ImpactFXMap_MetaData), NewProp_ImpactFXMap_MetaData) }; // 161619406
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ABulletProjectile_Statics::NewProp_CollisionComp = { "CollisionComp", nullptr, (EPropertyFlags)0x01440000000a0009, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ABulletProjectile, CollisionComp), Z_Construct_UClass_USphereComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CollisionComp_MetaData), NewProp_CollisionComp_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_ABulletProjectile_Statics::NewProp_ProjectileMovement = { "ProjectileMovement", nullptr, (EPropertyFlags)0x01440000000a0009, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(ABulletProjectile, ProjectileMovement), Z_Construct_UClass_UProjectileMovementComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ProjectileMovement_MetaData), NewProp_ProjectileMovement_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_ABulletProjectile_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ABulletProjectile_Statics::NewProp_DefaultImpactFX,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ABulletProjectile_Statics::NewProp_DamageEffectClass,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ABulletProjectile_Statics::NewProp_ImpactFXMap_ValueProp,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ABulletProjectile_Statics::NewProp_ImpactFXMap_Key_KeyProp,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ABulletProjectile_Statics::NewProp_ImpactFXMap,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ABulletProjectile_Statics::NewProp_CollisionComp,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_ABulletProjectile_Statics::NewProp_ProjectileMovement,
 };
@@ -225,10 +239,10 @@ ABulletProjectile::~ABulletProjectile() {}
 struct Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Actor_BulletProjectile_h__Script_PUBG_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_ABulletProjectile, ABulletProjectile::StaticClass, TEXT("ABulletProjectile"), &Z_Registration_Info_UClass_ABulletProjectile, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ABulletProjectile), 2147319598U) },
+		{ Z_Construct_UClass_ABulletProjectile, ABulletProjectile::StaticClass, TEXT("ABulletProjectile"), &Z_Registration_Info_UClass_ABulletProjectile, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(ABulletProjectile), 877825361U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Actor_BulletProjectile_h__Script_PUBG_1203304859(TEXT("/Script/PUBG"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Actor_BulletProjectile_h__Script_PUBG_3085272117(TEXT("/Script/PUBG"),
 	Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Actor_BulletProjectile_h__Script_PUBG_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Actor_BulletProjectile_h__Script_PUBG_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

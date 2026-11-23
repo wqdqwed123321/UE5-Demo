@@ -15,6 +15,7 @@ void EmptyLinkFunctionForGeneratedCodeCommonUserWidget_BackpackItem() {}
 COMMONUI_API UClass* Z_Construct_UClass_UCommonUserWidget();
 COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
 COREUOBJECT_API UClass* Z_Construct_UClass_UObject_NoRegister();
+PUBG_API UClass* Z_Construct_UClass_UActivatableWidget_WeaponTooltip_NoRegister();
 PUBG_API UClass* Z_Construct_UClass_UCommonUserWidget_BackpackItem();
 PUBG_API UClass* Z_Construct_UClass_UCommonUserWidget_BackpackItem_NoRegister();
 PUBG_API UClass* Z_Construct_UClass_UUserWidget_DragVisual_NoRegister();
@@ -101,6 +102,14 @@ struct Z_Construct_UClass_UCommonUserWidget_BackpackItem_Statics
 		{ "Category", "CommonUserWidget_BackpackItem" },
 		{ "ModuleRelativePath", "Public/CommonUserWidget/CommonUserWidget_BackpackItem.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_TooltipClass_MetaData[] = {
+		{ "Category", "CommonUserWidget_BackpackItem" },
+		{ "ModuleRelativePath", "Public/CommonUserWidget/CommonUserWidget_BackpackItem.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_ActiveTooltip_MetaData[] = {
+		{ "EditInline", "true" },
+		{ "ModuleRelativePath", "Public/CommonUserWidget/CommonUserWidget_BackpackItem.h" },
+	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_Image_Picture;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_TextBlock_Name;
@@ -109,6 +118,8 @@ struct Z_Construct_UClass_UCommonUserWidget_BackpackItem_Statics
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_HorizontalBox_Image;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_CachedListItemObject;
 	static const UECodeGen_Private::FClassPropertyParams NewProp_DragVisualClass;
+	static const UECodeGen_Private::FClassPropertyParams NewProp_TooltipClass;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_ActiveTooltip;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
 	static const UECodeGen_Private::FImplementedInterfaceParams InterfaceParams[];
@@ -124,6 +135,8 @@ const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UCommonUserWid
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UCommonUserWidget_BackpackItem_Statics::NewProp_HorizontalBox_Image = { "HorizontalBox_Image", nullptr, (EPropertyFlags)0x0144000000080008, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UCommonUserWidget_BackpackItem, HorizontalBox_Image), Z_Construct_UClass_UHorizontalBox_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_HorizontalBox_Image_MetaData), NewProp_HorizontalBox_Image_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UCommonUserWidget_BackpackItem_Statics::NewProp_CachedListItemObject = { "CachedListItemObject", nullptr, (EPropertyFlags)0x0144000000000000, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UCommonUserWidget_BackpackItem, CachedListItemObject), Z_Construct_UClass_UObject_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CachedListItemObject_MetaData), NewProp_CachedListItemObject_MetaData) };
 const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_UCommonUserWidget_BackpackItem_Statics::NewProp_DragVisualClass = { "DragVisualClass", nullptr, (EPropertyFlags)0x0044000000000001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UCommonUserWidget_BackpackItem, DragVisualClass), Z_Construct_UClass_UClass, Z_Construct_UClass_UUserWidget_DragVisual_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_DragVisualClass_MetaData), NewProp_DragVisualClass_MetaData) };
+const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_UCommonUserWidget_BackpackItem_Statics::NewProp_TooltipClass = { "TooltipClass", nullptr, (EPropertyFlags)0x0044000000000001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UCommonUserWidget_BackpackItem, TooltipClass), Z_Construct_UClass_UClass, Z_Construct_UClass_UActivatableWidget_WeaponTooltip_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_TooltipClass_MetaData), NewProp_TooltipClass_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UCommonUserWidget_BackpackItem_Statics::NewProp_ActiveTooltip = { "ActiveTooltip", nullptr, (EPropertyFlags)0x0144000000080008, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UCommonUserWidget_BackpackItem, ActiveTooltip), Z_Construct_UClass_UActivatableWidget_WeaponTooltip_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ActiveTooltip_MetaData), NewProp_ActiveTooltip_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UCommonUserWidget_BackpackItem_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCommonUserWidget_BackpackItem_Statics::NewProp_Image_Picture,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCommonUserWidget_BackpackItem_Statics::NewProp_TextBlock_Name,
@@ -132,6 +145,8 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UCommonUs
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCommonUserWidget_BackpackItem_Statics::NewProp_HorizontalBox_Image,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCommonUserWidget_BackpackItem_Statics::NewProp_CachedListItemObject,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCommonUserWidget_BackpackItem_Statics::NewProp_DragVisualClass,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCommonUserWidget_BackpackItem_Statics::NewProp_TooltipClass,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UCommonUserWidget_BackpackItem_Statics::NewProp_ActiveTooltip,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_UCommonUserWidget_BackpackItem_Statics::PropPointers) < 2048);
 UObject* (*const Z_Construct_UClass_UCommonUserWidget_BackpackItem_Statics::DependentSingletons[])() = {
@@ -174,10 +189,10 @@ UCommonUserWidget_BackpackItem::~UCommonUserWidget_BackpackItem() {}
 struct Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonUserWidget_CommonUserWidget_BackpackItem_h__Script_PUBG_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_UCommonUserWidget_BackpackItem, UCommonUserWidget_BackpackItem::StaticClass, TEXT("UCommonUserWidget_BackpackItem"), &Z_Registration_Info_UClass_UCommonUserWidget_BackpackItem, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UCommonUserWidget_BackpackItem), 1113217265U) },
+		{ Z_Construct_UClass_UCommonUserWidget_BackpackItem, UCommonUserWidget_BackpackItem::StaticClass, TEXT("UCommonUserWidget_BackpackItem"), &Z_Registration_Info_UClass_UCommonUserWidget_BackpackItem, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UCommonUserWidget_BackpackItem), 3221878555U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonUserWidget_CommonUserWidget_BackpackItem_h__Script_PUBG_4141323701(TEXT("/Script/PUBG"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonUserWidget_CommonUserWidget_BackpackItem_h__Script_PUBG_190086364(TEXT("/Script/PUBG"),
 	Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonUserWidget_CommonUserWidget_BackpackItem_h__Script_PUBG_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonUserWidget_CommonUserWidget_BackpackItem_h__Script_PUBG_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

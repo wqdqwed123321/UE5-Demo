@@ -60,7 +60,9 @@ void UActivatableWidget_WeaponTooltip::SetupTooltip(UBackpackItemInstance* ItemI
 		
 		if (TextBlock_WeaponClipMaxNumber)
 		{
-			TextBlock_WeaponClipMaxNumber->SetText(FText::AsNumber(ItemInstance->GetItemAttribute(PUBGGameplayTag::PUBG_BackpackItemInstance_MagazineSize)));
+			float MagSize = ItemInstance->GetItemAttribute(PUBGGameplayTag::PUBG_BackpackItemInstance_MagazineSize);
+			if (MagSize <= 0.f) MagSize = WeaponData->MagazineSize;
+			TextBlock_WeaponClipMaxNumber->SetText(FText::AsNumber(FMath::RoundToInt(MagSize)));
 		}
 		
 		if (TextBlock_WeaponInfo) TextBlock_WeaponInfo->SetText(ItemInstance->Definition->ItemDescription);

@@ -13,6 +13,8 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeUIGameInstanceSubsystem() {}
 
 // ********** Begin Cross Module References ********************************************************
+COMMONUI_API UClass* Z_Construct_UClass_UCommonUserWidget_NoRegister();
+COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
 ENGINE_API UClass* Z_Construct_UClass_UGameInstanceSubsystem();
 PUBG_API UClass* Z_Construct_UClass_UGameCommonUserWidget_NoRegister();
 PUBG_API UClass* Z_Construct_UClass_UUIGameInstanceSubsystem();
@@ -117,8 +119,14 @@ struct Z_Construct_UClass_UUIGameInstanceSubsystem_Statics
 		{ "EditInline", "true" },
 		{ "ModuleRelativePath", "Public/GameInstanceSubsystem/UIGameInstanceSubsystem.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_EmbeddedWidgets_MetaData[] = {
+		{ "ModuleRelativePath", "Public/GameInstanceSubsystem/UIGameInstanceSubsystem.h" },
+	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_CreatedPrimaryLayout;
+	static const UECodeGen_Private::FWeakObjectPropertyParams NewProp_EmbeddedWidgets_ValueProp;
+	static const UECodeGen_Private::FClassPropertyParams NewProp_EmbeddedWidgets_Key_KeyProp;
+	static const UECodeGen_Private::FMapPropertyParams NewProp_EmbeddedWidgets;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
 	static constexpr FClassFunctionLinkInfo FuncInfo[] = {
@@ -131,8 +139,14 @@ struct Z_Construct_UClass_UUIGameInstanceSubsystem_Statics
 	static const UECodeGen_Private::FClassParams ClassParams;
 };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UUIGameInstanceSubsystem_Statics::NewProp_CreatedPrimaryLayout = { "CreatedPrimaryLayout", nullptr, (EPropertyFlags)0x0144000000082008, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UUIGameInstanceSubsystem, CreatedPrimaryLayout), Z_Construct_UClass_UGameCommonUserWidget_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CreatedPrimaryLayout_MetaData), NewProp_CreatedPrimaryLayout_MetaData) };
+const UECodeGen_Private::FWeakObjectPropertyParams Z_Construct_UClass_UUIGameInstanceSubsystem_Statics::NewProp_EmbeddedWidgets_ValueProp = { "EmbeddedWidgets", nullptr, (EPropertyFlags)0x0004000000080008, UECodeGen_Private::EPropertyGenFlags::WeakObject, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 1, Z_Construct_UClass_UCommonUserWidget_NoRegister, METADATA_PARAMS(0, nullptr) };
+const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_UUIGameInstanceSubsystem_Statics::NewProp_EmbeddedWidgets_Key_KeyProp = { "EmbeddedWidgets_Key", nullptr, (EPropertyFlags)0x0004000000080008, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, Z_Construct_UClass_UClass, Z_Construct_UClass_UCommonUserWidget_NoRegister, METADATA_PARAMS(0, nullptr) };
+const UECodeGen_Private::FMapPropertyParams Z_Construct_UClass_UUIGameInstanceSubsystem_Statics::NewProp_EmbeddedWidgets = { "EmbeddedWidgets", nullptr, (EPropertyFlags)0x0044008000002008, UECodeGen_Private::EPropertyGenFlags::Map, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UUIGameInstanceSubsystem, EmbeddedWidgets), EMapPropertyFlags::None, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_EmbeddedWidgets_MetaData), NewProp_EmbeddedWidgets_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UUIGameInstanceSubsystem_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UUIGameInstanceSubsystem_Statics::NewProp_CreatedPrimaryLayout,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UUIGameInstanceSubsystem_Statics::NewProp_EmbeddedWidgets_ValueProp,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UUIGameInstanceSubsystem_Statics::NewProp_EmbeddedWidgets_Key_KeyProp,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UUIGameInstanceSubsystem_Statics::NewProp_EmbeddedWidgets,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_UUIGameInstanceSubsystem_Statics::PropPointers) < 2048);
 UObject* (*const Z_Construct_UClass_UUIGameInstanceSubsystem_Statics::DependentSingletons[])() = {
@@ -172,10 +186,10 @@ UUIGameInstanceSubsystem::~UUIGameInstanceSubsystem() {}
 struct Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_GameInstanceSubsystem_UIGameInstanceSubsystem_h__Script_PUBG_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_UUIGameInstanceSubsystem, UUIGameInstanceSubsystem::StaticClass, TEXT("UUIGameInstanceSubsystem"), &Z_Registration_Info_UClass_UUIGameInstanceSubsystem, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UUIGameInstanceSubsystem), 2277969047U) },
+		{ Z_Construct_UClass_UUIGameInstanceSubsystem, UUIGameInstanceSubsystem::StaticClass, TEXT("UUIGameInstanceSubsystem"), &Z_Registration_Info_UClass_UUIGameInstanceSubsystem, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UUIGameInstanceSubsystem), 2888729308U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_GameInstanceSubsystem_UIGameInstanceSubsystem_h__Script_PUBG_1766652669(TEXT("/Script/PUBG"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_GameInstanceSubsystem_UIGameInstanceSubsystem_h__Script_PUBG_3097184053(TEXT("/Script/PUBG"),
 	Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_GameInstanceSubsystem_UIGameInstanceSubsystem_h__Script_PUBG_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_GameInstanceSubsystem_UIGameInstanceSubsystem_h__Script_PUBG_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

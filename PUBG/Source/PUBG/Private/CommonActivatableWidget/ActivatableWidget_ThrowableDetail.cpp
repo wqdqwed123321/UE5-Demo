@@ -4,6 +4,7 @@
 
 #include "Actor/WeaponPreview.h"
 #include "ActorComponent/BackpackManagerComponent.h"
+#include "CommonActivatableWidget/ActivatableWidget_WeaponTooltip.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Border.h"
 #include "Components/Image.h"
@@ -15,6 +16,19 @@
 #include "Object/BackpackItemInstance.h"
 #include "PlayerState/GlobalPlayerState.h"
 #include "UserWidget/UserWidget_DragVisual.h"
+
+void UActivatableWidget_ThrowableDetail::NativeConstruct()
+{
+	Super::NativeConstruct();
+	if (TooltipClass)
+	{
+		ActiveTooltip = CreateWidget<UActivatableWidget_WeaponTooltip>(GetOwningPlayer(), TooltipClass);
+		if (ActiveTooltip)
+		{
+			ActiveTooltip->SetVisibility(ESlateVisibility::HitTestInvisible);
+		}
+	}
+}
 
 void UActivatableWidget_ThrowableDetail::InitThrowableDetail()
 {
@@ -164,10 +178,18 @@ void UActivatableWidget_ThrowableDetail::SetupThrowableDetail(UBackpackItemInsta
 			
 		Image_Render->SetBrushFromMaterial(PreviewMaterialBase);
 	}
+
+	if (ActiveTooltip)
+	{
+		ActiveTooltip->SetupTooltip(ItemInstance);
+		SetToolTip(ActiveTooltip);
+	}
 }
 
 void UActivatableWidget_ThrowableDetail::ClearThrowableDetail()
 {
+	SetToolTip(nullptr);
+
 	if (TextBlock_WeaponName) TextBlock_WeaponName->SetVisibility(ESlateVisibility::Collapsed);
 	if (TextBlock_Slot) TextBlock_Slot->SetVisibility(ESlateVisibility::Collapsed);
 	if (Image_Render) Image_Render->SetVisibility(ESlateVisibility::Collapsed);

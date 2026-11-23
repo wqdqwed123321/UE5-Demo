@@ -23,7 +23,9 @@ public class PUBG : ModuleRules
 			"MotionWarping",
 			"SlateCore",
 			"Slate",
-			"Niagara"
+			"Niagara",
+			"PhysicsCore",
+			"AIModule"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });

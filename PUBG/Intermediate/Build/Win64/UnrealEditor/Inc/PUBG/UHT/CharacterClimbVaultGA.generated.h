@@ -17,9 +17,13 @@
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 
 // ********** Begin Class UCharacterClimbVaultGA ***************************************************
+#define FID_PUBG_Source_PUBG_Public_GameplayAbility_CharacterClimbVaultGA_h_16_RPC_WRAPPERS_NO_PURE_DECLS \
+	DECLARE_FUNCTION(execOnMontageFinished);
+
+
 PUBG_API UClass* Z_Construct_UClass_UCharacterClimbVaultGA_NoRegister();
 
-#define FID_PUBG_Source_PUBG_Public_GameplayAbility_CharacterClimbVaultGA_h_15_INCLASS_NO_PURE_DECLS \
+#define FID_PUBG_Source_PUBG_Public_GameplayAbility_CharacterClimbVaultGA_h_16_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesUCharacterClimbVaultGA(); \
 	friend struct Z_Construct_UClass_UCharacterClimbVaultGA_Statics; \
@@ -30,24 +34,23 @@ public: \
 	DECLARE_SERIALIZER(UCharacterClimbVaultGA)
 
 
-#define FID_PUBG_Source_PUBG_Public_GameplayAbility_CharacterClimbVaultGA_h_15_ENHANCED_CONSTRUCTORS \
-	/** Standard constructor, called after all reflected properties have been initialized */ \
-	NO_API UCharacterClimbVaultGA(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()); \
+#define FID_PUBG_Source_PUBG_Public_GameplayAbility_CharacterClimbVaultGA_h_16_ENHANCED_CONSTRUCTORS \
 	/** Deleted move- and copy-constructors, should never be used */ \
 	UCharacterClimbVaultGA(UCharacterClimbVaultGA&&) = delete; \
 	UCharacterClimbVaultGA(const UCharacterClimbVaultGA&) = delete; \
 	DECLARE_VTABLE_PTR_HELPER_CTOR(NO_API, UCharacterClimbVaultGA); \
 	DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(UCharacterClimbVaultGA); \
-	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UCharacterClimbVaultGA) \
+	DEFINE_DEFAULT_CONSTRUCTOR_CALL(UCharacterClimbVaultGA) \
 	NO_API virtual ~UCharacterClimbVaultGA();
 
 
-#define FID_PUBG_Source_PUBG_Public_GameplayAbility_CharacterClimbVaultGA_h_12_PROLOG
-#define FID_PUBG_Source_PUBG_Public_GameplayAbility_CharacterClimbVaultGA_h_15_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_GameplayAbility_CharacterClimbVaultGA_h_13_PROLOG
+#define FID_PUBG_Source_PUBG_Public_GameplayAbility_CharacterClimbVaultGA_h_16_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	FID_PUBG_Source_PUBG_Public_GameplayAbility_CharacterClimbVaultGA_h_15_INCLASS_NO_PURE_DECLS \
-	FID_PUBG_Source_PUBG_Public_GameplayAbility_CharacterClimbVaultGA_h_15_ENHANCED_CONSTRUCTORS \
+	FID_PUBG_Source_PUBG_Public_GameplayAbility_CharacterClimbVaultGA_h_16_RPC_WRAPPERS_NO_PURE_DECLS \
+	FID_PUBG_Source_PUBG_Public_GameplayAbility_CharacterClimbVaultGA_h_16_INCLASS_NO_PURE_DECLS \
+	FID_PUBG_Source_PUBG_Public_GameplayAbility_CharacterClimbVaultGA_h_16_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

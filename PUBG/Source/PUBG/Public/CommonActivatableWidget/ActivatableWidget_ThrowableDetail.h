@@ -6,6 +6,7 @@
 #include "BaseCommonActivatableWidget.h"
 #include "ActivatableWidget_ThrowableDetail.generated.h"
 
+class UActivatableWidget_WeaponTooltip;
 class AWeaponPreview;
 class UUserWidget_DragVisual;
 class UBackpackManagerComponent;
@@ -26,6 +27,7 @@ public:
 	void SetSlotIndex(int32 InSlotIndex) { SlotIndex = InSlotIndex; }
 	
 protected:
+	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
@@ -67,6 +69,9 @@ private:
 	TSubclassOf<UUserWidget_DragVisual> DragVisualClass;
 	
 	UPROPERTY(EditAnywhere)
+	TSubclassOf<UActivatableWidget_WeaponTooltip> TooltipClass;
+	
+	UPROPERTY(EditAnywhere)
 	TSubclassOf<AWeaponPreview> PreviewActorClass;
 	
 	UPROPERTY(EditAnywhere)
@@ -84,4 +89,7 @@ private:
 	
 	UPROPERTY()
 	TObjectPtr<AWeaponPreview> PreviewActor;
+	
+	UPROPERTY()
+	TObjectPtr<UActivatableWidget_WeaponTooltip> ActiveTooltip;
 };

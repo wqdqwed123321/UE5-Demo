@@ -4,6 +4,8 @@
 #include "CommonUserWidget/CommonUserWidget_BackpackItem.h"
 
 #include "Actor/PickupItem.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
+#include "CommonActivatableWidget/ActivatableWidget_WeaponTooltip.h"
 #include "Components/Border.h"
 #include "Components/HorizontalBox.h"
 #include "Components/Image.h"
@@ -61,6 +63,7 @@ void UCommonUserWidget_BackpackItem::NativeOnListItemObjectSet(UObject* ListItem
 	if (Image_Picture) Image_Picture->SetBrushFromTexture(nullptr);
 	if (TextBlock_Name) TextBlock_Name->SetText(FText::GetEmpty());
 	if (TextBlock_Number) TextBlock_Number->SetVisibility(ESlateVisibility::Collapsed);
+	SetToolTip(nullptr);
 
 	if (!ListItemObject) return;
 
@@ -106,6 +109,22 @@ void UCommonUserWidget_BackpackItem::NativeOnListItemObjectSet(UObject* ListItem
 		}
 		
 		RefreshItemUI();
+	}
+
+	if (ActiveTooltip)
+	{
+		if (bIsValidItem && FinalDef)
+		{
+			UBackpackItemInstance* TooltipItem = Cast<UBackpackItemInstance>(ListItemObject);
+			if (!TooltipItem)
+			{
+				TooltipItem = NewObject<UBackpackItemInstance>(this);
+				TooltipItem->Definition = FinalDef;
+				TooltipItem->Quantity = 1;
+			}
+			ActiveTooltip->SetupTooltip(TooltipItem);
+			SetToolTip(ActiveTooltip);
+		}
 	}
 }
 
@@ -178,4 +197,26 @@ void UCommonUserWidget_BackpackItem::NativeOnDragDetected(const FGeometry& InGeo
 	}
 	
 	OutOperation = DragOp;
+}
+
+void UCommonUserWidget_BackpackItem::NativeOnDragCancelled(const FDragDropEvent& InDragDropEvent,
+	UDragDropOperation* InOperation)
+{
+	Super::NativeOnDragCancelled(InDragDropEvent, InOperation);
+	
+	UWidgetBlueprintLibrary::SetFocusToGameViewport();
+}
+
+void UCommonUserWidget_BackpackItem::NativeConstruct()
+{
+	Super::NativeConstruct();
+	
+	if (TooltipClass)
+	{
+		ActiveTooltip = CreateWidget<UActivatableWidget_WeaponTooltip>(GetOwningPlayer(), TooltipClass);
+		if (ActiveTooltip)
+		{
+			ActiveTooltip->SetVisibility(ESlateVisibility::HitTestInvisible);
+		}
+	}
 }

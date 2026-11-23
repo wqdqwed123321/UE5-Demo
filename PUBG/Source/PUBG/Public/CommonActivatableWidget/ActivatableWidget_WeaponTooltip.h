@@ -76,4 +76,5 @@ private:
 
 	UPROPERTY(meta = (BindWidgetOptional))
 	TObjectPtr<UTextBlock> TextBlock_WeaponInfo;
+
 };

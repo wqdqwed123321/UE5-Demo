@@ -1,11 +1,13 @@
 #include "Character/PlayerCharacter.h"
 
 #include "EnhancedInputComponent.h"
+#include "MotionWarpingComponent.h"
 #include "NiagaraComponent.h"
 #include "NiagaraFunctionLibrary.h"
 #include "PUBGGameplayTag.h"
 #include "AbilitySystemComponent/CharacterAbilitySystemComponent.h"
 #include "Actor/BulletProjectile.h"
+#include "Actor/GrenadeProjectile.h"
 #include "Actor/PickupItem.h"
 #include "ActorComponent/BackpackManagerComponent.h"
 #include "AnimInstance/CharacterAnimInstance.h"
@@ -26,7 +28,216 @@
 #include "Object/BackpackItemInstance.h"
 #include "PlayerState/GlobalPlayerState.h"
 #include "Components/StaticMeshComponent.h"
+#include "GameFramework/GameStateBase.h"
 #include "Object/BackpackItemFragment_Attachment.h"
+#include "Object/BackpackItemFragment_Throwable.h"
+#include "PlayerController/GlobalPlayerController.h"
+
+void APlayerCharacter::HandleHealthZero()
+{
+	if (!HasAuthority() || LifeState == ECharacterLifeState::Dead) return;
+	
+	if (LifeState == ECharacterLifeState::Downed)
+	{
+		EnterDead();
+		return;
+	}
+
+	if (HasLivingTeammate()) EnterDowned();
+	else EnterDead();
+}
+
+void APlayerCharacter::Multicast_PlayDownedMontage_Implementation()
+{
+	if (!DownedMontage || !GetMesh()) return;
+	if (UAnimInstance* AnimInst = GetMesh()->GetAnimInstance())
+	{
+		AnimInst->Montage_Play(DownedMontage);
+	}
+}
+
+void APlayerCharacter::OnRep_LifeState()
+{
+	if (LifeState == ECharacterLifeState::Downed)
+	{
+		if (CharacterAnimInstance && CharacterAnimLayerInstance_Downed)
+		{
+			CharacterAnimInstance->LinkAnimClassLayers(CharacterAnimLayerInstance_Downed);
+		}
+	}
+	else if (LifeState == ECharacterLifeState::Dead)
+	{
+		if (GetCapsuleComponent()) GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		if (GetCharacterMovement()) GetCharacterMovement()->DisableMovement();
+
+		UAnimInstance* AnimInst = GetMesh() ? GetMesh()->GetAnimInstance() : nullptr;
+		if (DeathMontage && AnimInst)
+		{
+			AnimInst->Montage_Play(DeathMontage);
+			const float RagdollDelay = DeathMontage->GetPlayLength() * 0.7f;
+			GetWorldTimerManager().SetTimer(RagdollTimerHandle, this, &APlayerCharacter::EnableRagdoll, RagdollDelay, false);
+		}
+		else
+		{
+			EnableRagdoll();
+		}
+	}
+}
+
+void APlayerCharacter::EnterDowned()
+{
+	LifeState = ECharacterLifeState::Downed;
+	OnRep_LifeState();
+	
+	if (UAbilitySystemComponent* ASC = GetAbilitySystemComponent())
+	{
+		ASC->SetNumericAttributeBase(UCharacterAttributeSet::GetDownedMaxHealthAttribute(), DownedHealthPool);
+		ASC->SetNumericAttributeBase(UCharacterAttributeSet::GetDownedHealthAttribute(), DownedHealthPool);
+	}
+
+	Multicast_PlayDownedMontage();
+
+	const float BleedStartDelay = DownedMontage ? DownedMontage->GetPlayLength() : 0.1f;
+	GetWorldTimerManager().SetTimer(BleedTimerHandle, this, &APlayerCharacter::BleedTick, 0.1f, true, BleedStartDelay);
+	
+	BroadcastKillFeed(EKillFeedType::Knock);
+}
+
+void APlayerCharacter::EnterDead()
+{
+	GetWorldTimerManager().ClearTimer(BleedTimerHandle);
+
+	LifeState = ECharacterLifeState::Dead;
+	OnRep_LifeState();
+	
+	BroadcastKillFeed(EKillFeedType::Eliminate);
+}
+
+void APlayerCharacter::BleedTick()
+{
+	if (LifeState != ECharacterLifeState::Downed)
+	{
+		GetWorldTimerManager().ClearTimer(BleedTimerHandle);
+		return;
+	}
+
+	UAbilitySystemComponent* ASC = GetAbilitySystemComponent();
+	if (!ASC) return;
+
+	const float NewHealth = ASC->GetNumericAttribute(UCharacterAttributeSet::GetDownedHealthAttribute()) - BleedDamagePerSecond * 0.1f;
+	ASC->SetNumericAttributeBase(UCharacterAttributeSet::GetDownedHealthAttribute(), FMath::Max(0.f, NewHealth));
+
+	if (NewHealth <= 0.f)
+	{
+		GetWorldTimerManager().ClearTimer(BleedTimerHandle);
+		EnterDead();
+	}
+}
+
+bool APlayerCharacter::HasLivingTeammate() const
+{
+	AGlobalPlayerState* MyPS = GetPlayerState<AGlobalPlayerState>();
+	if (!MyPS || !GetWorld() || !GetWorld()->GetGameState()) return false;
+
+	const FGenericTeamId MyTeam = MyPS->GetTeamId();
+	if (MyTeam == FGenericTeamId::NoTeam) return false;
+
+	for (APlayerState* PS : GetWorld()->GetGameState()->PlayerArray)
+	{
+		if (PS == MyPS) continue;
+		AGlobalPlayerState* OtherPS = Cast<AGlobalPlayerState>(PS);
+		if (!OtherPS || OtherPS->GetTeamId() != MyTeam) continue;
+
+		if (APlayerCharacter* OtherChar = Cast<APlayerCharacter>(OtherPS->GetPawn()))
+		{
+			if (OtherChar->LifeState != ECharacterLifeState::Dead) return true;
+		}
+	}
+	return false;
+}
+
+void APlayerCharacter::EnableRagdoll()
+{
+	if (!GetMesh()) return;
+	
+	if (UAnimInstance* AnimInst = GetMesh()->GetAnimInstance())
+	{
+		AnimInst->Montage_Stop(0.15f);
+	}
+
+	GetMesh()->SetCollisionProfileName(TEXT("Ragdoll"));
+	GetMesh()->SetSimulatePhysics(true);
+}
+
+FVector APlayerCharacter::GetGrenadeStartLocation(const FVector& ThrowDir) const
+{
+	const FVector RightDir = FVector::CrossProduct(FVector::UpVector, ThrowDir).GetSafeNormal();
+	const FVector Loc = GetActorLocation();
+
+	return FVector(Loc.X, Loc.Y, SmoothGrenadeStartZ) + RightDir * 10.f;
+}
+
+void APlayerCharacter::BroadcastKillFeed(EKillFeedType FeedType)
+{
+	if (!HasAuthority()) return;
+	AGlobalPlayerState* VictimPS = GetPlayerState<AGlobalPlayerState>();
+	if (!VictimPS || !GetWorld() || !GetWorld()->GetGameState()) return;
+
+	AGlobalPlayerState* KillerPS = Cast<AGlobalPlayerState>(LastKillerPS);
+	
+	VictimPS->Multicast_KillFeed(KillerPS ? KillerPS->GetPlayerName() : TEXT(""), VictimPS->GetPlayerName(), FeedType);
+
+	if (!KillerPS) return;
+
+	const bool bKnock = (FeedType == EKillFeedType::Knock);
+	const bool bFriendlyFire = KillerPS != VictimPS
+		&& KillerPS->GetTeamId() != FGenericTeamId::NoTeam
+		&& KillerPS->GetTeamId() == VictimPS->GetTeamId();
+	
+	if (!bKnock && !bFriendlyFire)
+	{
+		KillerPS->AddKillCount();
+	}
+
+	FString WeaponName;
+	if (APlayerCharacter* KillerChar = Cast<APlayerCharacter>(KillerPS->GetPawn()))
+	{
+		WeaponName = KillerChar->GetCurrentWeaponName();
+	}
+
+	const FString KillerName = KillerPS->GetPlayerName();
+	const FString VictimName = VictimPS->GetPlayerName();
+	const FGenericTeamId KillerTeam = KillerPS->GetTeamId();
+	
+	for (APlayerState* PS : GetWorld()->GetGameState()->PlayerArray)
+	{
+		AGlobalPlayerState* GPS = Cast<AGlobalPlayerState>(PS);
+		if (!GPS) continue;
+
+		EKillMessageRole MsgRole;
+		if (GPS == KillerPS)
+		{
+			MsgRole = EKillMessageRole::Killer;
+		}
+		else if (GPS == VictimPS)
+		{
+			MsgRole = EKillMessageRole::Victim;
+		}
+		else if (KillerTeam != FGenericTeamId::NoTeam && GPS->GetTeamId() == KillerTeam)
+		{
+			MsgRole = EKillMessageRole::Teammate;
+		}
+		else
+		{
+			continue;
+		}
+
+		if (AGlobalPlayerController* PC = Cast<AGlobalPlayerController>(GPS->GetPlayerController()))
+		{
+			PC->Client_KillMessage(KillerName, VictimName, WeaponName, bKnock, bFriendlyFire, KillerPS->GetKillCount(), MsgRole);
+		}
+	}
+}
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -57,12 +268,13 @@ APlayerCharacter::APlayerCharacter()
 	Sphere->SetCollisionResponseToAllChannels(ECR_Ignore);
 	Sphere->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Overlap);
 	Sphere->SetGenerateOverlapEvents(true);
+	
+	MotionWarpingComp = CreateDefaultSubobject<UMotionWarpingComponent>(TEXT("MotionWarpingComp"));
 
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
-
 	LastSentControllerYaw = 0.f;
 	LastSentControllerPitch = 0.f;
 	TargetArmLength = 300.f;
@@ -87,6 +299,7 @@ APlayerCharacter::APlayerCharacter()
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	
 	CharacterAnimInstance = Cast<UCharacterAnimInstance>(GetMesh()->GetAnimInstance());
 	FirstPersonCamera->SetActive(false);
 	ThirdPersonCamera->SetActive(true);
@@ -114,6 +327,9 @@ void APlayerCharacter::BeginPlay()
 			RefreshEquipmentVisuals();
 		}
 	}
+	
+	BaseBoomZ = ThirdPersonSpringArm->GetRelativeLocation().Z;
+	SmoothGrenadeStartZ = GetActorLocation().Z + GetCapsuleComponent()->GetScaledCapsuleHalfHeight() * 0.667f;
 }
 
 void APlayerCharacter::Tick(float DeltaTime)
@@ -155,11 +371,23 @@ void APlayerCharacter::Tick(float DeltaTime)
 				ApplyCharacterGait();
 			}
 		}
+		else if (CharacterGait == ECharacterGait::Sprint)
+		{
+			const float Now = GetWorld()->GetTimeSeconds();
+			const bool bIsFiring = GetWorldTimerManager().IsTimerActive(FireTimerHandle) || (Now - LastFireTimeForSpread < 0.2f);
+			const ECharacterDirection Dir = CharacterAnimInstance ? CharacterAnimInstance->GetCharacterDirection() : ECharacterDirection::Forward;
+			if (!bWantsToSprint || bIsFiring || Dir != ECharacterDirection::Forward)
+			{
+				CharacterGait = ECharacterGait::Jog;
+				Server_SetCharacterGait(CharacterGait);
+				ApplyCharacterGait();
+			}
+		}
 	}
 
 	if (HasAuthority() || IsLocallyControlled())
 	{
-		if (GetVelocity().Size() > 0.f)
+		if (!bIsClimbing && GetVelocity().Size() > 0.f)
 		{
 			FRotator TargetRotation = GetControlRotation();
 			TargetRotation.Pitch = 0.f;
@@ -171,6 +399,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 	if (IsLocallyControlled() && CharacterAnimInstance)
 	{
 		const float TurnYawDelta = CharacterAnimInstance->GetTurnYawCurveDeltaValue();
+		
 		if (!FMath::IsNearlyZero(TurnYawDelta) && GetVelocity().SizeSquared() < 25.f)
 		{
 			FRotator TargetRotation = GetActorRotation();
@@ -273,6 +502,33 @@ void APlayerCharacter::Tick(float DeltaTime)
 			InterpWeaponMesh = nullptr;
 		}
 	}
+	
+	if (!IsLocallyControlled() && GetCharacterMovement() && GetCharacterMovement()->MovementMode == MOVE_Flying)
+	{
+		static float LastClimbLogTime = 0.f;
+		const float Now = GetWorld()->GetTimeSeconds();
+		if (Now - LastClimbLogTime > 0.5f)
+		{
+			LastClimbLogTime = Now;
+			UAnimInstance* AnimInst = GetMesh() ? GetMesh()->GetAnimInstance() : nullptr;
+			UAnimMontage* ActiveMontage = AnimInst ? AnimInst->GetCurrentActiveMontage() : nullptr;
+		}
+	}
+	
+	if (IsLocallyControlled() && bIsCookingGrenade)
+	{
+		UpdateGrenadeTrajectory();
+	}
+	
+	if (!FMath::IsNearlyZero(BoomZCompensation, 0.01f))
+	{
+		BoomZCompensation = FMath::FInterpTo(BoomZCompensation, 0.f, DeltaTime, CrouchCamInterpSpeed);
+	}
+	ThirdPersonSpringArm->SetRelativeLocation(FVector(0.f, 0.f, BaseBoomZ + BoomZCompensation));
+	
+	const float GrenadeRatio = (ThrowMode == EThrowMode::Overhand) ? 0.667f : 0.25f;
+	const float GrenadeTargetZ = GetActorLocation().Z + GetCapsuleComponent()->GetScaledCapsuleHalfHeight() * GrenadeRatio;
+	SmoothGrenadeStartZ = FMath::FInterpTo(SmoothGrenadeStartZ, GrenadeTargetZ, DeltaTime, 3.f);
 }
 
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -301,6 +557,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		EnhancedInputComponent->BindAction(IA_ToggleFireMode, ETriggerEvent::Started, this, &APlayerCharacter::OnToggleFireMode);
 		EnhancedInputComponent->BindAction(IA_Lean, ETriggerEvent::Triggered, this, &APlayerCharacter::OnLean);
 		EnhancedInputComponent->BindAction(IA_Lean, ETriggerEvent::Completed, this, &APlayerCharacter::OnLean);
+		EnhancedInputComponent->BindAction(IA_Pickup, ETriggerEvent::Started, this, &APlayerCharacter::OnPickup);
 	}
 }
 
@@ -412,6 +669,11 @@ void APlayerCharacter::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty
 	DOREPLIFETIME(APlayerCharacter, ControllerRotator_Yaw)
 	DOREPLIFETIME(APlayerCharacter, ControllerRotator_Pitch)
 	DOREPLIFETIME(APlayerCharacter, CurrentLeanDirection);
+	DOREPLIFETIME(APlayerCharacter, ClimbWarpTarget);
+	DOREPLIFETIME(APlayerCharacter, ClimbTopTarget);
+	DOREPLIFETIME(APlayerCharacter, bIsClimbing);
+	DOREPLIFETIME(APlayerCharacter, ThrowMode);
+	DOREPLIFETIME(APlayerCharacter, LifeState);
 }
 
 void APlayerCharacter::PossessedBy(AController* NewController)
@@ -436,6 +698,20 @@ void APlayerCharacter::OnRep_PlayerState()
 			RefreshWeaponVisuals();
 		}
 	}
+}
+
+void APlayerCharacter::OnStartCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust)
+{
+	Super::OnStartCrouch(HalfHeightAdjust, ScaledHalfHeightAdjust);
+	
+	BoomZCompensation += ScaledHalfHeightAdjust;
+}
+
+void APlayerCharacter::OnEndCrouch(float HalfHeightAdjust, float ScaledHalfHeightAdjust)
+{
+	Super::OnEndCrouch(HalfHeightAdjust, ScaledHalfHeightAdjust);
+	
+	BoomZCompensation -= ScaledHalfHeightAdjust;
 }
 
 void APlayerCharacter::Server_InitASC()
@@ -877,6 +1153,61 @@ void APlayerCharacter::OnInventoryChangedHandler()
 {
 	RefreshEquipmentVisuals();
 
+	APlayerState* DropPS = GetPlayerState();
+	UBackpackManagerComponent* DropComp = DropPS ? DropPS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
+	if (DropComp)
+	{
+		auto SlotToIndex = [](ECharacterHeldSlot Slot) -> int32
+		{
+			switch (Slot)
+			{
+			case ECharacterHeldSlot::Primary1:  return 0;
+			case ECharacterHeldSlot::Primary2:  return 1;
+			case ECharacterHeldSlot::Secondary: return 2;
+			case ECharacterHeldSlot::Melee:     return 3;
+			case ECharacterHeldSlot::Throwable: return 4;
+			default: return -1;
+			}
+		};
+
+		const int32 HeldIdx = SlotToIndex(CharacterHeldSlot);
+		const bool bHeldDropped = HeldIdx != -1 && !DropComp->GetWeaponSlotItem(HeldIdx);
+
+		const int32 PendIdx = PendingHeldSlotProcessing ? SlotToIndex(PendingTargetSlot) : -1;
+		const bool bPendingDropped = PendIdx != -1 && !DropComp->GetWeaponSlotItem(PendIdx);
+
+		if (bHeldDropped || bPendingDropped)
+		{
+			ResetWeaponRuntimeState();
+			PendingHeldSlotProcessing = false;
+			bIsSwitchingWeapon = false;
+			CurrentSwitchWeaponMontage = nullptr;
+			GetWorldTimerManager().ClearTimer(WeaponSwitchSafetyTimerHandle);
+			if (HandMagMeshComp) { HandMagMeshComp->DestroyComponent(); HandMagMeshComp = nullptr; }
+			bReloadMagOut = false;
+			ReloadingMagSlotIndex = -1;
+			bIsADS = false;
+			bIsSoftAiming = false;
+			bIsAiming = false;
+			ApplyCameraState();
+
+			if (UAnimInstance* AnimInst = GetMesh() ? GetMesh()->GetAnimInstance() : nullptr)
+			{
+				AnimInst->Montage_Stop(0.1f);
+			}
+
+			CharacterHeldSlot = ECharacterHeldSlot::Unarmed;
+			CurrentHeldWeaponInstance = nullptr;
+			if (IsLocallyControlled() && !HasAuthority())
+			{
+				Server_SetCharacterHeldSlot(ECharacterHeldSlot::Unarmed);
+			}
+
+			RefreshWeaponVisuals();
+			UpdateCharacterHeldSlotAnimLayer();
+		}
+	}
+
 	if (CurrentHeldWeaponInstance && IsHoldingFireArm())
 	{
 		APlayerState* PS = GetPlayerState();
@@ -947,6 +1278,15 @@ void APlayerCharacter::OnRep_CharacterHeldSlot()
 
 	RefreshWeaponVisuals();
 	UpdateCharacterHeldSlotAnimLayer();
+}
+
+void APlayerCharacter::OnRep_ClimbWarpTarget()
+{
+	if (MotionWarpingComp)
+	{
+		MotionWarpingComp->AddOrUpdateWarpTargetFromLocation(TEXT("ClimbTop"), ClimbTopTarget);
+		MotionWarpingComp->AddOrUpdateWarpTargetFromLocation(TEXT("ClimbTarget"), ClimbWarpTarget);
+	}
 }
 
 void APlayerCharacter::OnReloadMontageEnded(UAnimMontage* Montage, bool bInterrupted)
@@ -1054,6 +1394,17 @@ void APlayerCharacter::OnSwitchWeaponMontageBlendOut(UAnimMontage* Montage, bool
 		}
 		OnSwitchWeaponMontageEnded(Montage, true);
 	}
+}
+
+void APlayerCharacter::OnRep_IsClimbing()
+{
+	if (HasAuthority() || IsLocallyControlled()) return;
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldStatic, bIsClimbing ? ECR_Ignore : ECR_Block);
+}
+
+void APlayerCharacter::OnRep_ThrowMode()
+{
+	UpdateCharacterHeldSlotAnimLayer();
 }
 
 void APlayerCharacter::Server_SetCharacterStance_Implementation(ECharacterStance NewCharacterStance)
@@ -1291,6 +1642,19 @@ void APlayerCharacter::Multicast_FireEffect_Implementation(const FVector_NetQuan
 
 	USkeletalMeshComponent* WeaponMesh = GetHeldWeaponComp();
 
+	if (WeaponFrag->CharacterFireMontage)
+	{
+		if (UAnimInstance* CharAnimInst = GetMesh() ? GetMesh()->GetAnimInstance() : nullptr)
+		{
+			const float FireInterval = 60.f / FMath::Max(WeaponFrag->RoundsPerMinute, 1.f);
+			const float MontageLength = WeaponFrag->CharacterFireMontage->GetPlayLength();
+			float PlayRate = MontageLength / FMath::Max(FireInterval, KINDA_SMALL_NUMBER);
+			PlayRate = FMath::Clamp(PlayRate, 1.f, 3.f);
+
+			CharAnimInst->Montage_Play(WeaponFrag->CharacterFireMontage, PlayRate);
+		}
+	}
+	
 	if (WeaponFrag->WeaponFireMontage && WeaponMesh)
 	{
 		if (UAnimInstance* WeaponAnimInst = WeaponMesh->GetAnimInstance())
@@ -1505,6 +1869,44 @@ void APlayerCharacter::Client_FireRejected_Implementation()
 	}
 }
 
+void APlayerCharacter::Multicast_PlayHitReaction_Implementation(const FVector_NetQuantize& DamageSourceLocation)
+{
+	if (!GetMesh()) return;
+	
+	const float Now = GetWorld() ? GetWorld()->GetTimeSeconds() : 0.f;
+	if (Now - LastHitReactionTime < HitReactionCooldown) return;
+
+	FVector ToSource = FVector(DamageSourceLocation) - GetActorLocation();
+	ToSource.Z = 0.f;
+	if (ToSource.IsNearlyZero()) return;
+	ToSource.Normalize();
+
+	const float ForwardDot = FVector::DotProduct(GetActorForwardVector(), ToSource);
+	const float RightDot   = FVector::DotProduct(GetActorRightVector(), ToSource);
+
+	UAnimMontage* MontageToPlay = nullptr;
+	if (ForwardDot > 0.5f)       MontageToPlay = HitReactMontage_Front;
+	else if (ForwardDot < -0.5f) MontageToPlay = HitReactMontage_Back;
+	else if (RightDot > 0.f)     MontageToPlay = HitReactMontage_Right;
+	else                         MontageToPlay = HitReactMontage_Left;
+
+	if (!MontageToPlay) return;
+
+	if (UAnimInstance* AnimInst = GetMesh()->GetAnimInstance())
+	{
+		AnimInst->Montage_Play(MontageToPlay);
+		LastHitReactionTime = Now;
+	}
+	
+	if (IsLocallyControlled() && HitCameraShakeClass)
+	{
+		if (APlayerController* PC = Cast<APlayerController>(GetController()))
+		{
+			PC->ClientStartCameraShake(HitCameraShakeClass);
+		}
+	}
+}
+
 void APlayerCharacter::OnCrouch(const FInputActionValue& Value)
 {
 	if (CharacterStance == ECharacterStance::Crouch) { CharacterStance = ECharacterStance::Stand; UnCrouch(); }
@@ -1531,8 +1933,8 @@ void APlayerCharacter::OnJump(const FInputActionValue& Value)
 void APlayerCharacter::OnLook(const FInputActionValue& Value)
 {
 	FVector2D Vector = Value.Get<FVector2D>();
-	AddControllerPitchInput(-Vector.Y);
-	AddControllerYawInput(Vector.X);
+	AddControllerPitchInput(-Vector.Y * 0.5f);
+	AddControllerYawInput(Vector.X * 0.5f);
 }
 
 void APlayerCharacter::OnMove(const FInputActionValue& Value)
@@ -1561,6 +1963,8 @@ void APlayerCharacter::OnSprint(const FInputActionInstance& Value)
 
 void APlayerCharacter::OnSwitchHeld(const FInputActionValue& Value)
 {
+	if (LifeState != ECharacterLifeState::Alive) return;
+	
 	float Number = Value.Get<float>();
 
 	ECharacterHeldSlot NewSlot = ECharacterHeldSlot::Unarmed;
@@ -1620,11 +2024,19 @@ void APlayerCharacter::OnWalk(const FInputActionInstance& Value)
 
 void APlayerCharacter::OnFire(const FInputActionInstance& Value)
 {
+	if (LifeState != ECharacterLifeState::Alive) return;
+	
 	ETriggerEvent Event = Value.GetTriggerEvent();
 
 	if (Event == ETriggerEvent::Started)
 	{
-		if (bIsReloading || bIsTogglingFireMode || bIsSwitchingWeapon || !IsHoldingFireArm()) return;
+		if (CharacterHeldSlot == ECharacterHeldSlot::Throwable)
+		{
+			BeginCookGrenade();
+			return;
+		}
+
+		if (bIsClimbing || bIsReloading || bIsTogglingFireMode || bIsSwitchingWeapon || !IsHoldingFireArm()) return;
 		if (CharacterGait == ECharacterGait::Sprint) { CharacterGait = ECharacterGait::Jog; Server_SetCharacterGait(CharacterGait); ApplyCharacterGait(); }
 
 		bIsHoldingFire = true;
@@ -1669,6 +2081,11 @@ void APlayerCharacter::OnFire(const FInputActionInstance& Value)
 	}
 	else if (Event == ETriggerEvent::Completed || Event == ETriggerEvent::Canceled)
 	{
+		if (bIsCookingGrenade)
+		{
+			ReleaseGrenade();
+		}
+
 		bIsHoldingFire = false;
 		GetWorldTimerManager().ClearTimer(FireTimerHandle);
 	}
@@ -1676,16 +2093,27 @@ void APlayerCharacter::OnFire(const FInputActionInstance& Value)
 
 void APlayerCharacter::OnAim(const FInputActionInstance& Value)
 {
+	if (LifeState != ECharacterLifeState::Alive) return;
+	
+	if (CharacterHeldSlot == ECharacterHeldSlot::Throwable)
+	{
+		if (Value.GetTriggerEvent() == ETriggerEvent::Started)
+		{
+			ToggleThrowMode();
+		}
+		return;
+	}
+
 	if (!IsHoldingFireArm()) return;
 
 	const ETriggerEvent Event = Value.GetTriggerEvent();
 	if (Event == ETriggerEvent::Started)
 	{
-		if (bIsReloading || bIsSwitchingWeapon || bIsTogglingFireMode) return;
+		if (bIsClimbing || bIsReloading || bIsSwitchingWeapon || bIsTogglingFireMode) return;
 		
 		GetWorldTimerManager().SetTimer(AimHoldTimer, [this]()
 		{
-			if (bIsReloading || bIsSwitchingWeapon || bIsTogglingFireMode) return;
+			if (bIsClimbing || bIsReloading || bIsSwitchingWeapon || bIsTogglingFireMode) return;
 			if (!bIsADS)
 			{
 				bIsSoftAiming = true;
@@ -1700,7 +2128,7 @@ void APlayerCharacter::OnAim(const FInputActionInstance& Value)
 		GetWorldTimerManager().ClearTimer(AimHoldTimer);
 		bIsSoftAiming = false;
 
-		if (!bWasSoftAiming && !bIsReloading && !bIsSwitchingWeapon && !bIsTogglingFireMode)
+		if (!bWasSoftAiming && !bIsClimbing && !bIsReloading && !bIsSwitchingWeapon && !bIsTogglingFireMode)
 		{
 			bIsADS = !bIsADS;
 			if (bIsADS) bPreADSFirstPerson = FirstPersonCamera->IsActive();
@@ -1713,8 +2141,10 @@ void APlayerCharacter::OnAim(const FInputActionInstance& Value)
 
 void APlayerCharacter::OnReload(const FInputActionValue& Value)
 {
+	if (LifeState != ECharacterLifeState::Alive) return;
+	
 	if (!IsHoldingFireArm()) return;
-	if (bIsReloading || bIsTogglingFireMode || bIsSwitchingWeapon) return;
+	if (bIsClimbing || bIsReloading || bIsTogglingFireMode || bIsSwitchingWeapon) return;
 
 	int32 SlotIndex = -1;
 	if (CharacterHeldSlot == ECharacterHeldSlot::Primary1) SlotIndex = 0;
@@ -1758,6 +2188,8 @@ void APlayerCharacter::OnReload(const FInputActionValue& Value)
 
 void APlayerCharacter::OnHolster(const FInputActionValue& Value)
 {
+	if (LifeState != ECharacterLifeState::Alive) return;
+	
 	if (bIsSwitchingWeapon) return;
 
 	APlayerState* PS = GetPlayerState();
@@ -1794,7 +2226,7 @@ void APlayerCharacter::OnHolster(const FInputActionValue& Value)
 void APlayerCharacter::OnToggleFireMode(const FInputActionValue& Value)
 {
 	if (CharacterHeldSlot != ECharacterHeldSlot::Primary1 && CharacterHeldSlot != ECharacterHeldSlot::Primary2 && CharacterHeldSlot != ECharacterHeldSlot::Secondary) return;
-	if (bIsReloading || bIsTogglingFireMode || bIsSwitchingWeapon) return;
+	if (bIsClimbing || bIsReloading || bIsTogglingFireMode || bIsSwitchingWeapon) return;
 
 	int32 SlotIndex = -1;
 	if (CharacterHeldSlot == ECharacterHeldSlot::Primary1) SlotIndex = 0;
@@ -1830,6 +2262,25 @@ void APlayerCharacter::OnLean(const FInputActionInstance& Value)
 	if (IsLocallyControlled())
 	{
 		Server_SetLeanDirection(AxisValue);
+	}
+}
+
+void APlayerCharacter::OnPickup(const FInputActionValue& Value)
+{
+	if (LifeState != ECharacterLifeState::Alive) return;
+	
+	APlayerController* PC = Cast<APlayerController>(GetController());
+	if (!PC || !PC->IsLocalController()) return;
+
+	APickupItem* HitItem = TracePickupItem();
+	if (!HitItem) return;
+
+	AGlobalPlayerState* PS = GetPlayerState<AGlobalPlayerState>();
+	if (!PS) return;
+
+	if (UBackpackManagerComponent* Manager = PS->FindComponentByClass<UBackpackManagerComponent>())
+	{
+		Manager->Server_QuickPickupItem(HitItem);
 	}
 }
 
@@ -1872,7 +2323,14 @@ void APlayerCharacter::UpdateCharacterHeldSlotAnimLayer()
 	case ECharacterHeldSlot::Primary1: if (CharacterAnimLayerInstance_Rifle) CharacterAnimInstance->LinkAnimClassLayers(CharacterAnimLayerInstance_Rifle); break;
 	case ECharacterHeldSlot::Primary2: if (CharacterAnimLayerInstance_Rifle) CharacterAnimInstance->LinkAnimClassLayers(CharacterAnimLayerInstance_Rifle); break;
 	case ECharacterHeldSlot::Secondary: if (CharacterAnimLayerInstance_Pistol) CharacterAnimInstance->LinkAnimClassLayers(CharacterAnimLayerInstance_Pistol); break;
-	case ECharacterHeldSlot::Throwable: if (CharacterAnimLayerInstance_Throwable) CharacterAnimInstance->LinkAnimClassLayers(CharacterAnimLayerInstance_Throwable); break;
+	case ECharacterHeldSlot::Throwable:
+		if (ThrowMode == EThrowMode::Overhand && CharacterAnimLayerInstance_ThrowableOverhand)
+			CharacterAnimInstance->LinkAnimClassLayers(CharacterAnimLayerInstance_ThrowableOverhand);
+		else if (ThrowMode == EThrowMode::Underhand && CharacterAnimLayerInstance_ThrowableUnderhand)
+			CharacterAnimInstance->LinkAnimClassLayers(CharacterAnimLayerInstance_ThrowableUnderhand);
+		else if (CharacterAnimLayerInstance_Throwable)
+			CharacterAnimInstance->LinkAnimClassLayers(CharacterAnimLayerInstance_Throwable);
+		break;
 	case ECharacterHeldSlot::Unarmed: if (CharacterAnimLayerInstance_Unarmed && CharacterAnimInstance) CharacterAnimInstance->LinkAnimClassLayers(CharacterAnimLayerInstance_Unarmed); break;
 	}
 }
@@ -2133,6 +2591,126 @@ void APlayerCharacter::ApplyCameraState()
 	}
 }
 
+APickupItem* APlayerCharacter::TracePickupItem() const
+{
+	UCameraComponent* ActiveCam = FirstPersonCamera->IsActive() ? FirstPersonCamera : ThirdPersonCamera;
+	if (!ActiveCam) return nullptr;
+
+	const FVector Start = ActiveCam->GetComponentLocation();
+	const FVector End = Start + ActiveCam->GetForwardVector() * PickupTraceDistance;
+
+	FHitResult Hit;
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(this);
+
+	if (GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Params))
+	{
+		return Cast<APickupItem>(Hit.GetActor());
+	}
+	return nullptr;
+}
+
+void APlayerCharacter::ToggleThrowMode()
+{
+	const EThrowMode NewMode = (ThrowMode == EThrowMode::Overhand) ? EThrowMode::Underhand : EThrowMode::Overhand;
+
+	ThrowMode = NewMode;
+	UpdateCharacterHeldSlotAnimLayer();
+	Server_SetThrowMode(NewMode);
+}
+
+void APlayerCharacter::BeginCookGrenade()
+{
+	if (bIsCookingGrenade || bIsClimbing || bIsReloading || bIsSwitchingWeapon) return;
+
+	UBackpackItemFragment_Throwable* Frag = GetThrowableFrag();
+	if (!Frag) return;
+
+	bIsCookingGrenade = true;
+	GrenadeCookStartTime = GetWorld()->GetTimeSeconds();
+
+	UAnimMontage* CookMontage = (ThrowMode == EThrowMode::Overhand) ? Frag->CookMontage_Overhand : Frag->CookMontage_Underhand;
+	if (CookMontage && GetMesh() && GetMesh()->GetAnimInstance())
+	{
+		GetMesh()->GetAnimInstance()->Montage_Play(CookMontage);
+	}
+	Server_PlayGrenadeMontage(CookMontage);
+}
+
+void APlayerCharacter::ReleaseGrenade()
+{
+	if (!bIsCookingGrenade) return;
+	bIsCookingGrenade = false;
+
+	UBackpackItemFragment_Throwable* Frag = GetThrowableFrag();
+	if (!Frag) return;
+
+	UAnimMontage* ThrowMontage = (ThrowMode == EThrowMode::Overhand) ? Frag->ThrowMontage_Overhand : Frag->ThrowMontage_Underhand;
+	if (ThrowMontage && GetMesh() && GetMesh()->GetAnimInstance())
+	{
+		GetMesh()->GetAnimInstance()->Montage_Play(ThrowMontage);
+	}
+	Server_PlayGrenadeMontage(ThrowMontage);
+	
+	const FVector Dir = FRotationMatrix(FRotator(GetControlRotation().Pitch, GetActorRotation().Yaw, 0.f)).GetUnitAxis(EAxis::X);
+	Server_ThrowGrenade(Dir, Frag->FuseTime);
+}
+
+UBackpackItemFragment_Throwable* APlayerCharacter::GetThrowableFrag() const
+{
+	APlayerState* PS = GetPlayerState();
+	UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
+	if (!Comp) return nullptr;
+
+	UBackpackItemInstance* Item = Comp->GetWeaponSlotItem(4);
+	if (!Item || !Item->Definition) return nullptr;
+
+	return Cast<UBackpackItemFragment_Throwable>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(Item->Definition->GetClass(), UBackpackItemFragment_Throwable::StaticClass()));
+}
+
+void APlayerCharacter::UpdateGrenadeTrajectory()
+{
+	if (!IsLocallyControlled()) return;
+
+	UBackpackItemFragment_Throwable* Frag = GetThrowableFrag();
+	if (!Frag) return;
+
+	const FVector Dir = FRotationMatrix(FRotator(GetControlRotation().Pitch, GetActorRotation().Yaw, 0.f)).GetUnitAxis(EAxis::X);
+	const float SpeedCm = ((ThrowMode == EThrowMode::Overhand) ? Frag->ThrowSpeed_Overhand : Frag->ThrowSpeed_Underhand) * 100.f;
+	const FVector StartLoc = GetGrenadeStartLocation(Dir);
+
+	FPredictProjectilePathParams Params;
+	Params.StartLocation = StartLoc;
+	Params.LaunchVelocity = Dir * SpeedCm;
+	Params.bTraceWithCollision = true;
+	Params.ProjectileRadius = 3.f;
+	Params.MaxSimTime = Frag->FuseTime;
+	Params.SimFrequency = 30.f;
+	Params.TraceChannel = ECC_Visibility;
+	Params.ActorsToIgnore.Add(this);
+	Params.DrawDebugType = EDrawDebugTrace::None;
+
+	FPredictProjectilePathResult Result;
+	UGameplayStatics::PredictProjectilePath(this, Params, Result);
+
+	UWorld* World = GetWorld();
+	if (!World) return;
+	
+	const FColor LineColor = FColor::Green;
+
+	const TArray<FPredictProjectilePathPointData>& Path = Result.PathData;
+	for (int32 i = 1; i < Path.Num(); ++i)
+	{
+		DrawDebugLine(World, Path[i - 1].Location, Path[i].Location, LineColor, false, -1.f, 0, 2.f);
+	}
+
+	if (Result.HitResult.bBlockingHit)
+	{
+		DrawDebugSphere(World, Result.HitResult.ImpactPoint, 10.f, 12, FColor::Red, false, -1.f, 0, 2.f);
+		DrawDebugLine(World, Result.HitResult.ImpactPoint, Result.HitResult.ImpactPoint + FVector(0.f, 0.f, 50.f), FColor::Red, false, -1.f, 0, 2.f);
+	}
+}
+
 bool APlayerCharacter::IsHoldingFireArm() const
 {
 	return CharacterHeldSlot == ECharacterHeldSlot::Primary1 || CharacterHeldSlot == ECharacterHeldSlot::Primary2 || CharacterHeldSlot == ECharacterHeldSlot::Secondary;
@@ -2181,6 +2759,36 @@ int32 APlayerCharacter::GetCurrentWeaponSlotIndex() const
 	}
 }
 
+void APlayerCharacter::BeginClimbState()
+{
+	if (bIsADS) { bIsADS = false; bIsAiming = false; ApplyCameraState(); }
+	bIsSoftAiming = false;
+	bIsClimbing = true;
+	GetCharacterMovement()->StopMovementImmediately();
+	GetCharacterMovement()->SetMovementMode(MOVE_Flying);
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Ignore);
+}
+
+void APlayerCharacter::EndClimbState()
+{
+	bIsClimbing = false;
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+	if (GetCharacterMovement()->MovementMode == MOVE_Flying)
+	{
+		GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+	}
+}
+
+bool APlayerCharacter::ShouldEnableUpperBodyAim() const
+{
+	return CharacterHeldSlot == ECharacterHeldSlot::Throwable;
+}
+
+FString APlayerCharacter::GetCurrentWeaponName() const
+{
+	return (CurrentHeldWeaponInstance && CurrentHeldWeaponInstance->Definition) ? CurrentHeldWeaponInstance->Definition->ItemName.ToString() : FString();
+}
+
 bool APlayerCharacter::ShouldEnableWeaponIK() const
 {
 	if (!IsHoldingFireArm())
@@ -2199,6 +2807,59 @@ bool APlayerCharacter::ShouldEnableWeaponIK() const
 	}
 
 	return true;
+}
+
+void APlayerCharacter::Server_SetThrowMode_Implementation(EThrowMode NewMode)
+{
+	ThrowMode = NewMode;
+}
+
+void APlayerCharacter::Server_PlayGrenadeMontage_Implementation(UAnimMontage* MontageToPlay)
+{
+	Multicast_PlayGrenadeMontage(MontageToPlay);
+}
+
+void APlayerCharacter::Multicast_PlayGrenadeMontage_Implementation(UAnimMontage* MontageToPlay)
+{
+	if (IsLocallyControlled()) return;
+	if (!MontageToPlay || !GetMesh()) return;
+	if (UAnimInstance* AnimInst = GetMesh()->GetAnimInstance())
+	{
+		AnimInst->Montage_Play(MontageToPlay);
+	}
+}
+
+void APlayerCharacter::Server_ThrowGrenade_Implementation(FVector_NetQuantizeNormal ThrowDirection, float RemainingFuse)
+{
+	APlayerState* PS = GetPlayerState();
+	UBackpackManagerComponent* Comp = PS ? PS->FindComponentByClass<UBackpackManagerComponent>() : nullptr;
+	if (!Comp) return;
+
+	UBackpackItemInstance* Item = Comp->GetWeaponSlotItem(4);
+	if (!Item || !Item->Definition) return;
+
+	UBackpackItemFragment_Throwable* Frag = Cast<UBackpackItemFragment_Throwable>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(Item->Definition->GetClass(), UBackpackItemFragment_Throwable::StaticClass()));
+	if (!Frag) return;
+
+	const FVector Dir = FVector(ThrowDirection).GetSafeNormal();
+	const float SpeedCm = ((ThrowMode == EThrowMode::Overhand) ? Frag->ThrowSpeed_Overhand : Frag->ThrowSpeed_Underhand) * 100.f;
+
+	const FVector SpawnLoc = GetGrenadeStartLocation(Dir);
+
+	FActorSpawnParameters Params;
+	Params.Owner = this;
+	Params.Instigator = this;
+	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	if (AGrenadeProjectile* Grenade = GetWorld()->SpawnActor<AGrenadeProjectile>(AGrenadeProjectile::StaticClass(), SpawnLoc, Dir.Rotation(), Params))
+	{
+		Grenade->InitGrenade(Dir, SpeedCm, Item->Definition, FMath::Clamp(RemainingFuse, 0.f, Frag->FuseTime));
+	}
+
+	if (Comp->ConsumeWeaponSlotItem(4, 1) && !Comp->GetWeaponSlotItem(4))
+	{
+		Server_SetCharacterHeldSlot(ECharacterHeldSlot::Unarmed);
+	}
 }
 
 void APlayerCharacter::AnimNotify_AttachWeaponToHand()

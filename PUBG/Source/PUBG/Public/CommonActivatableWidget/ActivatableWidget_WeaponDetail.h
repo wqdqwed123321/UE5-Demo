@@ -6,6 +6,7 @@
 #include "CommonActivatableWidget/BaseCommonActivatableWidget.h"
 #include "ActivatableWidget_WeaponDetail.generated.h"
 
+class UActivatableWidget_WeaponTooltip;
 class AWeaponPreview;
 class UBackpackItemFragment_Weapon;
 class UUserWidget_DragVisual;
@@ -29,6 +30,7 @@ public:
 	
 protected:
 	virtual void NativeDestruct() override;
+	virtual void NativeConstruct() override;
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
 	virtual bool NativeOnDragOver(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
@@ -117,6 +119,12 @@ private:
 	
 	UPROPERTY()
 	TObjectPtr<AWeaponPreview> PreviewActor;
+	
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UActivatableWidget_WeaponTooltip> TooltipClass;
+
+	UPROPERTY()
+	TObjectPtr<UActivatableWidget_WeaponTooltip> ActiveTooltip;
 
 private:
 	FTimerHandle DeferredRefreshTimer;

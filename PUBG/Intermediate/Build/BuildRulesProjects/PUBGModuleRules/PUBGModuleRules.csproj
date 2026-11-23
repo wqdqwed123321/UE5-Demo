@@ -23,6 +23,9 @@
   <Compile Include="..\..\..\..\Plugins\Developer\RiderLink\Source\RiderLink\RiderLink.Build.cs"><Link>Plugins\Developer\RiderLink\Source\RiderLink\RiderLink.Build.cs</Link></Compile>
   <Compile Include="..\..\..\..\Plugins\Developer\RiderLink\Source\RiderLogging\RiderLogging.Build.cs"><Link>Plugins\Developer\RiderLink\Source\RiderLogging\RiderLogging.Build.cs</Link></Compile>
   <Compile Include="..\..\..\..\Plugins\Developer\RiderLink\Source\RiderShaderInfo\RiderShaderInfo.Build.cs"><Link>Plugins\Developer\RiderLink\Source\RiderShaderInfo\RiderShaderInfo.Build.cs</Link></Compile>
+  <Compile Include="..\..\..\..\Plugins\EngineWire\Source\EngineWireFab\EngineWireFab.Build.cs"><Link>Plugins\EngineWire\Source\EngineWireFab\EngineWireFab.Build.cs</Link></Compile>
+  <Compile Include="..\..\..\..\Plugins\EngineWire\Source\EngineWireValidation\EngineWireValidation.Build.cs"><Link>Plugins\EngineWire\Source\EngineWireValidation\EngineWireValidation.Build.cs</Link></Compile>
+  <Compile Include="..\..\..\..\Plugins\EngineWire\Source\EngineWire\EngineWire.Build.cs"><Link>Plugins\EngineWire\Source\EngineWire\EngineWire.Build.cs</Link></Compile>
   <Compile Include="..\..\..\..\Source\PUBG.Target.cs"><Link>Source\PUBG.Target.cs</Link></Compile>
   <Compile Include="..\..\..\..\Source\PUBGEditor.Target.cs"><Link>Source\PUBGEditor.Target.cs</Link></Compile>
   <Compile Include="..\..\..\..\Source\PUBG\PUBG.Build.cs"><Link>Source\PUBG\PUBG.Build.cs</Link></Compile>

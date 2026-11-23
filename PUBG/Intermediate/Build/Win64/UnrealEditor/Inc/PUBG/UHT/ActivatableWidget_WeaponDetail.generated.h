@@ -17,13 +17,13 @@
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 
 // ********** Begin Class UActivatableWidget_WeaponDetail ******************************************
-#define FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h_23_RPC_WRAPPERS_NO_PURE_DECLS \
+#define FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h_24_RPC_WRAPPERS_NO_PURE_DECLS \
 	DECLARE_FUNCTION(execOnInventoryChangedHandler);
 
 
 PUBG_API UClass* Z_Construct_UClass_UActivatableWidget_WeaponDetail_NoRegister();
 
-#define FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h_23_INCLASS_NO_PURE_DECLS \
+#define FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h_24_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesUActivatableWidget_WeaponDetail(); \
 	friend struct Z_Construct_UClass_UActivatableWidget_WeaponDetail_Statics; \
@@ -34,7 +34,7 @@ public: \
 	DECLARE_SERIALIZER(UActivatableWidget_WeaponDetail)
 
 
-#define FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h_23_ENHANCED_CONSTRUCTORS \
+#define FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h_24_ENHANCED_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API UActivatableWidget_WeaponDetail(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()); \
 	/** Deleted move- and copy-constructors, should never be used */ \
@@ -46,13 +46,13 @@ public: \
 	NO_API virtual ~UActivatableWidget_WeaponDetail();
 
 
-#define FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h_20_PROLOG
-#define FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h_23_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h_21_PROLOG
+#define FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h_24_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h_23_RPC_WRAPPERS_NO_PURE_DECLS \
-	FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h_23_INCLASS_NO_PURE_DECLS \
-	FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h_23_ENHANCED_CONSTRUCTORS \
+	FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h_24_RPC_WRAPPERS_NO_PURE_DECLS \
+	FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h_24_INCLASS_NO_PURE_DECLS \
+	FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h_24_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

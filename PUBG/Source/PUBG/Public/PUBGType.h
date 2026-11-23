@@ -134,6 +134,36 @@ enum class EAttachmentSlot : uint8
 	Stock           UMETA(DisplayName = "枪托")
 };
 
+UENUM(BlueprintType)
+enum class EThrowMode : uint8
+{
+	Overhand  UMETA(DisplayName = "高抛"),
+	Underhand UMETA(DisplayName = "低抛")
+};
+
+UENUM(BlueprintType)
+enum class ECharacterLifeState : uint8
+{
+	Alive  UMETA(DisplayName = "存活"),
+	Downed UMETA(DisplayName = "倒地"),
+	Dead   UMETA(DisplayName = "死亡")
+};
+
+UENUM(BlueprintType)
+enum class EKillFeedType : uint8
+{
+	Knock,
+	Eliminate
+};
+
+UENUM(BlueprintType)
+enum class EKillMessageRole : uint8
+{
+	Killer,
+	Victim,
+	Teammate
+};
+
 USTRUCT(BlueprintType)
 struct FItemAttribute
 {
@@ -264,12 +294,6 @@ struct FCharacterTurnAngleAnimations
     
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TObjectPtr<UAnimSequence> TurnLeft90;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TObjectPtr<UAnimSequence> TurnRight180;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TObjectPtr<UAnimSequence> TurnLeft180;
 };
 
 USTRUCT(BlueprintType)

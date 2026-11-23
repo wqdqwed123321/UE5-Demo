@@ -4,7 +4,9 @@
 #include "CommonActivatableWidget/ActivatableWidget_EquipmentSlot.h"
 
 #include "ActorComponent/BackpackManagerComponent.h"
+#include "Blueprint/SlateBlueprintLibrary.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
+#include "CommonActivatableWidget/ActivatableWidget_WeaponTooltip.h"
 #include "Components/Image.h"
 #include "DragDropOperation/BackpackDragDropOperation.h"
 #include "Object/BackpackItemDefinition.h"
@@ -21,6 +23,20 @@ void UActivatableWidget_EquipmentSlot::NativeDestruct()
 	}
 	
 	Super::NativeDestruct();
+}
+
+void UActivatableWidget_EquipmentSlot::NativeConstruct()
+{
+	Super::NativeConstruct();
+	
+	if (TooltipClass)
+	{
+		ActiveTooltip = CreateWidget<UActivatableWidget_WeaponTooltip>(GetOwningPlayer(), TooltipClass);
+		if (ActiveTooltip)
+		{
+			ActiveTooltip->SetVisibility(ESlateVisibility::HitTestInvisible);
+		}
+	}
 }
 
 void UActivatableWidget_EquipmentSlot::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation)
@@ -110,5 +126,18 @@ void UActivatableWidget_EquipmentSlot::SetupEquipmentSlot(UBackpackItemInstance*
 	{
 		Image_Picture->SetBrushFromTexture(nullptr);
 		Image_Picture->SetColorAndOpacity(FLinearColor(1.f, 1.f, 1.f, 0.f)); 
+	}
+
+	if (ActiveTooltip)
+	{
+		if (EquipmentItem && EquipmentItem->Definition)
+		{
+			ActiveTooltip->SetupTooltip(EquipmentItem);
+			SetToolTip(ActiveTooltip);
+		}
+		else
+		{
+			SetToolTip(nullptr);
+		}
 	}
 }

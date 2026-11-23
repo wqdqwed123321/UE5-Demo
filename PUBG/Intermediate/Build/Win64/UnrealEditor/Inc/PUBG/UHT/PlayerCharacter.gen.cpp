@@ -18,9 +18,11 @@ COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
 COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FVector();
 ENGINE_API UClass* Z_Construct_UClass_AActor_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_ACharacter();
+ENGINE_API UClass* Z_Construct_UClass_APlayerState_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_UAnimInstance_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_UAnimMontage_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_UCameraComponent_NoRegister();
+ENGINE_API UClass* Z_Construct_UClass_UCameraShakeBase_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_UDataTable_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_UPrimitiveComponent_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_USkeletalMeshComponent_NoRegister();
@@ -30,8 +32,10 @@ ENGINE_API UClass* Z_Construct_UClass_USpringArmComponent_NoRegister();
 ENGINE_API UClass* Z_Construct_UClass_UStaticMeshComponent_NoRegister();
 ENGINE_API UScriptStruct* Z_Construct_UScriptStruct_FHitResult();
 ENGINE_API UScriptStruct* Z_Construct_UScriptStruct_FVector_NetQuantize();
+ENGINE_API UScriptStruct* Z_Construct_UScriptStruct_FVector_NetQuantizeNormal();
 ENHANCEDINPUT_API UClass* Z_Construct_UClass_UInputAction_NoRegister();
 GAMEPLAYABILITIES_API UClass* Z_Construct_UClass_UAbilitySystemInterface_NoRegister();
+MOTIONWARPING_API UClass* Z_Construct_UClass_UMotionWarpingComponent_NoRegister();
 NIAGARA_API UClass* Z_Construct_UClass_UNiagaraSystem_NoRegister();
 PUBG_API UClass* Z_Construct_UClass_APlayerCharacter();
 PUBG_API UClass* Z_Construct_UClass_APlayerCharacter_NoRegister();
@@ -40,8 +44,10 @@ PUBG_API UClass* Z_Construct_UClass_UBaseCommonActivatableWidget_NoRegister();
 PUBG_API UClass* Z_Construct_UClass_UCharacterAnimInstance_NoRegister();
 PUBG_API UEnum* Z_Construct_UEnum_PUBG_ECharacterGait();
 PUBG_API UEnum* Z_Construct_UEnum_PUBG_ECharacterHeldSlot();
+PUBG_API UEnum* Z_Construct_UEnum_PUBG_ECharacterLifeState();
 PUBG_API UEnum* Z_Construct_UEnum_PUBG_ECharacterStance();
 PUBG_API UEnum* Z_Construct_UEnum_PUBG_EEquipmentSlot();
+PUBG_API UEnum* Z_Construct_UEnum_PUBG_EThrowMode();
 PUBG_API UFunction* Z_Construct_UDelegateFunction_PUBG_OnWeaponSlotChanged__DelegateSignature();
 UPackage* Z_Construct_UPackage__Script_PUBG();
 // ********** End Cross Module References **********************************************************
@@ -374,6 +380,144 @@ DEFINE_FUNCTION(APlayerCharacter::execMulticast_FireEffect)
 	P_NATIVE_END;
 }
 // ********** End Class APlayerCharacter Function Multicast_FireEffect *****************************
+
+// ********** Begin Class APlayerCharacter Function Multicast_PlayDownedMontage ********************
+static FName NAME_APlayerCharacter_Multicast_PlayDownedMontage = FName(TEXT("Multicast_PlayDownedMontage"));
+void APlayerCharacter::Multicast_PlayDownedMontage()
+{
+	UFunction* Func = FindFunctionChecked(NAME_APlayerCharacter_Multicast_PlayDownedMontage);
+	ProcessEvent(Func,NULL);
+}
+struct Z_Construct_UFunction_APlayerCharacter_Multicast_PlayDownedMontage_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_APlayerCharacter_Multicast_PlayDownedMontage_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_APlayerCharacter, nullptr, "Multicast_PlayDownedMontage", nullptr, 0, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00024CC0, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_Multicast_PlayDownedMontage_Statics::Function_MetaDataParams), Z_Construct_UFunction_APlayerCharacter_Multicast_PlayDownedMontage_Statics::Function_MetaDataParams)},  };
+UFunction* Z_Construct_UFunction_APlayerCharacter_Multicast_PlayDownedMontage()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_APlayerCharacter_Multicast_PlayDownedMontage_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(APlayerCharacter::execMulticast_PlayDownedMontage)
+{
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->Multicast_PlayDownedMontage_Implementation();
+	P_NATIVE_END;
+}
+// ********** End Class APlayerCharacter Function Multicast_PlayDownedMontage **********************
+
+// ********** Begin Class APlayerCharacter Function Multicast_PlayGrenadeMontage *******************
+struct PlayerCharacter_eventMulticast_PlayGrenadeMontage_Parms
+{
+	UAnimMontage* MontageToPlay;
+};
+static FName NAME_APlayerCharacter_Multicast_PlayGrenadeMontage = FName(TEXT("Multicast_PlayGrenadeMontage"));
+void APlayerCharacter::Multicast_PlayGrenadeMontage(UAnimMontage* MontageToPlay)
+{
+	PlayerCharacter_eventMulticast_PlayGrenadeMontage_Parms Parms;
+	Parms.MontageToPlay=MontageToPlay;
+	UFunction* Func = FindFunctionChecked(NAME_APlayerCharacter_Multicast_PlayGrenadeMontage);
+	ProcessEvent(Func,&Parms);
+}
+struct Z_Construct_UFunction_APlayerCharacter_Multicast_PlayGrenadeMontage_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_MontageToPlay;
+	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_APlayerCharacter_Multicast_PlayGrenadeMontage_Statics::NewProp_MontageToPlay = { "MontageToPlay", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(PlayerCharacter_eventMulticast_PlayGrenadeMontage_Parms, MontageToPlay), Z_Construct_UClass_UAnimMontage_NoRegister, METADATA_PARAMS(0, nullptr) };
+const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_APlayerCharacter_Multicast_PlayGrenadeMontage_Statics::PropPointers[] = {
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_APlayerCharacter_Multicast_PlayGrenadeMontage_Statics::NewProp_MontageToPlay,
+};
+static_assert(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_Multicast_PlayGrenadeMontage_Statics::PropPointers) < 2048);
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_APlayerCharacter_Multicast_PlayGrenadeMontage_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_APlayerCharacter, nullptr, "Multicast_PlayGrenadeMontage", Z_Construct_UFunction_APlayerCharacter_Multicast_PlayGrenadeMontage_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_Multicast_PlayGrenadeMontage_Statics::PropPointers), sizeof(PlayerCharacter_eventMulticast_PlayGrenadeMontage_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00024CC0, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_Multicast_PlayGrenadeMontage_Statics::Function_MetaDataParams), Z_Construct_UFunction_APlayerCharacter_Multicast_PlayGrenadeMontage_Statics::Function_MetaDataParams)},  };
+static_assert(sizeof(PlayerCharacter_eventMulticast_PlayGrenadeMontage_Parms) < MAX_uint16);
+UFunction* Z_Construct_UFunction_APlayerCharacter_Multicast_PlayGrenadeMontage()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_APlayerCharacter_Multicast_PlayGrenadeMontage_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(APlayerCharacter::execMulticast_PlayGrenadeMontage)
+{
+	P_GET_OBJECT(UAnimMontage,Z_Param_MontageToPlay);
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->Multicast_PlayGrenadeMontage_Implementation(Z_Param_MontageToPlay);
+	P_NATIVE_END;
+}
+// ********** End Class APlayerCharacter Function Multicast_PlayGrenadeMontage *********************
+
+// ********** Begin Class APlayerCharacter Function Multicast_PlayHitReaction **********************
+struct PlayerCharacter_eventMulticast_PlayHitReaction_Parms
+{
+	FVector_NetQuantize DamageSourceLocation;
+};
+static FName NAME_APlayerCharacter_Multicast_PlayHitReaction = FName(TEXT("Multicast_PlayHitReaction"));
+void APlayerCharacter::Multicast_PlayHitReaction(FVector_NetQuantize const& DamageSourceLocation)
+{
+	PlayerCharacter_eventMulticast_PlayHitReaction_Parms Parms;
+	Parms.DamageSourceLocation=DamageSourceLocation;
+	UFunction* Func = FindFunctionChecked(NAME_APlayerCharacter_Multicast_PlayHitReaction);
+	ProcessEvent(Func,&Parms);
+}
+struct Z_Construct_UFunction_APlayerCharacter_Multicast_PlayHitReaction_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_DamageSourceLocation_MetaData[] = {
+		{ "NativeConst", "" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FStructPropertyParams NewProp_DamageSourceLocation;
+	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FStructPropertyParams Z_Construct_UFunction_APlayerCharacter_Multicast_PlayHitReaction_Statics::NewProp_DamageSourceLocation = { "DamageSourceLocation", nullptr, (EPropertyFlags)0x0010000008000082, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(PlayerCharacter_eventMulticast_PlayHitReaction_Parms, DamageSourceLocation), Z_Construct_UScriptStruct_FVector_NetQuantize, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_DamageSourceLocation_MetaData), NewProp_DamageSourceLocation_MetaData) }; // 1339770568
+const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_APlayerCharacter_Multicast_PlayHitReaction_Statics::PropPointers[] = {
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_APlayerCharacter_Multicast_PlayHitReaction_Statics::NewProp_DamageSourceLocation,
+};
+static_assert(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_Multicast_PlayHitReaction_Statics::PropPointers) < 2048);
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_APlayerCharacter_Multicast_PlayHitReaction_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_APlayerCharacter, nullptr, "Multicast_PlayHitReaction", Z_Construct_UFunction_APlayerCharacter_Multicast_PlayHitReaction_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_Multicast_PlayHitReaction_Statics::PropPointers), sizeof(PlayerCharacter_eventMulticast_PlayHitReaction_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00024C40, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_Multicast_PlayHitReaction_Statics::Function_MetaDataParams), Z_Construct_UFunction_APlayerCharacter_Multicast_PlayHitReaction_Statics::Function_MetaDataParams)},  };
+static_assert(sizeof(PlayerCharacter_eventMulticast_PlayHitReaction_Parms) < MAX_uint16);
+UFunction* Z_Construct_UFunction_APlayerCharacter_Multicast_PlayHitReaction()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_APlayerCharacter_Multicast_PlayHitReaction_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(APlayerCharacter::execMulticast_PlayHitReaction)
+{
+	P_GET_STRUCT(FVector_NetQuantize,Z_Param_DamageSourceLocation);
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->Multicast_PlayHitReaction_Implementation(Z_Param_DamageSourceLocation);
+	P_NATIVE_END;
+}
+// ********** End Class APlayerCharacter Function Multicast_PlayHitReaction ************************
 
 // ********** Begin Class APlayerCharacter Function Multicast_PlayImpactFX *************************
 struct PlayerCharacter_eventMulticast_PlayImpactFX_Parms
@@ -760,6 +904,122 @@ DEFINE_FUNCTION(APlayerCharacter::execOnRep_CharacterStance)
 	P_NATIVE_END;
 }
 // ********** End Class APlayerCharacter Function OnRep_CharacterStance ****************************
+
+// ********** Begin Class APlayerCharacter Function OnRep_ClimbWarpTarget **************************
+struct Z_Construct_UFunction_APlayerCharacter_OnRep_ClimbWarpTarget_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_APlayerCharacter_OnRep_ClimbWarpTarget_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_APlayerCharacter, nullptr, "OnRep_ClimbWarpTarget", nullptr, 0, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00080401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_OnRep_ClimbWarpTarget_Statics::Function_MetaDataParams), Z_Construct_UFunction_APlayerCharacter_OnRep_ClimbWarpTarget_Statics::Function_MetaDataParams)},  };
+UFunction* Z_Construct_UFunction_APlayerCharacter_OnRep_ClimbWarpTarget()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_APlayerCharacter_OnRep_ClimbWarpTarget_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(APlayerCharacter::execOnRep_ClimbWarpTarget)
+{
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->OnRep_ClimbWarpTarget();
+	P_NATIVE_END;
+}
+// ********** End Class APlayerCharacter Function OnRep_ClimbWarpTarget ****************************
+
+// ********** Begin Class APlayerCharacter Function OnRep_IsClimbing *******************************
+struct Z_Construct_UFunction_APlayerCharacter_OnRep_IsClimbing_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_APlayerCharacter_OnRep_IsClimbing_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_APlayerCharacter, nullptr, "OnRep_IsClimbing", nullptr, 0, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00080401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_OnRep_IsClimbing_Statics::Function_MetaDataParams), Z_Construct_UFunction_APlayerCharacter_OnRep_IsClimbing_Statics::Function_MetaDataParams)},  };
+UFunction* Z_Construct_UFunction_APlayerCharacter_OnRep_IsClimbing()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_APlayerCharacter_OnRep_IsClimbing_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(APlayerCharacter::execOnRep_IsClimbing)
+{
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->OnRep_IsClimbing();
+	P_NATIVE_END;
+}
+// ********** End Class APlayerCharacter Function OnRep_IsClimbing *********************************
+
+// ********** Begin Class APlayerCharacter Function OnRep_LifeState ********************************
+struct Z_Construct_UFunction_APlayerCharacter_OnRep_LifeState_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_APlayerCharacter_OnRep_LifeState_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_APlayerCharacter, nullptr, "OnRep_LifeState", nullptr, 0, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00080401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_OnRep_LifeState_Statics::Function_MetaDataParams), Z_Construct_UFunction_APlayerCharacter_OnRep_LifeState_Statics::Function_MetaDataParams)},  };
+UFunction* Z_Construct_UFunction_APlayerCharacter_OnRep_LifeState()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_APlayerCharacter_OnRep_LifeState_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(APlayerCharacter::execOnRep_LifeState)
+{
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->OnRep_LifeState();
+	P_NATIVE_END;
+}
+// ********** End Class APlayerCharacter Function OnRep_LifeState **********************************
+
+// ********** Begin Class APlayerCharacter Function OnRep_ThrowMode ********************************
+struct Z_Construct_UFunction_APlayerCharacter_OnRep_ThrowMode_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_APlayerCharacter_OnRep_ThrowMode_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_APlayerCharacter, nullptr, "OnRep_ThrowMode", nullptr, 0, 0, RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00080401, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_OnRep_ThrowMode_Statics::Function_MetaDataParams), Z_Construct_UFunction_APlayerCharacter_OnRep_ThrowMode_Statics::Function_MetaDataParams)},  };
+UFunction* Z_Construct_UFunction_APlayerCharacter_OnRep_ThrowMode()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_APlayerCharacter_OnRep_ThrowMode_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(APlayerCharacter::execOnRep_ThrowMode)
+{
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->OnRep_ThrowMode();
+	P_NATIVE_END;
+}
+// ********** End Class APlayerCharacter Function OnRep_ThrowMode **********************************
 
 // ********** Begin Class APlayerCharacter Function OnSphereBeginOverlap ***************************
 struct Z_Construct_UFunction_APlayerCharacter_OnSphereBeginOverlap_Statics
@@ -1216,6 +1476,56 @@ DEFINE_FUNCTION(APlayerCharacter::execServer_InitASC)
 }
 // ********** End Class APlayerCharacter Function Server_InitASC ***********************************
 
+// ********** Begin Class APlayerCharacter Function Server_PlayGrenadeMontage **********************
+struct PlayerCharacter_eventServer_PlayGrenadeMontage_Parms
+{
+	UAnimMontage* MontageToPlay;
+};
+static FName NAME_APlayerCharacter_Server_PlayGrenadeMontage = FName(TEXT("Server_PlayGrenadeMontage"));
+void APlayerCharacter::Server_PlayGrenadeMontage(UAnimMontage* MontageToPlay)
+{
+	PlayerCharacter_eventServer_PlayGrenadeMontage_Parms Parms;
+	Parms.MontageToPlay=MontageToPlay;
+	UFunction* Func = FindFunctionChecked(NAME_APlayerCharacter_Server_PlayGrenadeMontage);
+	ProcessEvent(Func,&Parms);
+}
+struct Z_Construct_UFunction_APlayerCharacter_Server_PlayGrenadeMontage_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_MontageToPlay;
+	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_APlayerCharacter_Server_PlayGrenadeMontage_Statics::NewProp_MontageToPlay = { "MontageToPlay", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(PlayerCharacter_eventServer_PlayGrenadeMontage_Parms, MontageToPlay), Z_Construct_UClass_UAnimMontage_NoRegister, METADATA_PARAMS(0, nullptr) };
+const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_APlayerCharacter_Server_PlayGrenadeMontage_Statics::PropPointers[] = {
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_APlayerCharacter_Server_PlayGrenadeMontage_Statics::NewProp_MontageToPlay,
+};
+static_assert(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_Server_PlayGrenadeMontage_Statics::PropPointers) < 2048);
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_APlayerCharacter_Server_PlayGrenadeMontage_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_APlayerCharacter, nullptr, "Server_PlayGrenadeMontage", Z_Construct_UFunction_APlayerCharacter_Server_PlayGrenadeMontage_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_Server_PlayGrenadeMontage_Statics::PropPointers), sizeof(PlayerCharacter_eventServer_PlayGrenadeMontage_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00220CC0, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_Server_PlayGrenadeMontage_Statics::Function_MetaDataParams), Z_Construct_UFunction_APlayerCharacter_Server_PlayGrenadeMontage_Statics::Function_MetaDataParams)},  };
+static_assert(sizeof(PlayerCharacter_eventServer_PlayGrenadeMontage_Parms) < MAX_uint16);
+UFunction* Z_Construct_UFunction_APlayerCharacter_Server_PlayGrenadeMontage()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_APlayerCharacter_Server_PlayGrenadeMontage_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(APlayerCharacter::execServer_PlayGrenadeMontage)
+{
+	P_GET_OBJECT(UAnimMontage,Z_Param_MontageToPlay);
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->Server_PlayGrenadeMontage_Implementation(Z_Param_MontageToPlay);
+	P_NATIVE_END;
+}
+// ********** End Class APlayerCharacter Function Server_PlayGrenadeMontage ************************
+
 // ********** Begin Class APlayerCharacter Function Server_PlaySwitchWeaponMontage *****************
 struct PlayerCharacter_eventServer_PlaySwitchWeaponMontage_Parms
 {
@@ -1587,6 +1897,59 @@ DEFINE_FUNCTION(APlayerCharacter::execServer_SetLeanDirection)
 }
 // ********** End Class APlayerCharacter Function Server_SetLeanDirection **************************
 
+// ********** Begin Class APlayerCharacter Function Server_SetThrowMode ****************************
+struct PlayerCharacter_eventServer_SetThrowMode_Parms
+{
+	EThrowMode NewMode;
+};
+static FName NAME_APlayerCharacter_Server_SetThrowMode = FName(TEXT("Server_SetThrowMode"));
+void APlayerCharacter::Server_SetThrowMode(EThrowMode NewMode)
+{
+	PlayerCharacter_eventServer_SetThrowMode_Parms Parms;
+	Parms.NewMode=NewMode;
+	UFunction* Func = FindFunctionChecked(NAME_APlayerCharacter_Server_SetThrowMode);
+	ProcessEvent(Func,&Parms);
+}
+struct Z_Construct_UFunction_APlayerCharacter_Server_SetThrowMode_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FBytePropertyParams NewProp_NewMode_Underlying;
+	static const UECodeGen_Private::FEnumPropertyParams NewProp_NewMode;
+	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FBytePropertyParams Z_Construct_UFunction_APlayerCharacter_Server_SetThrowMode_Statics::NewProp_NewMode_Underlying = { "UnderlyingType", nullptr, (EPropertyFlags)0x0000000000000000, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, nullptr, METADATA_PARAMS(0, nullptr) };
+const UECodeGen_Private::FEnumPropertyParams Z_Construct_UFunction_APlayerCharacter_Server_SetThrowMode_Statics::NewProp_NewMode = { "NewMode", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(PlayerCharacter_eventServer_SetThrowMode_Parms, NewMode), Z_Construct_UEnum_PUBG_EThrowMode, METADATA_PARAMS(0, nullptr) }; // 1656926562
+const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_APlayerCharacter_Server_SetThrowMode_Statics::PropPointers[] = {
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_APlayerCharacter_Server_SetThrowMode_Statics::NewProp_NewMode_Underlying,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_APlayerCharacter_Server_SetThrowMode_Statics::NewProp_NewMode,
+};
+static_assert(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_Server_SetThrowMode_Statics::PropPointers) < 2048);
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_APlayerCharacter_Server_SetThrowMode_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_APlayerCharacter, nullptr, "Server_SetThrowMode", Z_Construct_UFunction_APlayerCharacter_Server_SetThrowMode_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_Server_SetThrowMode_Statics::PropPointers), sizeof(PlayerCharacter_eventServer_SetThrowMode_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00220CC0, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_Server_SetThrowMode_Statics::Function_MetaDataParams), Z_Construct_UFunction_APlayerCharacter_Server_SetThrowMode_Statics::Function_MetaDataParams)},  };
+static_assert(sizeof(PlayerCharacter_eventServer_SetThrowMode_Parms) < MAX_uint16);
+UFunction* Z_Construct_UFunction_APlayerCharacter_Server_SetThrowMode()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_APlayerCharacter_Server_SetThrowMode_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(APlayerCharacter::execServer_SetThrowMode)
+{
+	P_GET_ENUM(EThrowMode,Z_Param_NewMode);
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->Server_SetThrowMode_Implementation(EThrowMode(Z_Param_NewMode));
+	P_NATIVE_END;
+}
+// ********** End Class APlayerCharacter Function Server_SetThrowMode ******************************
+
 // ********** Begin Class APlayerCharacter Function Server_StartReload *****************************
 struct PlayerCharacter_eventServer_StartReload_Parms
 {
@@ -1636,6 +1999,62 @@ DEFINE_FUNCTION(APlayerCharacter::execServer_StartReload)
 	P_NATIVE_END;
 }
 // ********** End Class APlayerCharacter Function Server_StartReload *******************************
+
+// ********** Begin Class APlayerCharacter Function Server_ThrowGrenade ****************************
+struct PlayerCharacter_eventServer_ThrowGrenade_Parms
+{
+	FVector_NetQuantizeNormal ThrowDirection;
+	float RemainingFuse;
+};
+static FName NAME_APlayerCharacter_Server_ThrowGrenade = FName(TEXT("Server_ThrowGrenade"));
+void APlayerCharacter::Server_ThrowGrenade(FVector_NetQuantizeNormal ThrowDirection, float RemainingFuse)
+{
+	PlayerCharacter_eventServer_ThrowGrenade_Parms Parms;
+	Parms.ThrowDirection=ThrowDirection;
+	Parms.RemainingFuse=RemainingFuse;
+	UFunction* Func = FindFunctionChecked(NAME_APlayerCharacter_Server_ThrowGrenade);
+	ProcessEvent(Func,&Parms);
+}
+struct Z_Construct_UFunction_APlayerCharacter_Server_ThrowGrenade_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FStructPropertyParams NewProp_ThrowDirection;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_RemainingFuse;
+	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FStructPropertyParams Z_Construct_UFunction_APlayerCharacter_Server_ThrowGrenade_Statics::NewProp_ThrowDirection = { "ThrowDirection", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(PlayerCharacter_eventServer_ThrowGrenade_Parms, ThrowDirection), Z_Construct_UScriptStruct_FVector_NetQuantizeNormal, METADATA_PARAMS(0, nullptr) }; // 759134908
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_APlayerCharacter_Server_ThrowGrenade_Statics::NewProp_RemainingFuse = { "RemainingFuse", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(PlayerCharacter_eventServer_ThrowGrenade_Parms, RemainingFuse), METADATA_PARAMS(0, nullptr) };
+const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_APlayerCharacter_Server_ThrowGrenade_Statics::PropPointers[] = {
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_APlayerCharacter_Server_ThrowGrenade_Statics::NewProp_ThrowDirection,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_APlayerCharacter_Server_ThrowGrenade_Statics::NewProp_RemainingFuse,
+};
+static_assert(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_Server_ThrowGrenade_Statics::PropPointers) < 2048);
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_APlayerCharacter_Server_ThrowGrenade_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_APlayerCharacter, nullptr, "Server_ThrowGrenade", Z_Construct_UFunction_APlayerCharacter_Server_ThrowGrenade_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_Server_ThrowGrenade_Statics::PropPointers), sizeof(PlayerCharacter_eventServer_ThrowGrenade_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00220CC0, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_APlayerCharacter_Server_ThrowGrenade_Statics::Function_MetaDataParams), Z_Construct_UFunction_APlayerCharacter_Server_ThrowGrenade_Statics::Function_MetaDataParams)},  };
+static_assert(sizeof(PlayerCharacter_eventServer_ThrowGrenade_Parms) < MAX_uint16);
+UFunction* Z_Construct_UFunction_APlayerCharacter_Server_ThrowGrenade()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_APlayerCharacter_Server_ThrowGrenade_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(APlayerCharacter::execServer_ThrowGrenade)
+{
+	P_GET_STRUCT(FVector_NetQuantizeNormal,Z_Param_ThrowDirection);
+	P_GET_PROPERTY(FFloatProperty,Z_Param_RemainingFuse);
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->Server_ThrowGrenade_Implementation(Z_Param_ThrowDirection,Z_Param_RemainingFuse);
+	P_NATIVE_END;
+}
+// ********** End Class APlayerCharacter Function Server_ThrowGrenade ******************************
 
 // ********** Begin Class APlayerCharacter Function Server_ToggleFireMode **************************
 static FName NAME_APlayerCharacter_Server_ToggleFireMode = FName(TEXT("Server_ToggleFireMode"));
@@ -1824,6 +2243,9 @@ void APlayerCharacter::StaticRegisterNativesAPlayerCharacter()
 		{ "Client_InitASC", &APlayerCharacter::execClient_InitASC },
 		{ "GetCrosshairSpreadDegrees", &APlayerCharacter::execGetCrosshairSpreadDegrees },
 		{ "Multicast_FireEffect", &APlayerCharacter::execMulticast_FireEffect },
+		{ "Multicast_PlayDownedMontage", &APlayerCharacter::execMulticast_PlayDownedMontage },
+		{ "Multicast_PlayGrenadeMontage", &APlayerCharacter::execMulticast_PlayGrenadeMontage },
+		{ "Multicast_PlayHitReaction", &APlayerCharacter::execMulticast_PlayHitReaction },
 		{ "Multicast_PlayImpactFX", &APlayerCharacter::execMulticast_PlayImpactFX },
 		{ "Multicast_PlayReloadMontage", &APlayerCharacter::execMulticast_PlayReloadMontage },
 		{ "Multicast_PlaySwitchFireModeMontage", &APlayerCharacter::execMulticast_PlaySwitchFireModeMontage },
@@ -1833,6 +2255,10 @@ void APlayerCharacter::StaticRegisterNativesAPlayerCharacter()
 		{ "OnRep_CharacterGait", &APlayerCharacter::execOnRep_CharacterGait },
 		{ "OnRep_CharacterHeldSlot", &APlayerCharacter::execOnRep_CharacterHeldSlot },
 		{ "OnRep_CharacterStance", &APlayerCharacter::execOnRep_CharacterStance },
+		{ "OnRep_ClimbWarpTarget", &APlayerCharacter::execOnRep_ClimbWarpTarget },
+		{ "OnRep_IsClimbing", &APlayerCharacter::execOnRep_IsClimbing },
+		{ "OnRep_LifeState", &APlayerCharacter::execOnRep_LifeState },
+		{ "OnRep_ThrowMode", &APlayerCharacter::execOnRep_ThrowMode },
 		{ "OnSphereBeginOverlap", &APlayerCharacter::execOnSphereBeginOverlap },
 		{ "OnSphereEndOverlap", &APlayerCharacter::execOnSphereEndOverlap },
 		{ "OnSwitchFireModeMontageEnded", &APlayerCharacter::execOnSwitchFireModeMontageEnded },
@@ -1842,6 +2268,7 @@ void APlayerCharacter::StaticRegisterNativesAPlayerCharacter()
 		{ "Server_FinishReload", &APlayerCharacter::execServer_FinishReload },
 		{ "Server_Fire", &APlayerCharacter::execServer_Fire },
 		{ "Server_InitASC", &APlayerCharacter::execServer_InitASC },
+		{ "Server_PlayGrenadeMontage", &APlayerCharacter::execServer_PlayGrenadeMontage },
 		{ "Server_PlaySwitchWeaponMontage", &APlayerCharacter::execServer_PlaySwitchWeaponMontage },
 		{ "Server_SetActorYaw", &APlayerCharacter::execServer_SetActorYaw },
 		{ "Server_SetCharacterGait", &APlayerCharacter::execServer_SetCharacterGait },
@@ -1849,7 +2276,9 @@ void APlayerCharacter::StaticRegisterNativesAPlayerCharacter()
 		{ "Server_SetCharacterStance", &APlayerCharacter::execServer_SetCharacterStance },
 		{ "Server_SetControllerRotator", &APlayerCharacter::execServer_SetControllerRotator },
 		{ "Server_SetLeanDirection", &APlayerCharacter::execServer_SetLeanDirection },
+		{ "Server_SetThrowMode", &APlayerCharacter::execServer_SetThrowMode },
 		{ "Server_StartReload", &APlayerCharacter::execServer_StartReload },
+		{ "Server_ThrowGrenade", &APlayerCharacter::execServer_ThrowGrenade },
 		{ "Server_ToggleFireMode", &APlayerCharacter::execServer_ToggleFireMode },
 		{ "ShouldEnableWeaponIK", &APlayerCharacter::execShouldEnableWeaponIK },
 		{ "ShouldShowCrosshairBars", &APlayerCharacter::execShouldShowCrosshairBars },
@@ -1895,6 +2324,15 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_OnWeaponSlotChanged_MetaData[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_ClimbWarpTarget_MetaData[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_ClimbTopTarget_MetaData[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_bIsClimbing_MetaData[] = {
 		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_IA_Crouch_MetaData[] = {
@@ -1957,6 +2395,10 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 		{ "Category", "PlayerCharacter" },
 		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_IA_Pickup_MetaData[] = {
+		{ "Category", "PlayerCharacter" },
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_DT_CharacterGaitSettings_MetaData[] = {
 		{ "Category", "PlayerCharacter" },
 		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
@@ -1982,6 +2424,18 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_CharacterAnimLayerInstance_Melee_MetaData[] = {
+		{ "Category", "PlayerCharacter" },
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_CharacterAnimLayerInstance_ThrowableOverhand_MetaData[] = {
+		{ "Category", "PlayerCharacter" },
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_CharacterAnimLayerInstance_ThrowableUnderhand_MetaData[] = {
+		{ "Category", "PlayerCharacter" },
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_CharacterAnimLayerInstance_Downed_MetaData[] = {
 		{ "Category", "PlayerCharacter" },
 		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
 	};
@@ -2041,6 +2495,50 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 		{ "Category", "PlayerCharacter" },
 		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_PickupTraceDistance_MetaData[] = {
+		{ "Category", "PlayerCharacter" },
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_HitReactMontage_Front_MetaData[] = {
+		{ "Category", "PlayerCharacter" },
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_HitReactMontage_Back_MetaData[] = {
+		{ "Category", "PlayerCharacter" },
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_HitReactMontage_Left_MetaData[] = {
+		{ "Category", "PlayerCharacter" },
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_HitReactMontage_Right_MetaData[] = {
+		{ "Category", "PlayerCharacter" },
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_DownedMontage_MetaData[] = {
+		{ "Category", "PlayerCharacter" },
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_HitReactionCooldown_MetaData[] = {
+		{ "Category", "PlayerCharacter" },
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_HitCameraShakeClass_MetaData[] = {
+		{ "Category", "PlayerCharacter" },
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_DownedHealthPool_MetaData[] = {
+		{ "Category", "PlayerCharacter" },
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_BleedDamagePerSecond_MetaData[] = {
+		{ "Category", "PlayerCharacter" },
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_DeathMontage_MetaData[] = {
+		{ "Category", "PlayerCharacter" },
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_FirstPersonCamera_MetaData[] = {
 		{ "Category", "PlayerCharacter" },
 		{ "EditInline", "true" },
@@ -2066,6 +2564,11 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 		{ "EditInline", "true" },
 		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_MotionWarpingComp_MetaData[] = {
+		{ "Category", "PlayerCharacter" },
+		{ "EditInline", "true" },
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_CharacterAnimInstance_MetaData[] = {
 		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
 	};
@@ -2078,6 +2581,12 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_CharacterHeldSlot_MetaData[] = {
 		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_ThrowMode_MetaData[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_LifeState_MetaData[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_ControllerRotator_Yaw_MetaData[] = {
 		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
 	};
@@ -2085,6 +2594,10 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_CurrentLeanDirection_MetaData[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_CrouchCamInterpSpeed_MetaData[] = {
+		{ "Category", "PlayerCharacter" },
 		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
 	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_EquippedMeshComponents_MetaData[] = {
@@ -2109,8 +2622,15 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 		{ "EditInline", "true" },
 		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_LastKillerPS_MetaData[] = {
+		{ "ModuleRelativePath", "Public/Character/PlayerCharacter.h" },
+	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FMulticastDelegatePropertyParams NewProp_OnWeaponSlotChanged;
+	static const UECodeGen_Private::FStructPropertyParams NewProp_ClimbWarpTarget;
+	static const UECodeGen_Private::FStructPropertyParams NewProp_ClimbTopTarget;
+	static void NewProp_bIsClimbing_SetBit(void* Obj);
+	static const UECodeGen_Private::FBoolPropertyParams NewProp_bIsClimbing;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_IA_Crouch;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_IA_Jump;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_IA_Look;
@@ -2126,6 +2646,7 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_IA_Holster;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_IA_ToggleFireMode;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_IA_Lean;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_IA_Pickup;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_DT_CharacterGaitSettings;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_DT_TPPCameraSettings;
 	static const UECodeGen_Private::FClassPropertyParams NewProp_CharacterAnimLayerInstance_Unarmed;
@@ -2133,6 +2654,9 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 	static const UECodeGen_Private::FClassPropertyParams NewProp_CharacterAnimLayerInstance_Rifle;
 	static const UECodeGen_Private::FClassPropertyParams NewProp_CharacterAnimLayerInstance_Pistol;
 	static const UECodeGen_Private::FClassPropertyParams NewProp_CharacterAnimLayerInstance_Melee;
+	static const UECodeGen_Private::FClassPropertyParams NewProp_CharacterAnimLayerInstance_ThrowableOverhand;
+	static const UECodeGen_Private::FClassPropertyParams NewProp_CharacterAnimLayerInstance_ThrowableUnderhand;
+	static const UECodeGen_Private::FClassPropertyParams NewProp_CharacterAnimLayerInstance_Downed;
 	static const UECodeGen_Private::FSoftClassPropertyParams NewProp_BackpackWidgetClass;
 	static const UECodeGen_Private::FNamePropertyParams NewProp_Primary1Socket_Character;
 	static const UECodeGen_Private::FNamePropertyParams NewProp_Primary2Socket_Character;
@@ -2147,11 +2671,23 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_LeanInterpSpeed;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_ADSCameraInterpSpeed;
 	static const UECodeGen_Private::FNamePropertyParams NewProp_AimCameraSocketName;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_PickupTraceDistance;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_HitReactMontage_Front;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_HitReactMontage_Back;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_HitReactMontage_Left;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_HitReactMontage_Right;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_DownedMontage;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_HitReactionCooldown;
+	static const UECodeGen_Private::FClassPropertyParams NewProp_HitCameraShakeClass;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_DownedHealthPool;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_BleedDamagePerSecond;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_DeathMontage;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_FirstPersonCamera;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_ThirdPersonCamera;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_ThirdPersonSpringArm;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_PersonHead;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_Sphere;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_MotionWarpingComp;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_CharacterAnimInstance;
 	static const UECodeGen_Private::FBytePropertyParams NewProp_CharacterGait_Underlying;
 	static const UECodeGen_Private::FEnumPropertyParams NewProp_CharacterGait;
@@ -2159,9 +2695,14 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 	static const UECodeGen_Private::FEnumPropertyParams NewProp_CharacterStance;
 	static const UECodeGen_Private::FBytePropertyParams NewProp_CharacterHeldSlot_Underlying;
 	static const UECodeGen_Private::FEnumPropertyParams NewProp_CharacterHeldSlot;
+	static const UECodeGen_Private::FBytePropertyParams NewProp_ThrowMode_Underlying;
+	static const UECodeGen_Private::FEnumPropertyParams NewProp_ThrowMode;
+	static const UECodeGen_Private::FBytePropertyParams NewProp_LifeState_Underlying;
+	static const UECodeGen_Private::FEnumPropertyParams NewProp_LifeState;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_ControllerRotator_Yaw;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_ControllerRotator_Pitch;
 	static const UECodeGen_Private::FFloatPropertyParams NewProp_CurrentLeanDirection;
+	static const UECodeGen_Private::FFloatPropertyParams NewProp_CrouchCamInterpSpeed;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_EquippedMeshComponents_ValueProp;
 	static const UECodeGen_Private::FBytePropertyParams NewProp_EquippedMeshComponents_Key_KeyProp_Underlying;
 	static const UECodeGen_Private::FEnumPropertyParams NewProp_EquippedMeshComponents_Key_KeyProp;
@@ -2172,6 +2713,7 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_CurrentSwitchWeaponMontage;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_InterpWeaponMesh;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_HandMagMeshComp;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_LastKillerPS;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
 	static constexpr FClassFunctionLinkInfo FuncInfo[] = {
@@ -2184,6 +2726,9 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 		{ &Z_Construct_UFunction_APlayerCharacter_Client_InitASC, "Client_InitASC" }, // 2279824267
 		{ &Z_Construct_UFunction_APlayerCharacter_GetCrosshairSpreadDegrees, "GetCrosshairSpreadDegrees" }, // 3560309385
 		{ &Z_Construct_UFunction_APlayerCharacter_Multicast_FireEffect, "Multicast_FireEffect" }, // 1581871556
+		{ &Z_Construct_UFunction_APlayerCharacter_Multicast_PlayDownedMontage, "Multicast_PlayDownedMontage" }, // 1666771372
+		{ &Z_Construct_UFunction_APlayerCharacter_Multicast_PlayGrenadeMontage, "Multicast_PlayGrenadeMontage" }, // 3231196789
+		{ &Z_Construct_UFunction_APlayerCharacter_Multicast_PlayHitReaction, "Multicast_PlayHitReaction" }, // 3656792279
 		{ &Z_Construct_UFunction_APlayerCharacter_Multicast_PlayImpactFX, "Multicast_PlayImpactFX" }, // 2981146864
 		{ &Z_Construct_UFunction_APlayerCharacter_Multicast_PlayReloadMontage, "Multicast_PlayReloadMontage" }, // 1644381473
 		{ &Z_Construct_UFunction_APlayerCharacter_Multicast_PlaySwitchFireModeMontage, "Multicast_PlaySwitchFireModeMontage" }, // 1604759407
@@ -2193,6 +2738,10 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 		{ &Z_Construct_UFunction_APlayerCharacter_OnRep_CharacterGait, "OnRep_CharacterGait" }, // 3077326098
 		{ &Z_Construct_UFunction_APlayerCharacter_OnRep_CharacterHeldSlot, "OnRep_CharacterHeldSlot" }, // 3357335190
 		{ &Z_Construct_UFunction_APlayerCharacter_OnRep_CharacterStance, "OnRep_CharacterStance" }, // 749777313
+		{ &Z_Construct_UFunction_APlayerCharacter_OnRep_ClimbWarpTarget, "OnRep_ClimbWarpTarget" }, // 292042924
+		{ &Z_Construct_UFunction_APlayerCharacter_OnRep_IsClimbing, "OnRep_IsClimbing" }, // 1156590558
+		{ &Z_Construct_UFunction_APlayerCharacter_OnRep_LifeState, "OnRep_LifeState" }, // 3845755260
+		{ &Z_Construct_UFunction_APlayerCharacter_OnRep_ThrowMode, "OnRep_ThrowMode" }, // 4060962028
 		{ &Z_Construct_UFunction_APlayerCharacter_OnSphereBeginOverlap, "OnSphereBeginOverlap" }, // 1041274535
 		{ &Z_Construct_UFunction_APlayerCharacter_OnSphereEndOverlap, "OnSphereEndOverlap" }, // 297061257
 		{ &Z_Construct_UFunction_APlayerCharacter_OnSwitchFireModeMontageEnded, "OnSwitchFireModeMontageEnded" }, // 3738078699
@@ -2202,6 +2751,7 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 		{ &Z_Construct_UFunction_APlayerCharacter_Server_FinishReload, "Server_FinishReload" }, // 2066950244
 		{ &Z_Construct_UFunction_APlayerCharacter_Server_Fire, "Server_Fire" }, // 3582500429
 		{ &Z_Construct_UFunction_APlayerCharacter_Server_InitASC, "Server_InitASC" }, // 2776463885
+		{ &Z_Construct_UFunction_APlayerCharacter_Server_PlayGrenadeMontage, "Server_PlayGrenadeMontage" }, // 1554397468
 		{ &Z_Construct_UFunction_APlayerCharacter_Server_PlaySwitchWeaponMontage, "Server_PlaySwitchWeaponMontage" }, // 4284497249
 		{ &Z_Construct_UFunction_APlayerCharacter_Server_SetActorYaw, "Server_SetActorYaw" }, // 698977668
 		{ &Z_Construct_UFunction_APlayerCharacter_Server_SetCharacterGait, "Server_SetCharacterGait" }, // 3670559633
@@ -2209,7 +2759,9 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 		{ &Z_Construct_UFunction_APlayerCharacter_Server_SetCharacterStance, "Server_SetCharacterStance" }, // 1566470023
 		{ &Z_Construct_UFunction_APlayerCharacter_Server_SetControllerRotator, "Server_SetControllerRotator" }, // 2978232640
 		{ &Z_Construct_UFunction_APlayerCharacter_Server_SetLeanDirection, "Server_SetLeanDirection" }, // 879059938
+		{ &Z_Construct_UFunction_APlayerCharacter_Server_SetThrowMode, "Server_SetThrowMode" }, // 46973745
 		{ &Z_Construct_UFunction_APlayerCharacter_Server_StartReload, "Server_StartReload" }, // 2170668390
+		{ &Z_Construct_UFunction_APlayerCharacter_Server_ThrowGrenade, "Server_ThrowGrenade" }, // 4287411799
 		{ &Z_Construct_UFunction_APlayerCharacter_Server_ToggleFireMode, "Server_ToggleFireMode" }, // 2193910498
 		{ &Z_Construct_UFunction_APlayerCharacter_ShouldEnableWeaponIK, "ShouldEnableWeaponIK" }, // 372424583
 		{ &Z_Construct_UFunction_APlayerCharacter_ShouldShowCrosshairBars, "ShouldShowCrosshairBars" }, // 1930751379
@@ -2223,6 +2775,13 @@ struct Z_Construct_UClass_APlayerCharacter_Statics
 	static const UECodeGen_Private::FClassParams ClassParams;
 };
 const UECodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_OnWeaponSlotChanged = { "OnWeaponSlotChanged", nullptr, (EPropertyFlags)0x0010000010080000, UECodeGen_Private::EPropertyGenFlags::InlineMulticastDelegate, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, OnWeaponSlotChanged), Z_Construct_UDelegateFunction_PUBG_OnWeaponSlotChanged__DelegateSignature, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_OnWeaponSlotChanged_MetaData), NewProp_OnWeaponSlotChanged_MetaData) }; // 2112986602
+const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ClimbWarpTarget = { "ClimbWarpTarget", "OnRep_ClimbWarpTarget", (EPropertyFlags)0x0010000100000020, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, ClimbWarpTarget), Z_Construct_UScriptStruct_FVector_NetQuantize, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ClimbWarpTarget_MetaData), NewProp_ClimbWarpTarget_MetaData) }; // 1339770568
+const UECodeGen_Private::FStructPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ClimbTopTarget = { "ClimbTopTarget", "OnRep_ClimbWarpTarget", (EPropertyFlags)0x0010000100000020, UECodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, ClimbTopTarget), Z_Construct_UScriptStruct_FVector_NetQuantize, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ClimbTopTarget_MetaData), NewProp_ClimbTopTarget_MetaData) }; // 1339770568
+void Z_Construct_UClass_APlayerCharacter_Statics::NewProp_bIsClimbing_SetBit(void* Obj)
+{
+	((APlayerCharacter*)Obj)->bIsClimbing = 1;
+}
+const UECodeGen_Private::FBoolPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_bIsClimbing = { "bIsClimbing", "OnRep_IsClimbing", (EPropertyFlags)0x0010000100000020, UECodeGen_Private::EPropertyGenFlags::Bool | UECodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, sizeof(bool), sizeof(APlayerCharacter), &Z_Construct_UClass_APlayerCharacter_Statics::NewProp_bIsClimbing_SetBit, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_bIsClimbing_MetaData), NewProp_bIsClimbing_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_IA_Crouch = { "IA_Crouch", nullptr, (EPropertyFlags)0x0144000000010001, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, IA_Crouch), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_IA_Crouch_MetaData), NewProp_IA_Crouch_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_IA_Jump = { "IA_Jump", nullptr, (EPropertyFlags)0x0144000000010001, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, IA_Jump), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_IA_Jump_MetaData), NewProp_IA_Jump_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_IA_Look = { "IA_Look", nullptr, (EPropertyFlags)0x0144000000010001, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, IA_Look), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_IA_Look_MetaData), NewProp_IA_Look_MetaData) };
@@ -2238,6 +2797,7 @@ const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharact
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_IA_Holster = { "IA_Holster", nullptr, (EPropertyFlags)0x0144000000010001, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, IA_Holster), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_IA_Holster_MetaData), NewProp_IA_Holster_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_IA_ToggleFireMode = { "IA_ToggleFireMode", nullptr, (EPropertyFlags)0x0144000000010001, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, IA_ToggleFireMode), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_IA_ToggleFireMode_MetaData), NewProp_IA_ToggleFireMode_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_IA_Lean = { "IA_Lean", nullptr, (EPropertyFlags)0x0144000000010001, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, IA_Lean), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_IA_Lean_MetaData), NewProp_IA_Lean_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_IA_Pickup = { "IA_Pickup", nullptr, (EPropertyFlags)0x0144000000010001, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, IA_Pickup), Z_Construct_UClass_UInputAction_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_IA_Pickup_MetaData), NewProp_IA_Pickup_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_DT_CharacterGaitSettings = { "DT_CharacterGaitSettings", nullptr, (EPropertyFlags)0x0144000000010001, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, DT_CharacterGaitSettings), Z_Construct_UClass_UDataTable_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_DT_CharacterGaitSettings_MetaData), NewProp_DT_CharacterGaitSettings_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_DT_TPPCameraSettings = { "DT_TPPCameraSettings", nullptr, (EPropertyFlags)0x0144000000010001, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, DT_TPPCameraSettings), Z_Construct_UClass_UDataTable_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_DT_TPPCameraSettings_MetaData), NewProp_DT_TPPCameraSettings_MetaData) };
 const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterAnimLayerInstance_Unarmed = { "CharacterAnimLayerInstance_Unarmed", nullptr, (EPropertyFlags)0x0044000000010001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, CharacterAnimLayerInstance_Unarmed), Z_Construct_UClass_UClass, Z_Construct_UClass_UAnimInstance_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CharacterAnimLayerInstance_Unarmed_MetaData), NewProp_CharacterAnimLayerInstance_Unarmed_MetaData) };
@@ -2245,6 +2805,9 @@ const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_APlayerCharacte
 const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterAnimLayerInstance_Rifle = { "CharacterAnimLayerInstance_Rifle", nullptr, (EPropertyFlags)0x0044000000010001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, CharacterAnimLayerInstance_Rifle), Z_Construct_UClass_UClass, Z_Construct_UClass_UAnimInstance_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CharacterAnimLayerInstance_Rifle_MetaData), NewProp_CharacterAnimLayerInstance_Rifle_MetaData) };
 const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterAnimLayerInstance_Pistol = { "CharacterAnimLayerInstance_Pistol", nullptr, (EPropertyFlags)0x0044000000010001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, CharacterAnimLayerInstance_Pistol), Z_Construct_UClass_UClass, Z_Construct_UClass_UAnimInstance_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CharacterAnimLayerInstance_Pistol_MetaData), NewProp_CharacterAnimLayerInstance_Pistol_MetaData) };
 const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterAnimLayerInstance_Melee = { "CharacterAnimLayerInstance_Melee", nullptr, (EPropertyFlags)0x0044000000010001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, CharacterAnimLayerInstance_Melee), Z_Construct_UClass_UClass, Z_Construct_UClass_UAnimInstance_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CharacterAnimLayerInstance_Melee_MetaData), NewProp_CharacterAnimLayerInstance_Melee_MetaData) };
+const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterAnimLayerInstance_ThrowableOverhand = { "CharacterAnimLayerInstance_ThrowableOverhand", nullptr, (EPropertyFlags)0x0044000000010001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, CharacterAnimLayerInstance_ThrowableOverhand), Z_Construct_UClass_UClass, Z_Construct_UClass_UAnimInstance_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CharacterAnimLayerInstance_ThrowableOverhand_MetaData), NewProp_CharacterAnimLayerInstance_ThrowableOverhand_MetaData) };
+const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterAnimLayerInstance_ThrowableUnderhand = { "CharacterAnimLayerInstance_ThrowableUnderhand", nullptr, (EPropertyFlags)0x0044000000010001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, CharacterAnimLayerInstance_ThrowableUnderhand), Z_Construct_UClass_UClass, Z_Construct_UClass_UAnimInstance_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CharacterAnimLayerInstance_ThrowableUnderhand_MetaData), NewProp_CharacterAnimLayerInstance_ThrowableUnderhand_MetaData) };
+const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterAnimLayerInstance_Downed = { "CharacterAnimLayerInstance_Downed", nullptr, (EPropertyFlags)0x0044000000010001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, CharacterAnimLayerInstance_Downed), Z_Construct_UClass_UClass, Z_Construct_UClass_UAnimInstance_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CharacterAnimLayerInstance_Downed_MetaData), NewProp_CharacterAnimLayerInstance_Downed_MetaData) };
 const UECodeGen_Private::FSoftClassPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_BackpackWidgetClass = { "BackpackWidgetClass", nullptr, (EPropertyFlags)0x0044000000010001, UECodeGen_Private::EPropertyGenFlags::SoftClass, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, BackpackWidgetClass), Z_Construct_UClass_UBaseCommonActivatableWidget_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_BackpackWidgetClass_MetaData), NewProp_BackpackWidgetClass_MetaData) };
 const UECodeGen_Private::FNamePropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_Primary1Socket_Character = { "Primary1Socket_Character", nullptr, (EPropertyFlags)0x0040000000010001, UECodeGen_Private::EPropertyGenFlags::Name, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, Primary1Socket_Character), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_Primary1Socket_Character_MetaData), NewProp_Primary1Socket_Character_MetaData) };
 const UECodeGen_Private::FNamePropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_Primary2Socket_Character = { "Primary2Socket_Character", nullptr, (EPropertyFlags)0x0040000000010001, UECodeGen_Private::EPropertyGenFlags::Name, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, Primary2Socket_Character), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_Primary2Socket_Character_MetaData), NewProp_Primary2Socket_Character_MetaData) };
@@ -2259,11 +2822,23 @@ const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_APlayerCharacte
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_LeanInterpSpeed = { "LeanInterpSpeed", nullptr, (EPropertyFlags)0x0040000000010001, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, LeanInterpSpeed), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_LeanInterpSpeed_MetaData), NewProp_LeanInterpSpeed_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ADSCameraInterpSpeed = { "ADSCameraInterpSpeed", nullptr, (EPropertyFlags)0x0040000000010001, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, ADSCameraInterpSpeed), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ADSCameraInterpSpeed_MetaData), NewProp_ADSCameraInterpSpeed_MetaData) };
 const UECodeGen_Private::FNamePropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_AimCameraSocketName = { "AimCameraSocketName", nullptr, (EPropertyFlags)0x0040000000010001, UECodeGen_Private::EPropertyGenFlags::Name, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, AimCameraSocketName), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_AimCameraSocketName_MetaData), NewProp_AimCameraSocketName_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_PickupTraceDistance = { "PickupTraceDistance", nullptr, (EPropertyFlags)0x0040000000010001, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, PickupTraceDistance), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_PickupTraceDistance_MetaData), NewProp_PickupTraceDistance_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_HitReactMontage_Front = { "HitReactMontage_Front", nullptr, (EPropertyFlags)0x0144000000010001, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, HitReactMontage_Front), Z_Construct_UClass_UAnimMontage_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_HitReactMontage_Front_MetaData), NewProp_HitReactMontage_Front_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_HitReactMontage_Back = { "HitReactMontage_Back", nullptr, (EPropertyFlags)0x0144000000010001, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, HitReactMontage_Back), Z_Construct_UClass_UAnimMontage_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_HitReactMontage_Back_MetaData), NewProp_HitReactMontage_Back_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_HitReactMontage_Left = { "HitReactMontage_Left", nullptr, (EPropertyFlags)0x0144000000010001, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, HitReactMontage_Left), Z_Construct_UClass_UAnimMontage_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_HitReactMontage_Left_MetaData), NewProp_HitReactMontage_Left_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_HitReactMontage_Right = { "HitReactMontage_Right", nullptr, (EPropertyFlags)0x0144000000010001, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, HitReactMontage_Right), Z_Construct_UClass_UAnimMontage_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_HitReactMontage_Right_MetaData), NewProp_HitReactMontage_Right_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_DownedMontage = { "DownedMontage", nullptr, (EPropertyFlags)0x0144000000010001, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, DownedMontage), Z_Construct_UClass_UAnimMontage_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_DownedMontage_MetaData), NewProp_DownedMontage_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_HitReactionCooldown = { "HitReactionCooldown", nullptr, (EPropertyFlags)0x0040000000010001, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, HitReactionCooldown), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_HitReactionCooldown_MetaData), NewProp_HitReactionCooldown_MetaData) };
+const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_HitCameraShakeClass = { "HitCameraShakeClass", nullptr, (EPropertyFlags)0x0044000000010001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, HitCameraShakeClass), Z_Construct_UClass_UClass, Z_Construct_UClass_UCameraShakeBase_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_HitCameraShakeClass_MetaData), NewProp_HitCameraShakeClass_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_DownedHealthPool = { "DownedHealthPool", nullptr, (EPropertyFlags)0x0040000000010001, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, DownedHealthPool), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_DownedHealthPool_MetaData), NewProp_DownedHealthPool_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_BleedDamagePerSecond = { "BleedDamagePerSecond", nullptr, (EPropertyFlags)0x0040000000010001, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, BleedDamagePerSecond), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_BleedDamagePerSecond_MetaData), NewProp_BleedDamagePerSecond_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_DeathMontage = { "DeathMontage", nullptr, (EPropertyFlags)0x0144000000010001, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, DeathMontage), Z_Construct_UClass_UAnimMontage_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_DeathMontage_MetaData), NewProp_DeathMontage_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_FirstPersonCamera = { "FirstPersonCamera", nullptr, (EPropertyFlags)0x01440000000b0009, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, FirstPersonCamera), Z_Construct_UClass_UCameraComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_FirstPersonCamera_MetaData), NewProp_FirstPersonCamera_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ThirdPersonCamera = { "ThirdPersonCamera", nullptr, (EPropertyFlags)0x01440000000b0009, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, ThirdPersonCamera), Z_Construct_UClass_UCameraComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ThirdPersonCamera_MetaData), NewProp_ThirdPersonCamera_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ThirdPersonSpringArm = { "ThirdPersonSpringArm", nullptr, (EPropertyFlags)0x01440000000b0009, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, ThirdPersonSpringArm), Z_Construct_UClass_USpringArmComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ThirdPersonSpringArm_MetaData), NewProp_ThirdPersonSpringArm_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_PersonHead = { "PersonHead", nullptr, (EPropertyFlags)0x01440000000b0009, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, PersonHead), Z_Construct_UClass_USkeletalMeshComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_PersonHead_MetaData), NewProp_PersonHead_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_Sphere = { "Sphere", nullptr, (EPropertyFlags)0x01440000000b0009, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, Sphere), Z_Construct_UClass_USphereComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_Sphere_MetaData), NewProp_Sphere_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_MotionWarpingComp = { "MotionWarpingComp", nullptr, (EPropertyFlags)0x01440000000b0009, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, MotionWarpingComp), Z_Construct_UClass_UMotionWarpingComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MotionWarpingComp_MetaData), NewProp_MotionWarpingComp_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterAnimInstance = { "CharacterAnimInstance", nullptr, (EPropertyFlags)0x0144000000000000, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, CharacterAnimInstance), Z_Construct_UClass_UCharacterAnimInstance_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CharacterAnimInstance_MetaData), NewProp_CharacterAnimInstance_MetaData) };
 const UECodeGen_Private::FBytePropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterGait_Underlying = { "UnderlyingType", nullptr, (EPropertyFlags)0x0000000000000000, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, nullptr, METADATA_PARAMS(0, nullptr) };
 const UECodeGen_Private::FEnumPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterGait = { "CharacterGait", "OnRep_CharacterGait", (EPropertyFlags)0x0040000100000020, UECodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, CharacterGait), Z_Construct_UEnum_PUBG_ECharacterGait, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CharacterGait_MetaData), NewProp_CharacterGait_MetaData) }; // 515073860
@@ -2271,9 +2846,14 @@ const UECodeGen_Private::FBytePropertyParams Z_Construct_UClass_APlayerCharacter
 const UECodeGen_Private::FEnumPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterStance = { "CharacterStance", "OnRep_CharacterStance", (EPropertyFlags)0x0040000100000020, UECodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, CharacterStance), Z_Construct_UEnum_PUBG_ECharacterStance, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CharacterStance_MetaData), NewProp_CharacterStance_MetaData) }; // 570544318
 const UECodeGen_Private::FBytePropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterHeldSlot_Underlying = { "UnderlyingType", nullptr, (EPropertyFlags)0x0000000000000000, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, nullptr, METADATA_PARAMS(0, nullptr) };
 const UECodeGen_Private::FEnumPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterHeldSlot = { "CharacterHeldSlot", "OnRep_CharacterHeldSlot", (EPropertyFlags)0x0040000100000020, UECodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, CharacterHeldSlot), Z_Construct_UEnum_PUBG_ECharacterHeldSlot, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CharacterHeldSlot_MetaData), NewProp_CharacterHeldSlot_MetaData) }; // 3266210547
+const UECodeGen_Private::FBytePropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ThrowMode_Underlying = { "UnderlyingType", nullptr, (EPropertyFlags)0x0000000000000000, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, nullptr, METADATA_PARAMS(0, nullptr) };
+const UECodeGen_Private::FEnumPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ThrowMode = { "ThrowMode", "OnRep_ThrowMode", (EPropertyFlags)0x0040000100000020, UECodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, ThrowMode), Z_Construct_UEnum_PUBG_EThrowMode, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ThrowMode_MetaData), NewProp_ThrowMode_MetaData) }; // 1656926562
+const UECodeGen_Private::FBytePropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_LifeState_Underlying = { "UnderlyingType", nullptr, (EPropertyFlags)0x0000000000000000, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, nullptr, METADATA_PARAMS(0, nullptr) };
+const UECodeGen_Private::FEnumPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_LifeState = { "LifeState", "OnRep_LifeState", (EPropertyFlags)0x0040000100000020, UECodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, LifeState), Z_Construct_UEnum_PUBG_ECharacterLifeState, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_LifeState_MetaData), NewProp_LifeState_MetaData) }; // 3444255614
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ControllerRotator_Yaw = { "ControllerRotator_Yaw", nullptr, (EPropertyFlags)0x0040000000000020, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, ControllerRotator_Yaw), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ControllerRotator_Yaw_MetaData), NewProp_ControllerRotator_Yaw_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ControllerRotator_Pitch = { "ControllerRotator_Pitch", nullptr, (EPropertyFlags)0x0040000000000020, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, ControllerRotator_Pitch), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ControllerRotator_Pitch_MetaData), NewProp_ControllerRotator_Pitch_MetaData) };
 const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CurrentLeanDirection = { "CurrentLeanDirection", nullptr, (EPropertyFlags)0x0040000000000020, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, CurrentLeanDirection), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CurrentLeanDirection_MetaData), NewProp_CurrentLeanDirection_MetaData) };
+const UECodeGen_Private::FFloatPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CrouchCamInterpSpeed = { "CrouchCamInterpSpeed", nullptr, (EPropertyFlags)0x0040000000010001, UECodeGen_Private::EPropertyGenFlags::Float, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, CrouchCamInterpSpeed), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CrouchCamInterpSpeed_MetaData), NewProp_CrouchCamInterpSpeed_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_EquippedMeshComponents_ValueProp = { "EquippedMeshComponents", nullptr, (EPropertyFlags)0x0104000000080008, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 1, Z_Construct_UClass_USkeletalMeshComponent_NoRegister, METADATA_PARAMS(0, nullptr) };
 const UECodeGen_Private::FBytePropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_EquippedMeshComponents_Key_KeyProp_Underlying = { "UnderlyingType", nullptr, (EPropertyFlags)0x0000000000000000, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, nullptr, METADATA_PARAMS(0, nullptr) };
 const UECodeGen_Private::FEnumPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_EquippedMeshComponents_Key_KeyProp = { "EquippedMeshComponents_Key", nullptr, (EPropertyFlags)0x0100000000080008, UECodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, Z_Construct_UEnum_PUBG_EEquipmentSlot, METADATA_PARAMS(0, nullptr) }; // 218928670
@@ -2284,8 +2864,12 @@ const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharact
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CurrentSwitchWeaponMontage = { "CurrentSwitchWeaponMontage", nullptr, (EPropertyFlags)0x0144000000000000, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, CurrentSwitchWeaponMontage), Z_Construct_UClass_UAnimMontage_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CurrentSwitchWeaponMontage_MetaData), NewProp_CurrentSwitchWeaponMontage_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_InterpWeaponMesh = { "InterpWeaponMesh", nullptr, (EPropertyFlags)0x0144000000080008, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, InterpWeaponMesh), Z_Construct_UClass_USkeletalMeshComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_InterpWeaponMesh_MetaData), NewProp_InterpWeaponMesh_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_HandMagMeshComp = { "HandMagMeshComp", nullptr, (EPropertyFlags)0x0144000000080008, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, HandMagMeshComp), Z_Construct_UClass_UStaticMeshComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_HandMagMeshComp_MetaData), NewProp_HandMagMeshComp_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_APlayerCharacter_Statics::NewProp_LastKillerPS = { "LastKillerPS", nullptr, (EPropertyFlags)0x0144000000000000, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(APlayerCharacter, LastKillerPS), Z_Construct_UClass_APlayerState_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_LastKillerPS_MetaData), NewProp_LastKillerPS_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_APlayerCharacter_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_OnWeaponSlotChanged,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ClimbWarpTarget,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ClimbTopTarget,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_bIsClimbing,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_IA_Crouch,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_IA_Jump,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_IA_Look,
@@ -2301,6 +2885,7 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_APlayerCh
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_IA_Holster,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_IA_ToggleFireMode,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_IA_Lean,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_IA_Pickup,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_DT_CharacterGaitSettings,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_DT_TPPCameraSettings,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterAnimLayerInstance_Unarmed,
@@ -2308,6 +2893,9 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_APlayerCh
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterAnimLayerInstance_Rifle,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterAnimLayerInstance_Pistol,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterAnimLayerInstance_Melee,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterAnimLayerInstance_ThrowableOverhand,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterAnimLayerInstance_ThrowableUnderhand,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterAnimLayerInstance_Downed,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_BackpackWidgetClass,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_Primary1Socket_Character,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_Primary2Socket_Character,
@@ -2322,11 +2910,23 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_APlayerCh
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_LeanInterpSpeed,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ADSCameraInterpSpeed,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_AimCameraSocketName,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_PickupTraceDistance,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_HitReactMontage_Front,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_HitReactMontage_Back,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_HitReactMontage_Left,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_HitReactMontage_Right,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_DownedMontage,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_HitReactionCooldown,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_HitCameraShakeClass,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_DownedHealthPool,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_BleedDamagePerSecond,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_DeathMontage,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_FirstPersonCamera,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ThirdPersonCamera,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ThirdPersonSpringArm,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_PersonHead,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_Sphere,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_MotionWarpingComp,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterAnimInstance,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterGait_Underlying,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterGait,
@@ -2334,9 +2934,14 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_APlayerCh
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterStance,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterHeldSlot_Underlying,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CharacterHeldSlot,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ThrowMode_Underlying,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ThrowMode,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_LifeState_Underlying,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_LifeState,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ControllerRotator_Yaw,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_ControllerRotator_Pitch,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CurrentLeanDirection,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CrouchCamInterpSpeed,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_EquippedMeshComponents_ValueProp,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_EquippedMeshComponents_Key_KeyProp_Underlying,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_EquippedMeshComponents_Key_KeyProp,
@@ -2347,6 +2952,7 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_APlayerCh
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_CurrentSwitchWeaponMontage,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_InterpWeaponMesh,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_HandMagMeshComp,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_APlayerCharacter_Statics::NewProp_LastKillerPS,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_APlayerCharacter_Statics::PropPointers) < 2048);
 UObject* (*const Z_Construct_UClass_APlayerCharacter_Statics::DependentSingletons[])() = {
@@ -2383,16 +2989,26 @@ UClass* Z_Construct_UClass_APlayerCharacter()
 #if VALIDATE_CLASS_REPS
 void APlayerCharacter::ValidateGeneratedRepEnums(const TArray<struct FRepRecord>& ClassReps) const
 {
+	static FName Name_ClimbWarpTarget(TEXT("ClimbWarpTarget"));
+	static FName Name_ClimbTopTarget(TEXT("ClimbTopTarget"));
+	static FName Name_bIsClimbing(TEXT("bIsClimbing"));
 	static FName Name_CharacterGait(TEXT("CharacterGait"));
 	static FName Name_CharacterStance(TEXT("CharacterStance"));
 	static FName Name_CharacterHeldSlot(TEXT("CharacterHeldSlot"));
+	static FName Name_ThrowMode(TEXT("ThrowMode"));
+	static FName Name_LifeState(TEXT("LifeState"));
 	static FName Name_ControllerRotator_Yaw(TEXT("ControllerRotator_Yaw"));
 	static FName Name_ControllerRotator_Pitch(TEXT("ControllerRotator_Pitch"));
 	static FName Name_CurrentLeanDirection(TEXT("CurrentLeanDirection"));
 	const bool bIsValid = true
+		&& Name_ClimbWarpTarget == ClassReps[(int32)ENetFields_Private::ClimbWarpTarget].Property->GetFName()
+		&& Name_ClimbTopTarget == ClassReps[(int32)ENetFields_Private::ClimbTopTarget].Property->GetFName()
+		&& Name_bIsClimbing == ClassReps[(int32)ENetFields_Private::bIsClimbing].Property->GetFName()
 		&& Name_CharacterGait == ClassReps[(int32)ENetFields_Private::CharacterGait].Property->GetFName()
 		&& Name_CharacterStance == ClassReps[(int32)ENetFields_Private::CharacterStance].Property->GetFName()
 		&& Name_CharacterHeldSlot == ClassReps[(int32)ENetFields_Private::CharacterHeldSlot].Property->GetFName()
+		&& Name_ThrowMode == ClassReps[(int32)ENetFields_Private::ThrowMode].Property->GetFName()
+		&& Name_LifeState == ClassReps[(int32)ENetFields_Private::LifeState].Property->GetFName()
 		&& Name_ControllerRotator_Yaw == ClassReps[(int32)ENetFields_Private::ControllerRotator_Yaw].Property->GetFName()
 		&& Name_ControllerRotator_Pitch == ClassReps[(int32)ENetFields_Private::ControllerRotator_Pitch].Property->GetFName()
 		&& Name_CurrentLeanDirection == ClassReps[(int32)ENetFields_Private::CurrentLeanDirection].Property->GetFName();
@@ -2407,10 +3023,10 @@ APlayerCharacter::~APlayerCharacter() {}
 struct Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h__Script_PUBG_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_APlayerCharacter, APlayerCharacter::StaticClass, TEXT("APlayerCharacter"), &Z_Registration_Info_UClass_APlayerCharacter, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(APlayerCharacter), 3516084218U) },
+		{ Z_Construct_UClass_APlayerCharacter, APlayerCharacter::StaticClass, TEXT("APlayerCharacter"), &Z_Registration_Info_UClass_APlayerCharacter, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(APlayerCharacter), 1733018551U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h__Script_PUBG_2502667757(TEXT("/Script/PUBG"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h__Script_PUBG_274583215(TEXT("/Script/PUBG"),
 	Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h__Script_PUBG_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h__Script_PUBG_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

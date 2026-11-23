@@ -326,6 +326,9 @@
 /I "../Plugins/FX/Niagara/Shaders/Shared"
 /I "../Plugins/FX/Niagara/Source/NiagaraShader/Public"
 /I "../Plugins/FX/Niagara/Source/NiagaraVertexFactories/Public"
+/I "../Intermediate/Build/Win64/UnrealEditor/Inc/AIModule/UHT"
+/I "Runtime/AIModule/Classes"
+/I "Runtime/AIModule/Public"
 /I "C:/Users/XieQi/Documents/GitHub/UE5-Demo/PUBG/Intermediate/Build/Win64/x64/PUBGEditor/Development/UnrealEd"
 /external:W0
 /external:I "ThirdParty/GuidelinesSupportLibrary/GSL-1144/include"

@@ -26,9 +26,13 @@ PUBG_API UEnum* Z_Construct_UEnum_PUBG_EBackpackListMode();
 PUBG_API UEnum* Z_Construct_UEnum_PUBG_ECharacterDirection();
 PUBG_API UEnum* Z_Construct_UEnum_PUBG_ECharacterGait();
 PUBG_API UEnum* Z_Construct_UEnum_PUBG_ECharacterHeldSlot();
+PUBG_API UEnum* Z_Construct_UEnum_PUBG_ECharacterLifeState();
 PUBG_API UEnum* Z_Construct_UEnum_PUBG_ECharacterStance();
 PUBG_API UEnum* Z_Construct_UEnum_PUBG_EEquipmentSlot();
 PUBG_API UEnum* Z_Construct_UEnum_PUBG_EItemType();
+PUBG_API UEnum* Z_Construct_UEnum_PUBG_EKillFeedType();
+PUBG_API UEnum* Z_Construct_UEnum_PUBG_EKillMessageRole();
+PUBG_API UEnum* Z_Construct_UEnum_PUBG_EThrowMode();
 PUBG_API UEnum* Z_Construct_UEnum_PUBG_EWeaponFireMode();
 PUBG_API UEnum* Z_Construct_UEnum_PUBG_EWeaponType();
 PUBG_API UScriptStruct* Z_Construct_UScriptStruct_FCharacterDirectionAnimations();
@@ -855,6 +859,223 @@ UEnum* Z_Construct_UEnum_PUBG_EAttachmentSlot()
 }
 // ********** End Enum EAttachmentSlot *************************************************************
 
+// ********** Begin Enum EThrowMode ****************************************************************
+static FEnumRegistrationInfo Z_Registration_Info_UEnum_EThrowMode;
+static UEnum* EThrowMode_StaticEnum()
+{
+	if (!Z_Registration_Info_UEnum_EThrowMode.OuterSingleton)
+	{
+		Z_Registration_Info_UEnum_EThrowMode.OuterSingleton = GetStaticEnum(Z_Construct_UEnum_PUBG_EThrowMode, (UObject*)Z_Construct_UPackage__Script_PUBG(), TEXT("EThrowMode"));
+	}
+	return Z_Registration_Info_UEnum_EThrowMode.OuterSingleton;
+}
+template<> PUBG_API UEnum* StaticEnum<EThrowMode>()
+{
+	return EThrowMode_StaticEnum();
+}
+struct Z_Construct_UEnum_PUBG_EThrowMode_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Enum_MetaDataParams[] = {
+		{ "BlueprintType", "true" },
+		{ "ModuleRelativePath", "Public/PUBGType.h" },
+		{ "Overhand.DisplayName", "\xe9\xab\x98\xe6\x8a\x9b" },
+		{ "Overhand.Name", "EThrowMode::Overhand" },
+		{ "Underhand.DisplayName", "\xe4\xbd\x8e\xe6\x8a\x9b" },
+		{ "Underhand.Name", "EThrowMode::Underhand" },
+	};
+#endif // WITH_METADATA
+	static constexpr UECodeGen_Private::FEnumeratorParam Enumerators[] = {
+		{ "EThrowMode::Overhand", (int64)EThrowMode::Overhand },
+		{ "EThrowMode::Underhand", (int64)EThrowMode::Underhand },
+	};
+	static const UECodeGen_Private::FEnumParams EnumParams;
+};
+const UECodeGen_Private::FEnumParams Z_Construct_UEnum_PUBG_EThrowMode_Statics::EnumParams = {
+	(UObject*(*)())Z_Construct_UPackage__Script_PUBG,
+	nullptr,
+	"EThrowMode",
+	"EThrowMode",
+	Z_Construct_UEnum_PUBG_EThrowMode_Statics::Enumerators,
+	RF_Public|RF_Transient|RF_MarkAsNative,
+	UE_ARRAY_COUNT(Z_Construct_UEnum_PUBG_EThrowMode_Statics::Enumerators),
+	EEnumFlags::None,
+	(uint8)UEnum::ECppForm::EnumClass,
+	METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UEnum_PUBG_EThrowMode_Statics::Enum_MetaDataParams), Z_Construct_UEnum_PUBG_EThrowMode_Statics::Enum_MetaDataParams)
+};
+UEnum* Z_Construct_UEnum_PUBG_EThrowMode()
+{
+	if (!Z_Registration_Info_UEnum_EThrowMode.InnerSingleton)
+	{
+		UECodeGen_Private::ConstructUEnum(Z_Registration_Info_UEnum_EThrowMode.InnerSingleton, Z_Construct_UEnum_PUBG_EThrowMode_Statics::EnumParams);
+	}
+	return Z_Registration_Info_UEnum_EThrowMode.InnerSingleton;
+}
+// ********** End Enum EThrowMode ******************************************************************
+
+// ********** Begin Enum ECharacterLifeState *******************************************************
+static FEnumRegistrationInfo Z_Registration_Info_UEnum_ECharacterLifeState;
+static UEnum* ECharacterLifeState_StaticEnum()
+{
+	if (!Z_Registration_Info_UEnum_ECharacterLifeState.OuterSingleton)
+	{
+		Z_Registration_Info_UEnum_ECharacterLifeState.OuterSingleton = GetStaticEnum(Z_Construct_UEnum_PUBG_ECharacterLifeState, (UObject*)Z_Construct_UPackage__Script_PUBG(), TEXT("ECharacterLifeState"));
+	}
+	return Z_Registration_Info_UEnum_ECharacterLifeState.OuterSingleton;
+}
+template<> PUBG_API UEnum* StaticEnum<ECharacterLifeState>()
+{
+	return ECharacterLifeState_StaticEnum();
+}
+struct Z_Construct_UEnum_PUBG_ECharacterLifeState_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Enum_MetaDataParams[] = {
+		{ "Alive.DisplayName", "\xe5\xad\x98\xe6\xb4\xbb" },
+		{ "Alive.Name", "ECharacterLifeState::Alive" },
+		{ "BlueprintType", "true" },
+		{ "Dead.DisplayName", "\xe6\xad\xbb\xe4\xba\xa1" },
+		{ "Dead.Name", "ECharacterLifeState::Dead" },
+		{ "Downed.DisplayName", "\xe5\x80\x92\xe5\x9c\xb0" },
+		{ "Downed.Name", "ECharacterLifeState::Downed" },
+		{ "ModuleRelativePath", "Public/PUBGType.h" },
+	};
+#endif // WITH_METADATA
+	static constexpr UECodeGen_Private::FEnumeratorParam Enumerators[] = {
+		{ "ECharacterLifeState::Alive", (int64)ECharacterLifeState::Alive },
+		{ "ECharacterLifeState::Downed", (int64)ECharacterLifeState::Downed },
+		{ "ECharacterLifeState::Dead", (int64)ECharacterLifeState::Dead },
+	};
+	static const UECodeGen_Private::FEnumParams EnumParams;
+};
+const UECodeGen_Private::FEnumParams Z_Construct_UEnum_PUBG_ECharacterLifeState_Statics::EnumParams = {
+	(UObject*(*)())Z_Construct_UPackage__Script_PUBG,
+	nullptr,
+	"ECharacterLifeState",
+	"ECharacterLifeState",
+	Z_Construct_UEnum_PUBG_ECharacterLifeState_Statics::Enumerators,
+	RF_Public|RF_Transient|RF_MarkAsNative,
+	UE_ARRAY_COUNT(Z_Construct_UEnum_PUBG_ECharacterLifeState_Statics::Enumerators),
+	EEnumFlags::None,
+	(uint8)UEnum::ECppForm::EnumClass,
+	METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UEnum_PUBG_ECharacterLifeState_Statics::Enum_MetaDataParams), Z_Construct_UEnum_PUBG_ECharacterLifeState_Statics::Enum_MetaDataParams)
+};
+UEnum* Z_Construct_UEnum_PUBG_ECharacterLifeState()
+{
+	if (!Z_Registration_Info_UEnum_ECharacterLifeState.InnerSingleton)
+	{
+		UECodeGen_Private::ConstructUEnum(Z_Registration_Info_UEnum_ECharacterLifeState.InnerSingleton, Z_Construct_UEnum_PUBG_ECharacterLifeState_Statics::EnumParams);
+	}
+	return Z_Registration_Info_UEnum_ECharacterLifeState.InnerSingleton;
+}
+// ********** End Enum ECharacterLifeState *********************************************************
+
+// ********** Begin Enum EKillFeedType *************************************************************
+static FEnumRegistrationInfo Z_Registration_Info_UEnum_EKillFeedType;
+static UEnum* EKillFeedType_StaticEnum()
+{
+	if (!Z_Registration_Info_UEnum_EKillFeedType.OuterSingleton)
+	{
+		Z_Registration_Info_UEnum_EKillFeedType.OuterSingleton = GetStaticEnum(Z_Construct_UEnum_PUBG_EKillFeedType, (UObject*)Z_Construct_UPackage__Script_PUBG(), TEXT("EKillFeedType"));
+	}
+	return Z_Registration_Info_UEnum_EKillFeedType.OuterSingleton;
+}
+template<> PUBG_API UEnum* StaticEnum<EKillFeedType>()
+{
+	return EKillFeedType_StaticEnum();
+}
+struct Z_Construct_UEnum_PUBG_EKillFeedType_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Enum_MetaDataParams[] = {
+		{ "BlueprintType", "true" },
+		{ "Eliminate.Name", "EKillFeedType::Eliminate" },
+		{ "Knock.Name", "EKillFeedType::Knock" },
+		{ "ModuleRelativePath", "Public/PUBGType.h" },
+	};
+#endif // WITH_METADATA
+	static constexpr UECodeGen_Private::FEnumeratorParam Enumerators[] = {
+		{ "EKillFeedType::Knock", (int64)EKillFeedType::Knock },
+		{ "EKillFeedType::Eliminate", (int64)EKillFeedType::Eliminate },
+	};
+	static const UECodeGen_Private::FEnumParams EnumParams;
+};
+const UECodeGen_Private::FEnumParams Z_Construct_UEnum_PUBG_EKillFeedType_Statics::EnumParams = {
+	(UObject*(*)())Z_Construct_UPackage__Script_PUBG,
+	nullptr,
+	"EKillFeedType",
+	"EKillFeedType",
+	Z_Construct_UEnum_PUBG_EKillFeedType_Statics::Enumerators,
+	RF_Public|RF_Transient|RF_MarkAsNative,
+	UE_ARRAY_COUNT(Z_Construct_UEnum_PUBG_EKillFeedType_Statics::Enumerators),
+	EEnumFlags::None,
+	(uint8)UEnum::ECppForm::EnumClass,
+	METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UEnum_PUBG_EKillFeedType_Statics::Enum_MetaDataParams), Z_Construct_UEnum_PUBG_EKillFeedType_Statics::Enum_MetaDataParams)
+};
+UEnum* Z_Construct_UEnum_PUBG_EKillFeedType()
+{
+	if (!Z_Registration_Info_UEnum_EKillFeedType.InnerSingleton)
+	{
+		UECodeGen_Private::ConstructUEnum(Z_Registration_Info_UEnum_EKillFeedType.InnerSingleton, Z_Construct_UEnum_PUBG_EKillFeedType_Statics::EnumParams);
+	}
+	return Z_Registration_Info_UEnum_EKillFeedType.InnerSingleton;
+}
+// ********** End Enum EKillFeedType ***************************************************************
+
+// ********** Begin Enum EKillMessageRole **********************************************************
+static FEnumRegistrationInfo Z_Registration_Info_UEnum_EKillMessageRole;
+static UEnum* EKillMessageRole_StaticEnum()
+{
+	if (!Z_Registration_Info_UEnum_EKillMessageRole.OuterSingleton)
+	{
+		Z_Registration_Info_UEnum_EKillMessageRole.OuterSingleton = GetStaticEnum(Z_Construct_UEnum_PUBG_EKillMessageRole, (UObject*)Z_Construct_UPackage__Script_PUBG(), TEXT("EKillMessageRole"));
+	}
+	return Z_Registration_Info_UEnum_EKillMessageRole.OuterSingleton;
+}
+template<> PUBG_API UEnum* StaticEnum<EKillMessageRole>()
+{
+	return EKillMessageRole_StaticEnum();
+}
+struct Z_Construct_UEnum_PUBG_EKillMessageRole_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Enum_MetaDataParams[] = {
+		{ "BlueprintType", "true" },
+		{ "Killer.Name", "EKillMessageRole::Killer" },
+		{ "ModuleRelativePath", "Public/PUBGType.h" },
+		{ "Teammate.Name", "EKillMessageRole::Teammate" },
+		{ "Victim.Name", "EKillMessageRole::Victim" },
+	};
+#endif // WITH_METADATA
+	static constexpr UECodeGen_Private::FEnumeratorParam Enumerators[] = {
+		{ "EKillMessageRole::Killer", (int64)EKillMessageRole::Killer },
+		{ "EKillMessageRole::Victim", (int64)EKillMessageRole::Victim },
+		{ "EKillMessageRole::Teammate", (int64)EKillMessageRole::Teammate },
+	};
+	static const UECodeGen_Private::FEnumParams EnumParams;
+};
+const UECodeGen_Private::FEnumParams Z_Construct_UEnum_PUBG_EKillMessageRole_Statics::EnumParams = {
+	(UObject*(*)())Z_Construct_UPackage__Script_PUBG,
+	nullptr,
+	"EKillMessageRole",
+	"EKillMessageRole",
+	Z_Construct_UEnum_PUBG_EKillMessageRole_Statics::Enumerators,
+	RF_Public|RF_Transient|RF_MarkAsNative,
+	UE_ARRAY_COUNT(Z_Construct_UEnum_PUBG_EKillMessageRole_Statics::Enumerators),
+	EEnumFlags::None,
+	(uint8)UEnum::ECppForm::EnumClass,
+	METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UEnum_PUBG_EKillMessageRole_Statics::Enum_MetaDataParams), Z_Construct_UEnum_PUBG_EKillMessageRole_Statics::Enum_MetaDataParams)
+};
+UEnum* Z_Construct_UEnum_PUBG_EKillMessageRole()
+{
+	if (!Z_Registration_Info_UEnum_EKillMessageRole.InnerSingleton)
+	{
+		UECodeGen_Private::ConstructUEnum(Z_Registration_Info_UEnum_EKillMessageRole.InnerSingleton, Z_Construct_UEnum_PUBG_EKillMessageRole_Statics::EnumParams);
+	}
+	return Z_Registration_Info_UEnum_EKillMessageRole.InnerSingleton;
+}
+// ********** End Enum EKillMessageRole ************************************************************
+
 // ********** Begin ScriptStruct FItemAttribute ****************************************************
 static FStructRegistrationInfo Z_Registration_Info_UScriptStruct_FItemAttribute;
 class UScriptStruct* FItemAttribute::StaticStruct()
@@ -1378,19 +1599,9 @@ struct Z_Construct_UScriptStruct_FCharacterTurnAngleAnimations_Statics
 		{ "Category", "CharacterTurnAngleAnimations" },
 		{ "ModuleRelativePath", "Public/PUBGType.h" },
 	};
-	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_TurnRight180_MetaData[] = {
-		{ "Category", "CharacterTurnAngleAnimations" },
-		{ "ModuleRelativePath", "Public/PUBGType.h" },
-	};
-	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_TurnLeft180_MetaData[] = {
-		{ "Category", "CharacterTurnAngleAnimations" },
-		{ "ModuleRelativePath", "Public/PUBGType.h" },
-	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_TurnRight90;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_TurnLeft90;
-	static const UECodeGen_Private::FObjectPropertyParams NewProp_TurnRight180;
-	static const UECodeGen_Private::FObjectPropertyParams NewProp_TurnLeft180;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static void* NewStructOps()
 	{
@@ -1400,13 +1611,9 @@ struct Z_Construct_UScriptStruct_FCharacterTurnAngleAnimations_Statics
 };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UScriptStruct_FCharacterTurnAngleAnimations_Statics::NewProp_TurnRight90 = { "TurnRight90", nullptr, (EPropertyFlags)0x0114000000010015, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(FCharacterTurnAngleAnimations, TurnRight90), Z_Construct_UClass_UAnimSequence_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_TurnRight90_MetaData), NewProp_TurnRight90_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UScriptStruct_FCharacterTurnAngleAnimations_Statics::NewProp_TurnLeft90 = { "TurnLeft90", nullptr, (EPropertyFlags)0x0114000000010015, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(FCharacterTurnAngleAnimations, TurnLeft90), Z_Construct_UClass_UAnimSequence_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_TurnLeft90_MetaData), NewProp_TurnLeft90_MetaData) };
-const UECodeGen_Private::FObjectPropertyParams Z_Construct_UScriptStruct_FCharacterTurnAngleAnimations_Statics::NewProp_TurnRight180 = { "TurnRight180", nullptr, (EPropertyFlags)0x0114000000010015, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(FCharacterTurnAngleAnimations, TurnRight180), Z_Construct_UClass_UAnimSequence_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_TurnRight180_MetaData), NewProp_TurnRight180_MetaData) };
-const UECodeGen_Private::FObjectPropertyParams Z_Construct_UScriptStruct_FCharacterTurnAngleAnimations_Statics::NewProp_TurnLeft180 = { "TurnLeft180", nullptr, (EPropertyFlags)0x0114000000010015, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(FCharacterTurnAngleAnimations, TurnLeft180), Z_Construct_UClass_UAnimSequence_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_TurnLeft180_MetaData), NewProp_TurnLeft180_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UScriptStruct_FCharacterTurnAngleAnimations_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FCharacterTurnAngleAnimations_Statics::NewProp_TurnRight90,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FCharacterTurnAngleAnimations_Statics::NewProp_TurnLeft90,
-	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FCharacterTurnAngleAnimations_Statics::NewProp_TurnRight180,
-	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FCharacterTurnAngleAnimations_Statics::NewProp_TurnLeft180,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UScriptStruct_FCharacterTurnAngleAnimations_Statics::PropPointers) < 2048);
 const UECodeGen_Private::FStructParams Z_Construct_UScriptStruct_FCharacterTurnAngleAnimations_Statics::StructParams = {
@@ -1581,6 +1788,10 @@ struct Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_PUBGType_h__Script_PUBG
 		{ EAmmoType_StaticEnum, TEXT("EAmmoType"), &Z_Registration_Info_UEnum_EAmmoType, CONSTRUCT_RELOAD_VERSION_INFO(FEnumReloadVersionInfo, 3055396827U) },
 		{ EWeaponFireMode_StaticEnum, TEXT("EWeaponFireMode"), &Z_Registration_Info_UEnum_EWeaponFireMode, CONSTRUCT_RELOAD_VERSION_INFO(FEnumReloadVersionInfo, 3535711797U) },
 		{ EAttachmentSlot_StaticEnum, TEXT("EAttachmentSlot"), &Z_Registration_Info_UEnum_EAttachmentSlot, CONSTRUCT_RELOAD_VERSION_INFO(FEnumReloadVersionInfo, 1859959187U) },
+		{ EThrowMode_StaticEnum, TEXT("EThrowMode"), &Z_Registration_Info_UEnum_EThrowMode, CONSTRUCT_RELOAD_VERSION_INFO(FEnumReloadVersionInfo, 1656926562U) },
+		{ ECharacterLifeState_StaticEnum, TEXT("ECharacterLifeState"), &Z_Registration_Info_UEnum_ECharacterLifeState, CONSTRUCT_RELOAD_VERSION_INFO(FEnumReloadVersionInfo, 3444255614U) },
+		{ EKillFeedType_StaticEnum, TEXT("EKillFeedType"), &Z_Registration_Info_UEnum_EKillFeedType, CONSTRUCT_RELOAD_VERSION_INFO(FEnumReloadVersionInfo, 234721871U) },
+		{ EKillMessageRole_StaticEnum, TEXT("EKillMessageRole"), &Z_Registration_Info_UEnum_EKillMessageRole, CONSTRUCT_RELOAD_VERSION_INFO(FEnumReloadVersionInfo, 470993802U) },
 	};
 	static constexpr FStructRegisterCompiledInInfo ScriptStructInfo[] = {
 		{ FItemAttribute::StaticStruct, Z_Construct_UScriptStruct_FItemAttribute_Statics::NewStructOps, TEXT("ItemAttribute"), &Z_Registration_Info_UScriptStruct_FItemAttribute, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FItemAttribute), 3623147177U) },
@@ -1588,12 +1799,12 @@ struct Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_PUBGType_h__Script_PUBG
 		{ FRecoilSettings::StaticStruct, Z_Construct_UScriptStruct_FRecoilSettings_Statics::NewStructOps, TEXT("RecoilSettings"), &Z_Registration_Info_UScriptStruct_FRecoilSettings, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FRecoilSettings), 1496086511U) },
 		{ FSpreadSettings::StaticStruct, Z_Construct_UScriptStruct_FSpreadSettings_Statics::NewStructOps, TEXT("SpreadSettings"), &Z_Registration_Info_UScriptStruct_FSpreadSettings, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FSpreadSettings), 4294589840U) },
 		{ FCharacterDirectionAnimations::StaticStruct, Z_Construct_UScriptStruct_FCharacterDirectionAnimations_Statics::NewStructOps, TEXT("CharacterDirectionAnimations"), &Z_Registration_Info_UScriptStruct_FCharacterDirectionAnimations, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FCharacterDirectionAnimations), 2475928603U) },
-		{ FCharacterTurnAngleAnimations::StaticStruct, Z_Construct_UScriptStruct_FCharacterTurnAngleAnimations_Statics::NewStructOps, TEXT("CharacterTurnAngleAnimations"), &Z_Registration_Info_UScriptStruct_FCharacterTurnAngleAnimations, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FCharacterTurnAngleAnimations), 3528204426U) },
+		{ FCharacterTurnAngleAnimations::StaticStruct, Z_Construct_UScriptStruct_FCharacterTurnAngleAnimations_Statics::NewStructOps, TEXT("CharacterTurnAngleAnimations"), &Z_Registration_Info_UScriptStruct_FCharacterTurnAngleAnimations, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FCharacterTurnAngleAnimations), 2682530907U) },
 		{ FCharacterGaitSettings::StaticStruct, Z_Construct_UScriptStruct_FCharacterGaitSettings_Statics::NewStructOps, TEXT("CharacterGaitSettings"), &Z_Registration_Info_UScriptStruct_FCharacterGaitSettings, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FCharacterGaitSettings), 3482465836U) },
 		{ FTPPCameraSettings::StaticStruct, Z_Construct_UScriptStruct_FTPPCameraSettings_Statics::NewStructOps, TEXT("TPPCameraSettings"), &Z_Registration_Info_UScriptStruct_FTPPCameraSettings, CONSTRUCT_RELOAD_VERSION_INFO(FStructReloadVersionInfo, sizeof(FTPPCameraSettings), 2260429809U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_PUBGType_h__Script_PUBG_2717010212(TEXT("/Script/PUBG"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_PUBGType_h__Script_PUBG_4032738090(TEXT("/Script/PUBG"),
 	nullptr, 0,
 	Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_PUBGType_h__Script_PUBG_Statics::ScriptStructInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_PUBGType_h__Script_PUBG_Statics::ScriptStructInfo),
 	Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_PUBGType_h__Script_PUBG_Statics::EnumInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_PUBGType_h__Script_PUBG_Statics::EnumInfo));

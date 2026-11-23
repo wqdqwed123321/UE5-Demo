@@ -5,7 +5,9 @@
 
 #include "Actor/PickupItem.h"
 #include "ActorComponent/BackpackManagerComponent.h"
+#include "Blueprint/SlateBlueprintLibrary.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
+#include "CommonActivatableWidget/ActivatableWidget_WeaponTooltip.h"
 #include "Components/Image.h"
 #include "DragDropOperation/BackpackDragDropOperation.h"
 #include "Object/BackpackItemDefinition.h"
@@ -78,6 +80,19 @@ void UActivatableWidget_AttachmentSlot::SetupAttachmentSlot(UBackpackItemInstanc
 		Image_PartPicture->SetBrushFromTexture(nullptr);
 		Image_PartPicture->SetColorAndOpacity(FLinearColor(1.f, 1.f, 1.f, 0.f)); 
 	}
+
+	if (ActiveTooltip)
+	{
+		if (AttachmentItem && AttachmentItem->Definition)
+		{
+			ActiveTooltip->SetupTooltip(AttachmentItem);
+			SetToolTip(ActiveTooltip);
+		}
+		else
+		{
+			SetToolTip(nullptr);
+		}
+	}
 }
 
 FReply UActivatableWidget_AttachmentSlot::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
@@ -92,7 +107,7 @@ FReply UActivatableWidget_AttachmentSlot::NativeOnMouseButtonDown(const FGeometr
 void UActivatableWidget_AttachmentSlot::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation)
 {
 	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
-
+	
 	if (!CachedWeapon) return;
 
 	UBackpackItemInstance* Item = CachedWeapon->GetItemAttachment(AttachmentSlot);
@@ -178,4 +193,18 @@ bool UActivatableWidget_AttachmentSlot::NativeOnDrop(const FGeometry& InGeometry
 	}
 
 	return Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
+}
+
+void UActivatableWidget_AttachmentSlot::NativeConstruct()
+{
+	Super::NativeConstruct();
+	
+	if (TooltipClass)
+	{
+		ActiveTooltip = CreateWidget<UActivatableWidget_WeaponTooltip>(GetOwningPlayer(), TooltipClass);
+		if (ActiveTooltip)
+		{
+			ActiveTooltip->SetVisibility(ESlateVisibility::HitTestInvisible);
+		}
+	}
 }

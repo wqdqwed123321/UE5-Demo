@@ -56,7 +56,9 @@ void UActivatableWidget_PlayerState::NativeOnDeactivated()
 	if (UCharacterAbilitySystemComponent* ASC = CachedASC.Get())
 	{
 		ASC->GetGameplayAttributeValueChangeDelegate(UCharacterAttributeSet::GetHealthAttribute()).Remove(HealthChangedHandle);
-
+		ASC->GetGameplayAttributeValueChangeDelegate(UCharacterAttributeSet::GetDownedMaxHealthAttribute()).Remove(DownedMaxHealthChangedHandle);
+		ASC->GetGameplayAttributeValueChangeDelegate(UCharacterAttributeSet::GetDownedHealthAttribute()).Remove(DownedHealthChangedHandle);
+		
 		ASC->OnHealStartedDelegate.RemoveDynamic(this, &UActivatableWidget_PlayerState::HandleHealStarted);
 		ASC->OnHealCompletedDelegate.RemoveDynamic(this, &UActivatableWidget_PlayerState::HandleHealCompleted);
 		ASC->OnHealCancelledDelegate.RemoveDynamic(this, &UActivatableWidget_PlayerState::HandleHealCancelled);
@@ -85,6 +87,24 @@ void UActivatableWidget_PlayerState::NativeTick(const FGeometry& MyGeometry, flo
 				DamageDelayPercent = DamageDelayTargetPercent;
 				UpdateDamageDelayBar();
 				bDamageDelaying = false;
+				
+				if (APlayerCharacter* Char = Cast<APlayerCharacter>(GetOwningPlayerPawn()))
+				{
+					if (Char->GetLifeState() == ECharacterLifeState::Downed)
+					{
+						if (UCharacterAbilitySystemComponent* ASC = CachedASC.Get())
+						{
+							if (const UCharacterAttributeSet* AttributeSet = ASC->GetSet<UCharacterAttributeSet>())
+							{
+								const float MaxDowned = AttributeSet->GetDownedMaxHealth();
+								if (MaxDowned > 0.f)
+								{
+									ProgressBar_Damage->SetPercent(FMath::Clamp(AttributeSet->GetDownedHealth() / MaxDowned, 0.f, 1.f));
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}
@@ -348,7 +368,9 @@ void UActivatableWidget_PlayerState::InitUIWithASC()
 	CachedASC = BaseASC;
 
 	HealthChangedHandle = BaseASC->GetGameplayAttributeValueChangeDelegate(UCharacterAttributeSet::GetHealthAttribute()).AddUObject(this, &UActivatableWidget_PlayerState::OnHealthChanged);
-
+	DownedMaxHealthChangedHandle = BaseASC->GetGameplayAttributeValueChangeDelegate(UCharacterAttributeSet::GetDownedMaxHealthAttribute()).AddUObject(this, &UActivatableWidget_PlayerState::OnDownedHealthChanged);
+	DownedHealthChangedHandle = BaseASC->GetGameplayAttributeValueChangeDelegate(UCharacterAttributeSet::GetDownedHealthAttribute()).AddUObject(this, &UActivatableWidget_PlayerState::OnDownedHealthChanged);
+	
 	BaseASC->OnHealStartedDelegate.AddDynamic(this, &UActivatableWidget_PlayerState::HandleHealStarted);
 	BaseASC->OnHealCompletedDelegate.AddDynamic(this, &UActivatableWidget_PlayerState::HandleHealCompleted);
 	BaseASC->OnHealCancelledDelegate.AddDynamic(this, &UActivatableWidget_PlayerState::HandleHealCancelled);
@@ -405,8 +427,34 @@ void UActivatableWidget_PlayerState::OnHealthChanged(const FOnAttributeChangeDat
 	}
 }
 
+void UActivatableWidget_PlayerState::OnDownedHealthChanged(const FOnAttributeChangeData& Data)
+{
+	if (bDamageDelaying) return;
+
+	UCharacterAbilitySystemComponent* ASC = CachedASC.Get();
+	if (!ASC) return;
+
+	const UCharacterAttributeSet* AttributeSet = ASC->GetSet<UCharacterAttributeSet>();
+	if (!AttributeSet) return;
+
+	const float MaxDowned = AttributeSet->GetDownedMaxHealth();
+	if (MaxDowned <= 0.f) return;
+
+	ProgressBar_Damage->SetPercent(FMath::Clamp(AttributeSet->GetDownedHealth() / MaxDowned, 0.f, 1.f));
+}
+
 void UActivatableWidget_PlayerState::RefreshCurrentHealthBar()
 {
+	if (APlayerCharacter* Char = Cast<APlayerCharacter>(GetOwningPlayerPawn()))
+	{
+		if (Char->GetLifeState() == ECharacterLifeState::Downed)
+		{
+			ProgressBar_HP->SetPercent(0.f);
+			ProgressBar_Heal->SetPercent(0.f);
+			return;
+		}
+	}
+	
 	if (!ProgressBar_HP) return;
 
 	UCharacterAbilitySystemComponent* ASC = CachedASC.Get();

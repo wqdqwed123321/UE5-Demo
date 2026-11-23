@@ -25,6 +25,8 @@ public:
 	ATTRIBUTE_ACCESSORS_BASIC(UCharacterAttributeSet, Health)
 	ATTRIBUTE_ACCESSORS_BASIC(UCharacterAttributeSet, MaxBackpackCapacity)
 	ATTRIBUTE_ACCESSORS_BASIC(UCharacterAttributeSet, BackpackCapacity)
+	ATTRIBUTE_ACCESSORS_BASIC(UCharacterAttributeSet, DownedMaxHealth)
+	ATTRIBUTE_ACCESSORS_BASIC(UCharacterAttributeSet, DownedHealth)
 	
 protected:
 	UFUNCTION()
@@ -39,6 +41,12 @@ protected:
 	UFUNCTION()
 	void OnRep_MaxBackpackCapacity(const FGameplayAttributeData& OldValue);
 	
+	UFUNCTION()
+	void OnRep_DownedHealth(const FGameplayAttributeData& OldValue);
+
+	UFUNCTION()
+	void OnRep_DownedMaxHealth(const FGameplayAttributeData& OldValue);
+	
 private:
 	UPROPERTY(ReplicatedUsing = OnRep_Health)
 	FGameplayAttributeData Health;
@@ -51,4 +59,10 @@ private:
 	
 	UPROPERTY(ReplicatedUsing = OnRep_MaxBackpackCapacity)
 	FGameplayAttributeData MaxBackpackCapacity;
+	
+	UPROPERTY(ReplicatedUsing = OnRep_DownedHealth)
+	FGameplayAttributeData DownedHealth;
+
+	UPROPERTY(ReplicatedUsing = OnRep_DownedMaxHealth)
+	FGameplayAttributeData DownedMaxHealth;
 };

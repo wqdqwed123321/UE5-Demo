@@ -7,6 +7,7 @@
 #include "CommonActivatableWidget/BaseCommonActivatableWidget.h"
 #include "ActivatableWidget_EquipmentSlot.generated.h"
 
+class UActivatableWidget_WeaponTooltip;
 class UUserWidget_DragVisual;
 class UBackpackManagerComponent;
 class UBackpackItemInstance;
@@ -20,6 +21,7 @@ class PUBG_API UActivatableWidget_EquipmentSlot : public UBaseCommonActivatableW
 	
 protected:
 	virtual void NativeDestruct() override;
+	virtual void NativeConstruct() override;
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 
@@ -31,6 +33,7 @@ protected:
 	UFUNCTION()
 	void OnInventoryChangedHandler();
 	
+protected:
 	UBackpackManagerComponent* GetBackpackComp() const;
 	
 private:
@@ -52,4 +55,10 @@ private:
 	
 	UPROPERTY()
 	TObjectPtr<UBackpackManagerComponent> CachedComp;
+	
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UActivatableWidget_WeaponTooltip> TooltipClass;
+
+	UPROPERTY()
+	TObjectPtr<UActivatableWidget_WeaponTooltip> ActiveTooltip;
 };

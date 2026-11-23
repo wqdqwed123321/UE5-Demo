@@ -4,6 +4,8 @@
 #include "GameFramework/Actor.h"
 #include "WeaponPreview.generated.h"
 
+class UPointLightComponent;
+class USpotLightComponent;
 class USceneComponent;
 class UStaticMeshComponent;
 class USceneCaptureComponent2D;
@@ -38,6 +40,12 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USceneCaptureComponent2D> SceneCaptureComp;
+	
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USpotLightComponent> KeyLight;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UPointLightComponent> FillLight;
 
 	UPROPERTY()
 	TArray<TObjectPtr<UStaticMeshComponent>> AttachmentMeshComponents;

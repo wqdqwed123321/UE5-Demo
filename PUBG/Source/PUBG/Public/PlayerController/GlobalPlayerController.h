@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PUBGType.h"
 #include "GameFramework/PlayerController.h"
 #include "GlobalPlayerController.generated.h"
 
@@ -21,6 +22,10 @@ protected:
 	virtual void SetupInputComponent() override;
 	
 	virtual void BeginPlay() override;
+	
+public:
+	UFUNCTION(Client, Unreliable)
+	void Client_KillMessage(const FString& KillerName, const FString& VictimName, const FString& WeaponName, bool bKnock, bool bFriendlyFire, int32 KillCount, EKillMessageRole InRole);
 	
 private:
 	UPROPERTY(EditDefaultsOnly)

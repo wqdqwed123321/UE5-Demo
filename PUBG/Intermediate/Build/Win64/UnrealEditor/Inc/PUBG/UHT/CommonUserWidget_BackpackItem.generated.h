@@ -19,7 +19,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 // ********** Begin Class UCommonUserWidget_BackpackItem *******************************************
 PUBG_API UClass* Z_Construct_UClass_UCommonUserWidget_BackpackItem_NoRegister();
 
-#define FID_PUBG_Source_PUBG_Public_CommonUserWidget_CommonUserWidget_BackpackItem_h_21_INCLASS_NO_PURE_DECLS \
+#define FID_PUBG_Source_PUBG_Public_CommonUserWidget_CommonUserWidget_BackpackItem_h_22_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesUCommonUserWidget_BackpackItem(); \
 	friend struct Z_Construct_UClass_UCommonUserWidget_BackpackItem_Statics; \
@@ -31,7 +31,7 @@ public: \
 	virtual UObject* _getUObject() const override { return const_cast<UCommonUserWidget_BackpackItem*>(this); }
 
 
-#define FID_PUBG_Source_PUBG_Public_CommonUserWidget_CommonUserWidget_BackpackItem_h_21_ENHANCED_CONSTRUCTORS \
+#define FID_PUBG_Source_PUBG_Public_CommonUserWidget_CommonUserWidget_BackpackItem_h_22_ENHANCED_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API UCommonUserWidget_BackpackItem(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()); \
 	/** Deleted move- and copy-constructors, should never be used */ \
@@ -43,12 +43,12 @@ public: \
 	NO_API virtual ~UCommonUserWidget_BackpackItem();
 
 
-#define FID_PUBG_Source_PUBG_Public_CommonUserWidget_CommonUserWidget_BackpackItem_h_18_PROLOG
-#define FID_PUBG_Source_PUBG_Public_CommonUserWidget_CommonUserWidget_BackpackItem_h_21_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_CommonUserWidget_CommonUserWidget_BackpackItem_h_19_PROLOG
+#define FID_PUBG_Source_PUBG_Public_CommonUserWidget_CommonUserWidget_BackpackItem_h_22_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	FID_PUBG_Source_PUBG_Public_CommonUserWidget_CommonUserWidget_BackpackItem_h_21_INCLASS_NO_PURE_DECLS \
-	FID_PUBG_Source_PUBG_Public_CommonUserWidget_CommonUserWidget_BackpackItem_h_21_ENHANCED_CONSTRUCTORS \
+	FID_PUBG_Source_PUBG_Public_CommonUserWidget_CommonUserWidget_BackpackItem_h_22_INCLASS_NO_PURE_DECLS \
+	FID_PUBG_Source_PUBG_Public_CommonUserWidget_CommonUserWidget_BackpackItem_h_22_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

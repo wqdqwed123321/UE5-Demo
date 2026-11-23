@@ -58,6 +58,7 @@ protected:
 	
 protected:
 	void OnHealthChanged(const FOnAttributeChangeData& Data);
+	void OnDownedHealthChanged(const FOnAttributeChangeData& Data);
 
 private:
 	UPROPERTY(meta = (BindWidget))
@@ -143,10 +144,10 @@ private:
 	TObjectPtr<UTexture2D> Default_Armor;
 	
 	UPROPERTY(EditDefaultsOnly)
-	float DamageDelayDuration = 0.5f;
+	float DamageDelayDuration = 0.f;
 
 	UPROPERTY(EditDefaultsOnly)
-	float DamageDelayInterpSpeed = 3.f;
+	float DamageDelayInterpSpeed = 8.f;
 
 private:
 	UPROPERTY()
@@ -162,4 +163,6 @@ private:
 	float DamageDelayTimer = 0.f;
 	bool bDamageDelaying = false;
 	bool bWasTogglingFireMode = false;
+	FDelegateHandle DownedHealthChangedHandle;
+	FDelegateHandle DownedMaxHealthChangedHandle;
 };

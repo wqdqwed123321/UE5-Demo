@@ -16,10 +16,18 @@
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 
+enum class EKillMessageRole : uint8;
+
 // ********** Begin Class AGlobalPlayerController **************************************************
+#define FID_PUBG_Source_PUBG_Public_PlayerController_GlobalPlayerController_h_19_RPC_WRAPPERS_NO_PURE_DECLS \
+	virtual void Client_KillMessage_Implementation(const FString& KillerName, const FString& VictimName, const FString& WeaponName, bool bKnock, bool bFriendlyFire, int32 KillCount, EKillMessageRole InRole); \
+	DECLARE_FUNCTION(execClient_KillMessage);
+
+
+#define FID_PUBG_Source_PUBG_Public_PlayerController_GlobalPlayerController_h_19_CALLBACK_WRAPPERS
 PUBG_API UClass* Z_Construct_UClass_AGlobalPlayerController_NoRegister();
 
-#define FID_PUBG_Source_PUBG_Public_PlayerController_GlobalPlayerController_h_18_INCLASS_NO_PURE_DECLS \
+#define FID_PUBG_Source_PUBG_Public_PlayerController_GlobalPlayerController_h_19_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesAGlobalPlayerController(); \
 	friend struct Z_Construct_UClass_AGlobalPlayerController_Statics; \
@@ -30,7 +38,7 @@ public: \
 	DECLARE_SERIALIZER(AGlobalPlayerController)
 
 
-#define FID_PUBG_Source_PUBG_Public_PlayerController_GlobalPlayerController_h_18_ENHANCED_CONSTRUCTORS \
+#define FID_PUBG_Source_PUBG_Public_PlayerController_GlobalPlayerController_h_19_ENHANCED_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API AGlobalPlayerController(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get()); \
 	/** Deleted move- and copy-constructors, should never be used */ \
@@ -42,12 +50,14 @@ public: \
 	NO_API virtual ~AGlobalPlayerController();
 
 
-#define FID_PUBG_Source_PUBG_Public_PlayerController_GlobalPlayerController_h_15_PROLOG
-#define FID_PUBG_Source_PUBG_Public_PlayerController_GlobalPlayerController_h_18_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_PlayerController_GlobalPlayerController_h_16_PROLOG
+#define FID_PUBG_Source_PUBG_Public_PlayerController_GlobalPlayerController_h_19_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	FID_PUBG_Source_PUBG_Public_PlayerController_GlobalPlayerController_h_18_INCLASS_NO_PURE_DECLS \
-	FID_PUBG_Source_PUBG_Public_PlayerController_GlobalPlayerController_h_18_ENHANCED_CONSTRUCTORS \
+	FID_PUBG_Source_PUBG_Public_PlayerController_GlobalPlayerController_h_19_RPC_WRAPPERS_NO_PURE_DECLS \
+	FID_PUBG_Source_PUBG_Public_PlayerController_GlobalPlayerController_h_19_CALLBACK_WRAPPERS \
+	FID_PUBG_Source_PUBG_Public_PlayerController_GlobalPlayerController_h_19_INCLASS_NO_PURE_DECLS \
+	FID_PUBG_Source_PUBG_Public_PlayerController_GlobalPlayerController_h_19_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

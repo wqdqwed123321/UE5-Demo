@@ -201,6 +201,11 @@ struct Z_Construct_UClass_UBackpackItemFragment_Weapon_Statics
 		{ "DisplayName", "\xe6\xad\xa6\xe5\x99\xa8\xe5\xbc\x80\xe7\x81\xab\xe5\x8a\xa8\xe7\x94\xbb" },
 		{ "ModuleRelativePath", "Public/Object/BackpackItemFragment_Weapon.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_CharacterFireMontage_MetaData[] = {
+		{ "Category", "BackpackItemFragment_Weapon" },
+		{ "DisplayName", "\xe8\xa7\x92\xe8\x89\xb2\xe5\xbc\x80\xe7\x81\xab\xe5\x8a\xa8\xe7\x94\xbb" },
+		{ "ModuleRelativePath", "Public/Object/BackpackItemFragment_Weapon.h" },
+	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_MuzzleFlashFX_MetaData[] = {
 		{ "Category", "BackpackItemFragment_Weapon" },
 		{ "DisplayName", "\xe6\x9e\xaa\xe5\x8f\xa3\xe7\xb2\x92\xe5\xad\x90\xe7\x89\xb9\xe6\x95\x88" },
@@ -263,6 +268,7 @@ struct Z_Construct_UClass_UBackpackItemFragment_Weapon_Statics
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_EmptySound;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_SwitchFireModeMontage;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_WeaponFireMontage;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_CharacterFireMontage;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_MuzzleFlashFX;
 	static const UECodeGen_Private::FSoftClassPropertyParams NewProp_DefaultAttachments_ValueProp;
 	static const UECodeGen_Private::FBytePropertyParams NewProp_DefaultAttachments_Key_KeyProp_Underlying;
@@ -310,6 +316,7 @@ const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UBackpackItemF
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UBackpackItemFragment_Weapon_Statics::NewProp_EmptySound = { "EmptySound", nullptr, (EPropertyFlags)0x0114000000010015, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UBackpackItemFragment_Weapon, EmptySound), Z_Construct_UClass_USoundBase_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_EmptySound_MetaData), NewProp_EmptySound_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UBackpackItemFragment_Weapon_Statics::NewProp_SwitchFireModeMontage = { "SwitchFireModeMontage", nullptr, (EPropertyFlags)0x0114000000010015, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UBackpackItemFragment_Weapon, SwitchFireModeMontage), Z_Construct_UClass_UAnimMontage_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_SwitchFireModeMontage_MetaData), NewProp_SwitchFireModeMontage_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UBackpackItemFragment_Weapon_Statics::NewProp_WeaponFireMontage = { "WeaponFireMontage", nullptr, (EPropertyFlags)0x0114000000010015, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UBackpackItemFragment_Weapon, WeaponFireMontage), Z_Construct_UClass_UAnimMontage_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_WeaponFireMontage_MetaData), NewProp_WeaponFireMontage_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UBackpackItemFragment_Weapon_Statics::NewProp_CharacterFireMontage = { "CharacterFireMontage", nullptr, (EPropertyFlags)0x0114000000010015, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UBackpackItemFragment_Weapon, CharacterFireMontage), Z_Construct_UClass_UAnimMontage_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CharacterFireMontage_MetaData), NewProp_CharacterFireMontage_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UBackpackItemFragment_Weapon_Statics::NewProp_MuzzleFlashFX = { "MuzzleFlashFX", nullptr, (EPropertyFlags)0x0114000000010015, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UBackpackItemFragment_Weapon, MuzzleFlashFX), Z_Construct_UClass_UNiagaraSystem_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_MuzzleFlashFX_MetaData), NewProp_MuzzleFlashFX_MetaData) };
 const UECodeGen_Private::FSoftClassPropertyParams Z_Construct_UClass_UBackpackItemFragment_Weapon_Statics::NewProp_DefaultAttachments_ValueProp = { "DefaultAttachments", nullptr, (EPropertyFlags)0x0004000000000001, UECodeGen_Private::EPropertyGenFlags::SoftClass, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 1, Z_Construct_UClass_UBackpackItemDefinition_NoRegister, METADATA_PARAMS(0, nullptr) };
 const UECodeGen_Private::FBytePropertyParams Z_Construct_UClass_UBackpackItemFragment_Weapon_Statics::NewProp_DefaultAttachments_Key_KeyProp_Underlying = { "UnderlyingType", nullptr, (EPropertyFlags)0x0000000000000000, UECodeGen_Private::EPropertyGenFlags::Byte, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, 0, nullptr, METADATA_PARAMS(0, nullptr) };
@@ -351,6 +358,7 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UBackpack
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBackpackItemFragment_Weapon_Statics::NewProp_EmptySound,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBackpackItemFragment_Weapon_Statics::NewProp_SwitchFireModeMontage,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBackpackItemFragment_Weapon_Statics::NewProp_WeaponFireMontage,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBackpackItemFragment_Weapon_Statics::NewProp_CharacterFireMontage,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBackpackItemFragment_Weapon_Statics::NewProp_MuzzleFlashFX,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBackpackItemFragment_Weapon_Statics::NewProp_DefaultAttachments_ValueProp,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UBackpackItemFragment_Weapon_Statics::NewProp_DefaultAttachments_Key_KeyProp_Underlying,
@@ -399,10 +407,10 @@ UBackpackItemFragment_Weapon::~UBackpackItemFragment_Weapon() {}
 struct Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Object_BackpackItemFragment_Weapon_h__Script_PUBG_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_UBackpackItemFragment_Weapon, UBackpackItemFragment_Weapon::StaticClass, TEXT("UBackpackItemFragment_Weapon"), &Z_Registration_Info_UClass_UBackpackItemFragment_Weapon, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UBackpackItemFragment_Weapon), 1276333484U) },
+		{ Z_Construct_UClass_UBackpackItemFragment_Weapon, UBackpackItemFragment_Weapon::StaticClass, TEXT("UBackpackItemFragment_Weapon"), &Z_Registration_Info_UClass_UBackpackItemFragment_Weapon, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UBackpackItemFragment_Weapon), 3339749797U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Object_BackpackItemFragment_Weapon_h__Script_PUBG_16711363(TEXT("/Script/PUBG"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Object_BackpackItemFragment_Weapon_h__Script_PUBG_451893337(TEXT("/Script/PUBG"),
 	Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Object_BackpackItemFragment_Weapon_h__Script_PUBG_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_Object_BackpackItemFragment_Weapon_h__Script_PUBG_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

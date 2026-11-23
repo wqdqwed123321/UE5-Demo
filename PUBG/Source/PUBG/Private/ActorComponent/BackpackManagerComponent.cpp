@@ -19,6 +19,8 @@
 #include "PUBGGameplayTag.h"
 #include "AbilitySystemComponent.h"
 #include "AttributeSet/CharacterAttributeSet.h"
+#include "Object/BackpackItemFragment_Attachment.h"
+#include "Object/BackpackItemFragment_Equipment.h"
 #include "PlayerState/GlobalPlayerState.h"
 
 UBackpackManagerComponent::UBackpackManagerComponent()
@@ -166,7 +168,7 @@ float UBackpackManagerComponent::GetItemUnitWeight(UBackpackItemDefinition* Item
 	if (!ItemDef) return 0.f;
 	
 	UBackpackItemFragment_Weight* WeightFrag = Cast<UBackpackItemFragment_Weight>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(ItemDef->GetClass(), UBackpackItemFragment_Weight::StaticClass()));
-	return WeightFrag->Weight;
+	return WeightFrag ? WeightFrag->Weight : 0.f;
 }
 
 float UBackpackManagerComponent::GetBackpackExtraCapacity(UBackpackItemDefinition* ItemDef) const
@@ -174,7 +176,95 @@ float UBackpackManagerComponent::GetBackpackExtraCapacity(UBackpackItemDefinitio
 	if (!ItemDef) return 0.f;
 	
 	UBackpackItemFragment_Backpack* BackpackFrag = Cast<UBackpackItemFragment_Backpack>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(ItemDef->GetClass(), UBackpackItemFragment_Backpack::StaticClass()));
-	return BackpackFrag->Capacity;
+	return BackpackFrag ? BackpackFrag->Capacity : 0.f;
+}
+
+EEquipmentSlot UBackpackManagerComponent::GetEquipmentSlotForItem(UBackpackItemDefinition* ItemDef) const
+{
+	if (!ItemDef || ItemDef->ItemType != EItemType::Equipment) return EEquipmentSlot::None;
+
+	UBackpackItemFragment_Equipment* EquipFrag = Cast<UBackpackItemFragment_Equipment>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(ItemDef->GetClass(), UBackpackItemFragment_Equipment::StaticClass()));
+
+	return EquipFrag ? EquipFrag->EquipSlotType : EEquipmentSlot::None;
+}
+
+int32 UBackpackManagerComponent::FindEmptyWeaponSlotForItem(UBackpackItemDefinition* ItemDef) const
+{
+	if (!ItemDef) return INDEX_NONE;
+	
+	if (ItemDef->ItemType == EItemType::MeleeWeapon) return 3;   // 3/4 被占时走原函数的"旧的进背包"逻辑
+	if (ItemDef->ItemType == EItemType::Throwable)  return 4;
+
+	if (ItemDef->ItemType == EItemType::Weapon)
+	{
+		UBackpackItemFragment_Weapon* WeaponFrag = Cast<UBackpackItemFragment_Weapon>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(ItemDef->GetClass(), UBackpackItemFragment_Weapon::StaticClass()));
+		
+		if (WeaponFrag && WeaponFrag->WeaponType == EWeaponType::Pistol)
+		{
+			return 2;
+		}
+		
+		if (GetWeaponSlotItem(0) == nullptr) return 0;
+		if (GetWeaponSlotItem(1) == nullptr) return 1;
+		return 0;
+	}
+
+	return INDEX_NONE;
+}
+
+bool UBackpackManagerComponent::TryAutoEquipGroundAttachment(APickupItem* GroundAttachment)
+{
+	if (!GroundAttachment || !GroundAttachment->ItemDefinition) return false;
+
+	UBackpackItemDefinition* AttachDef = GroundAttachment->ItemDefinition.GetDefaultObject();
+	if (!AttachDef) return false;
+
+	UBackpackItemFragment_Attachment* AttachFrag = Cast<UBackpackItemFragment_Attachment>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(AttachDef->GetClass(), UBackpackItemFragment_Attachment::StaticClass()));
+	if (!AttachFrag) return false;
+	
+	for (int32 SlotIndex = 0; SlotIndex <= 2; ++SlotIndex)
+	{
+		UBackpackItemInstance* WeaponInst = GetWeaponSlotItem(SlotIndex);
+		if (!WeaponInst || !WeaponInst->Definition) continue;
+
+		UBackpackItemFragment_Weapon* WeaponFrag = Cast<UBackpackItemFragment_Weapon>(
+			UBackpackItemDefinition::FindBackpackItemFragmentByClass(WeaponInst->Definition->GetClass(), UBackpackItemFragment_Weapon::StaticClass()));
+		if (!WeaponFrag) continue;
+
+		if (!WeaponFrag->SupportedAttachmentSlots.Contains(AttachFrag->TargetSlot)) continue;
+
+		const bool bAlreadyHas = WeaponInst->ItemAttachments.ContainsByPredicate(
+			[&](const FItemAttachment& Attach) { return Attach.Slot == AttachFrag->TargetSlot; });
+		if (bAlreadyHas) continue;
+
+		Server_EquipGroundAttachmentToWeapon_Implementation(GroundAttachment, WeaponInst, AttachFrag->TargetSlot);
+		return true;
+	}
+
+	return false;
+}
+
+void UBackpackManagerComponent::AddGroundItemToBackpack(APickupItem* GroundItem)
+{
+	if (!GroundItem || !GroundItem->ItemDefinition) return;
+
+	UBackpackItemDefinition* ItemDef = GroundItem->ItemDefinition.GetDefaultObject();
+	if (!ItemDef) return;
+
+	const int32 Amount = GroundItem->Quantity;
+	const int32 ActualAdded = AddItemToBackpack(ItemDef, Amount);
+
+	const int32 Remaining = Amount - ActualAdded;
+	if (Remaining > 0)
+	{
+		GroundItem->Quantity = Remaining;
+	}
+	else
+	{
+		GroundItem->Destroy();
+	}
+
+	OnInventoryChanged.Broadcast();
 }
 
 float UBackpackManagerComponent::GetCurrentWeight() const
@@ -1053,6 +1143,59 @@ void UBackpackManagerComponent::Server_DropAttachment_Implementation(UBackpackIt
 	OnInventoryChanged.Broadcast();
 }
 
+void UBackpackManagerComponent::Server_QuickPickupItem_Implementation(APickupItem* ItemToPickup)
+{
+	if (!GetOwner() || !GetOwner()->HasAuthority()) return;
+	if (!ItemToPickup || !IsValid(ItemToPickup) || !ItemToPickup->ItemDefinition) return;
+	
+	if (APlayerState* PS = Cast<APlayerState>(GetOwner()))
+	{
+		if (APawn* P = PS->GetPawn())
+		{
+			if (FVector::DistSquared(P->GetActorLocation(), ItemToPickup->GetActorLocation()) > FMath::Square(400.f)) return;
+		}
+	}
+
+	UBackpackItemDefinition* ItemDef = ItemToPickup->ItemDefinition.GetDefaultObject();
+	if (!ItemDef) return;
+
+	switch (ItemDef->ItemType)
+	{
+	case EItemType::Weapon:
+	case EItemType::MeleeWeapon:
+	case EItemType::Throwable:
+		{
+			const int32 SlotIndex = FindEmptyWeaponSlotForItem(ItemDef);
+			if (SlotIndex != INDEX_NONE)
+			{
+				Server_EquipGroundWeaponToSlot_Implementation(ItemToPickup, SlotIndex);
+			}
+			break;
+		}
+	case EItemType::Attachment:
+		{
+			if (!TryAutoEquipGroundAttachment(ItemToPickup))
+			{
+				AddGroundItemToBackpack(ItemToPickup);
+			}
+			break;
+		}
+	case EItemType::Equipment:
+		{
+			const EEquipmentSlot Slot = GetEquipmentSlotForItem(ItemDef);
+			
+			if (Slot != EEquipmentSlot::None)
+			{
+				Server_EquipGroundEquipmentToSlot_Implementation(ItemToPickup, Slot);
+			}
+			break;
+		}
+	default:
+		Server_PickupItem_Implementation(ItemToPickup);
+		break;
+	}
+}
+
 bool UBackpackManagerComponent::AddItemToNearbyPickupItems(APickupItem* PickupItemActor)
 {
 	if (!PickupItemActor) return false;
@@ -1099,6 +1242,44 @@ void UBackpackManagerComponent::ConsumeBackpackItem(UBackpackItemInstance* ItemI
 			break;
 		}
 	}
+}
+
+bool UBackpackManagerComponent::ConsumeWeaponSlotItem(int32 SlotIndex, int32 Amount)
+{
+	if (!WeaponSlots.Entries.IsValidIndex(SlotIndex)) return false;
+	UBackpackItemInstance* Item = WeaponSlots.Entries[SlotIndex].ItemInstance;
+	if (!Item) return false;
+
+	Item->Quantity -= Amount;
+	if (Item->Quantity <= 0)
+	{
+		WeaponSlots.Entries[SlotIndex].ItemInstance = nullptr;
+	}
+	WeaponSlots.MarkItemDirty(WeaponSlots.Entries[SlotIndex]);
+	OnInventoryChanged.Broadcast();
+	return true;
+}
+
+bool UBackpackManagerComponent::CanAutoEquipAttachment(UBackpackItemDefinition* AttachDef) const
+{
+	if (!AttachDef) return false;
+
+	UBackpackItemFragment_Attachment* AttachFrag = Cast<UBackpackItemFragment_Attachment>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(AttachDef->GetClass(), UBackpackItemFragment_Attachment::StaticClass()));
+	if (!AttachFrag) return false;
+
+	for (int32 SlotIndex = 0; SlotIndex <= 2; ++SlotIndex)
+	{
+		UBackpackItemInstance* WeaponInst = GetWeaponSlotItem(SlotIndex);
+		if (!WeaponInst || !WeaponInst->Definition) continue;
+
+		UBackpackItemFragment_Weapon* WeaponFrag = Cast<UBackpackItemFragment_Weapon>(UBackpackItemDefinition::FindBackpackItemFragmentByClass(WeaponInst->Definition->GetClass(), UBackpackItemFragment_Weapon::StaticClass()));
+		if (!WeaponFrag) continue;
+		if (!WeaponFrag->SupportedAttachmentSlots.Contains(AttachFrag->TargetSlot)) continue;
+
+		const bool bAlreadyHas = WeaponInst->ItemAttachments.ContainsByPredicate([&](const FItemAttachment& Attach) { return Attach.Slot == AttachFrag->TargetSlot; });
+		if (!bAlreadyHas) return true;
+	}
+	return false;
 }
 
 TArray<UBackpackItemInstance*> UBackpackManagerComponent::GetBackpackItems() const

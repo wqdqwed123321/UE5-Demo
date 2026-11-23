@@ -15,6 +15,7 @@ void EmptyLinkFunctionForGeneratedCodeActivatableWidget_AttachmentSlot() {}
 COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
 PUBG_API UClass* Z_Construct_UClass_UActivatableWidget_AttachmentSlot();
 PUBG_API UClass* Z_Construct_UClass_UActivatableWidget_AttachmentSlot_NoRegister();
+PUBG_API UClass* Z_Construct_UClass_UActivatableWidget_WeaponTooltip_NoRegister();
 PUBG_API UClass* Z_Construct_UClass_UBackpackItemInstance_NoRegister();
 PUBG_API UClass* Z_Construct_UClass_UBaseCommonActivatableWidget();
 PUBG_API UClass* Z_Construct_UClass_UUserWidget_DragVisual_NoRegister();
@@ -85,6 +86,14 @@ struct Z_Construct_UClass_UActivatableWidget_AttachmentSlot_Statics
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_CachedWeapon_MetaData[] = {
 		{ "ModuleRelativePath", "Public/CommonActivatableWidget/ActivatableWidget_AttachmentSlot.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_TooltipClass_MetaData[] = {
+		{ "Category", "ActivatableWidget_AttachmentSlot" },
+		{ "ModuleRelativePath", "Public/CommonActivatableWidget/ActivatableWidget_AttachmentSlot.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_ActiveTooltip_MetaData[] = {
+		{ "EditInline", "true" },
+		{ "ModuleRelativePath", "Public/CommonActivatableWidget/ActivatableWidget_AttachmentSlot.h" },
+	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_Image_PartPicture;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_Border_Border;
@@ -92,6 +101,8 @@ struct Z_Construct_UClass_UActivatableWidget_AttachmentSlot_Statics
 	static const UECodeGen_Private::FEnumPropertyParams NewProp_AttachmentSlot;
 	static const UECodeGen_Private::FClassPropertyParams NewProp_DragVisualClass;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_CachedWeapon;
+	static const UECodeGen_Private::FClassPropertyParams NewProp_TooltipClass;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_ActiveTooltip;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
 	static constexpr FCppClassTypeInfoStatic StaticCppClassTypeInfo = {
@@ -105,6 +116,8 @@ const UECodeGen_Private::FBytePropertyParams Z_Construct_UClass_UActivatableWidg
 const UECodeGen_Private::FEnumPropertyParams Z_Construct_UClass_UActivatableWidget_AttachmentSlot_Statics::NewProp_AttachmentSlot = { "AttachmentSlot", nullptr, (EPropertyFlags)0x0040000000000001, UECodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_AttachmentSlot, AttachmentSlot), Z_Construct_UEnum_PUBG_EAttachmentSlot, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_AttachmentSlot_MetaData), NewProp_AttachmentSlot_MetaData) }; // 1859959187
 const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_UActivatableWidget_AttachmentSlot_Statics::NewProp_DragVisualClass = { "DragVisualClass", nullptr, (EPropertyFlags)0x0044000000000001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_AttachmentSlot, DragVisualClass), Z_Construct_UClass_UClass, Z_Construct_UClass_UUserWidget_DragVisual_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_DragVisualClass_MetaData), NewProp_DragVisualClass_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UActivatableWidget_AttachmentSlot_Statics::NewProp_CachedWeapon = { "CachedWeapon", nullptr, (EPropertyFlags)0x0144000000000000, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_AttachmentSlot, CachedWeapon), Z_Construct_UClass_UBackpackItemInstance_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CachedWeapon_MetaData), NewProp_CachedWeapon_MetaData) };
+const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_UActivatableWidget_AttachmentSlot_Statics::NewProp_TooltipClass = { "TooltipClass", nullptr, (EPropertyFlags)0x0044000000000001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_AttachmentSlot, TooltipClass), Z_Construct_UClass_UClass, Z_Construct_UClass_UActivatableWidget_WeaponTooltip_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_TooltipClass_MetaData), NewProp_TooltipClass_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UActivatableWidget_AttachmentSlot_Statics::NewProp_ActiveTooltip = { "ActiveTooltip", nullptr, (EPropertyFlags)0x0144000000080008, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_AttachmentSlot, ActiveTooltip), Z_Construct_UClass_UActivatableWidget_WeaponTooltip_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ActiveTooltip_MetaData), NewProp_ActiveTooltip_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UActivatableWidget_AttachmentSlot_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_AttachmentSlot_Statics::NewProp_Image_PartPicture,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_AttachmentSlot_Statics::NewProp_Border_Border,
@@ -112,6 +125,8 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UActivata
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_AttachmentSlot_Statics::NewProp_AttachmentSlot,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_AttachmentSlot_Statics::NewProp_DragVisualClass,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_AttachmentSlot_Statics::NewProp_CachedWeapon,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_AttachmentSlot_Statics::NewProp_TooltipClass,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_AttachmentSlot_Statics::NewProp_ActiveTooltip,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_UActivatableWidget_AttachmentSlot_Statics::PropPointers) < 2048);
 UObject* (*const Z_Construct_UClass_UActivatableWidget_AttachmentSlot_Statics::DependentSingletons[])() = {
@@ -151,10 +166,10 @@ UActivatableWidget_AttachmentSlot::~UActivatableWidget_AttachmentSlot() {}
 struct Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_AttachmentSlot_h__Script_PUBG_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_UActivatableWidget_AttachmentSlot, UActivatableWidget_AttachmentSlot::StaticClass, TEXT("UActivatableWidget_AttachmentSlot"), &Z_Registration_Info_UClass_UActivatableWidget_AttachmentSlot, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UActivatableWidget_AttachmentSlot), 2595578431U) },
+		{ Z_Construct_UClass_UActivatableWidget_AttachmentSlot, UActivatableWidget_AttachmentSlot::StaticClass, TEXT("UActivatableWidget_AttachmentSlot"), &Z_Registration_Info_UClass_UActivatableWidget_AttachmentSlot, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UActivatableWidget_AttachmentSlot), 15059743U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_AttachmentSlot_h__Script_PUBG_604000858(TEXT("/Script/PUBG"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_AttachmentSlot_h__Script_PUBG_2000970022(TEXT("/Script/PUBG"),
 	Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_AttachmentSlot_h__Script_PUBG_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_AttachmentSlot_h__Script_PUBG_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

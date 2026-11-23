@@ -7,6 +7,7 @@
 #include "CommonListView.h"
 #include "Actor/PickupItem.h"
 #include "ActorComponent/BackpackManagerComponent.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
 #include "CommonUserWidget/CommonUserWidget_BackpackItem.h"
 #include "DragDropOperation/BackpackDragDropOperation.h"
 #include "PlayerState/GlobalPlayerState.h"
@@ -47,64 +48,71 @@ bool UActivatableWidget_BackpackList::NativeOnDragOver(const FGeometry& InGeomet
 bool UActivatableWidget_BackpackList::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent,
 	UDragDropOperation* InOperation)
 {
+	bool bHandled = false;
+
 	UBackpackDragDropOperation* DragOp = Cast<UBackpackDragDropOperation>(InOperation);
-	if (!DragOp || !CachedManager) return false;
-	
-	if (BackpackListMode == EBackpackListMode::Inventory && DragOp->DragSource == EBackpackDragSource::Ground)
+	if (DragOp && CachedManager)
 	{
-		APickupItem* GroundItem = Cast<APickupItem>(DragOp->Payload);
-		if (GroundItem && IsValid(GroundItem))
+		if (BackpackListMode == EBackpackListMode::Inventory && DragOp->DragSource == EBackpackDragSource::Ground)
 		{
-			CachedManager->Server_PickupItem(GroundItem);
-			return true;
-		}
-	}
-	
-	else if (BackpackListMode == EBackpackListMode::Inventory && DragOp->DragSource == EBackpackDragSource::Equipment)
-	{
-		if (DragOp->SourceWeaponSlotIndex == 3 || DragOp->SourceWeaponSlotIndex == 4)
-		{
-			CachedManager->Server_UnequipWeaponSlotToBackpack(DragOp->SourceWeaponSlotIndex);
-			return true;
+			APickupItem* GroundItem = Cast<APickupItem>(DragOp->Payload);
+			if (GroundItem && IsValid(GroundItem))
+			{
+				CachedManager->Server_PickupItem(GroundItem);
+				bHandled = true;
+			}
 		}
 
-		else if (DragOp->SourceWeapon != nullptr)
+		else if (BackpackListMode == EBackpackListMode::Inventory && DragOp->DragSource == EBackpackDragSource::Equipment)
 		{
-			CachedManager->Server_UnequipAttachmentToBackpack(DragOp->SourceWeapon, DragOp->SourceAttachmentSlot);
-			return true;
+			if (DragOp->SourceWeaponSlotIndex == 3 || DragOp->SourceWeaponSlotIndex == 4)
+			{
+				CachedManager->Server_UnequipWeaponSlotToBackpack(DragOp->SourceWeaponSlotIndex);
+				bHandled = true;
+			}
+			else if (DragOp->SourceWeapon != nullptr)
+			{
+				CachedManager->Server_UnequipAttachmentToBackpack(DragOp->SourceWeapon, DragOp->SourceAttachmentSlot);
+				bHandled = true;
+			}
+		}
+
+		else if (BackpackListMode == EBackpackListMode::Nearby && DragOp->DragSource == EBackpackDragSource::Backpack)
+		{
+			UBackpackItemInstance* DroppedItem = Cast<UBackpackItemInstance>(DragOp->Payload);
+			if (DroppedItem)
+			{
+				CachedManager->Server_DropItem(DroppedItem);
+				bHandled = true;
+			}
+		}
+
+		else if (BackpackListMode == EBackpackListMode::Nearby && DragOp->DragSource == EBackpackDragSource::Equipment)
+		{
+			if (DragOp->SourceWeaponSlotIndex != -1)
+			{
+				CachedManager->Server_DropWeaponSlot(DragOp->SourceWeaponSlotIndex);
+				bHandled = true;
+			}
+			else if (DragOp->SourceEquipmentSlot != EEquipmentSlot::None)
+			{
+				CachedManager->Server_DropEquipmentSlot(DragOp->SourceEquipmentSlot);
+				bHandled = true;
+			}
+			else if (DragOp->SourceWeapon != nullptr)
+			{
+				CachedManager->Server_DropAttachment(DragOp->SourceWeapon, DragOp->SourceAttachmentSlot);
+				bHandled = true;
+			}
 		}
 	}
 	
-	else if (BackpackListMode == EBackpackListMode::Nearby && DragOp->DragSource == EBackpackDragSource::Backpack)
+	if (bHandled)
 	{
-		UBackpackItemInstance* DroppedItem = Cast<UBackpackItemInstance>(DragOp->Payload);
-		if (DroppedItem)
-		{
-			CachedManager->Server_DropItem(DroppedItem);
-			return true;
-		}
+		UWidgetBlueprintLibrary::SetFocusToGameViewport();
 	}
-	
-	else if (BackpackListMode == EBackpackListMode::Nearby && DragOp->DragSource == EBackpackDragSource::Equipment)
-	{
-		if (DragOp->SourceWeaponSlotIndex != -1)
-		{
-			CachedManager->Server_DropWeaponSlot(DragOp->SourceWeaponSlotIndex);
-			return true;
-		}
-		else if (DragOp->SourceEquipmentSlot != EEquipmentSlot::None)
-		{
-			CachedManager->Server_DropEquipmentSlot(DragOp->SourceEquipmentSlot);
-			return true;
-		}
-		else if (DragOp->SourceWeapon != nullptr)
-		{
-			CachedManager->Server_DropAttachment(DragOp->SourceWeapon, DragOp->SourceAttachmentSlot);
-			return true;
-		}
-	}
-	
-	return false;
+
+	return bHandled;
 }
 
 void UActivatableWidget_BackpackList::SetupBackpackList(const TArray<UObject*>& Items)

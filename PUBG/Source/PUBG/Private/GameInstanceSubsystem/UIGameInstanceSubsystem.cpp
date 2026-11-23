@@ -86,3 +86,9 @@ UBaseCommonActivatableWidget* UUIGameInstanceSubsystem::GetTopWidgetInStack(cons
 	if (!Stack) return nullptr;
 	return Cast<UBaseCommonActivatableWidget>(Stack->GetActiveWidget());
 }
+
+void UUIGameInstanceSubsystem::RegisterEmbeddedWidget(UCommonUserWidget* InWidget)
+{
+	if (!InWidget) return;
+	EmbeddedWidgets.FindOrAdd(InWidget->GetClass()) = InWidget;
+}

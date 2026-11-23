@@ -4,6 +4,7 @@
 #include "Actor/WeaponPreview.h"
 
 #include "Components/SceneCaptureComponent2D.h"
+#include "Components/SpotLightComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Object/BackpackItemDefinition.h"
 #include "Object/BackpackItemFragment_Attachment.h"
@@ -27,6 +28,27 @@ AWeaponPreview::AWeaponPreview()
 	SceneCaptureComp->PrimitiveRenderMode = ESceneCapturePrimitiveRenderMode::PRM_UseShowOnlyList;
 	SceneCaptureComp->bCaptureEveryFrame = false;
 	SceneCaptureComp->bCaptureOnMovement = false;
+	SceneCaptureComp->ShowFlags.SetAtmosphere(false);
+	SceneCaptureComp->ShowFlags.SetFog(false);
+	SceneCaptureComp->ShowFlags.SetVolumetricFog(false);
+	SceneCaptureComp->ShowFlags.SetSkyLighting(false);
+	SceneCaptureComp->ShowFlags.SetMotionBlur(false);
+	SceneCaptureComp->ShowFlags.SetEyeAdaptation(false);
+	
+	KeyLight = CreateDefaultSubobject<USpotLightComponent>(TEXT("KeyLight"));
+	KeyLight->SetupAttachment(RootComponent);
+	KeyLight->SetRelativeLocation(FVector(-120.f, 60.f, 100.f));
+	KeyLight->SetRelativeRotation(FRotator(-37.f, -27.f, 0.f));
+	KeyLight->SetIntensity(300.f);
+	KeyLight->InnerConeAngle = 15.f;
+	KeyLight->OuterConeAngle = 40.f;
+	KeyLight->AttenuationRadius = 600.f;
+	
+	FillLight = CreateDefaultSubobject<UPointLightComponent>(TEXT("FillLight"));
+	FillLight->SetupAttachment(RootComponent);
+	FillLight->SetRelativeLocation(FVector(-60.f, -80.f, 20.f));
+	FillLight->SetIntensity(150.f);
+	FillLight->AttenuationRadius = 500.f;
 }
 
 void AWeaponPreview::BeginPlay()

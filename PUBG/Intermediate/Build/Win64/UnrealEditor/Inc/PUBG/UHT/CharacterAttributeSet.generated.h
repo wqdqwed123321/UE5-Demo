@@ -21,6 +21,8 @@ struct FGameplayAttributeData;
 
 // ********** Begin Class UCharacterAttributeSet ***************************************************
 #define FID_PUBG_Source_PUBG_Public_AttributeSet_CharacterAttributeSet_h_16_RPC_WRAPPERS_NO_PURE_DECLS \
+	DECLARE_FUNCTION(execOnRep_DownedMaxHealth); \
+	DECLARE_FUNCTION(execOnRep_DownedHealth); \
 	DECLARE_FUNCTION(execOnRep_MaxBackpackCapacity); \
 	DECLARE_FUNCTION(execOnRep_BackpackCapacity); \
 	DECLARE_FUNCTION(execOnRep_MaxHealth); \
@@ -45,7 +47,9 @@ public: \
 		MaxHealth, \
 		BackpackCapacity, \
 		MaxBackpackCapacity, \
-		NETFIELD_REP_END=MaxBackpackCapacity	}; \
+		DownedHealth, \
+		DownedMaxHealth, \
+		NETFIELD_REP_END=DownedMaxHealth	}; \
 	DECLARE_VALIDATE_GENERATED_REP_ENUMS(NO_API) \
 private: \
 	REPLICATED_BASE_CLASS(UCharacterAttributeSet) \

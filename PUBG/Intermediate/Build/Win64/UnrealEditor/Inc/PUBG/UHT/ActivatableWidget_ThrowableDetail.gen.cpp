@@ -18,6 +18,7 @@ ENGINE_API UClass* Z_Construct_UClass_UTextureRenderTarget2D_NoRegister();
 PUBG_API UClass* Z_Construct_UClass_AWeaponPreview_NoRegister();
 PUBG_API UClass* Z_Construct_UClass_UActivatableWidget_ThrowableDetail();
 PUBG_API UClass* Z_Construct_UClass_UActivatableWidget_ThrowableDetail_NoRegister();
+PUBG_API UClass* Z_Construct_UClass_UActivatableWidget_WeaponTooltip_NoRegister();
 PUBG_API UClass* Z_Construct_UClass_UBackpackItemInstance_NoRegister();
 PUBG_API UClass* Z_Construct_UClass_UBackpackManagerComponent_NoRegister();
 PUBG_API UClass* Z_Construct_UClass_UBaseCommonActivatableWidget();
@@ -145,6 +146,10 @@ struct Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics
 		{ "Category", "ActivatableWidget_ThrowableDetail" },
 		{ "ModuleRelativePath", "Public/CommonActivatableWidget/ActivatableWidget_ThrowableDetail.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_TooltipClass_MetaData[] = {
+		{ "Category", "ActivatableWidget_ThrowableDetail" },
+		{ "ModuleRelativePath", "Public/CommonActivatableWidget/ActivatableWidget_ThrowableDetail.h" },
+	};
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_PreviewActorClass_MetaData[] = {
 		{ "Category", "ActivatableWidget_ThrowableDetail" },
 		{ "ModuleRelativePath", "Public/CommonActivatableWidget/ActivatableWidget_ThrowableDetail.h" },
@@ -167,6 +172,10 @@ struct Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_PreviewActor_MetaData[] = {
 		{ "ModuleRelativePath", "Public/CommonActivatableWidget/ActivatableWidget_ThrowableDetail.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_ActiveTooltip_MetaData[] = {
+		{ "EditInline", "true" },
+		{ "ModuleRelativePath", "Public/CommonActivatableWidget/ActivatableWidget_ThrowableDetail.h" },
+	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_TextBlock_WeaponName;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_TextBlock_Slot;
@@ -177,12 +186,14 @@ struct Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_Image_BottomLine;
 	static const UECodeGen_Private::FIntPropertyParams NewProp_SlotIndex;
 	static const UECodeGen_Private::FClassPropertyParams NewProp_DragVisualClass;
+	static const UECodeGen_Private::FClassPropertyParams NewProp_TooltipClass;
 	static const UECodeGen_Private::FClassPropertyParams NewProp_PreviewActorClass;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_RenderTargetAsset;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_PreviewMaterialBase;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_CachedComp;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_CachedItemInstance;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_PreviewActor;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_ActiveTooltip;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
 	static constexpr FClassFunctionLinkInfo FuncInfo[] = {
@@ -203,12 +214,14 @@ const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UActivatableWi
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_Image_BottomLine = { "Image_BottomLine", nullptr, (EPropertyFlags)0x0144000000080008, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_ThrowableDetail, Image_BottomLine), Z_Construct_UClass_UImage_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_Image_BottomLine_MetaData), NewProp_Image_BottomLine_MetaData) };
 const UECodeGen_Private::FIntPropertyParams Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_SlotIndex = { "SlotIndex", nullptr, (EPropertyFlags)0x0040000000000001, UECodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_ThrowableDetail, SlotIndex), METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_SlotIndex_MetaData), NewProp_SlotIndex_MetaData) };
 const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_DragVisualClass = { "DragVisualClass", nullptr, (EPropertyFlags)0x0044000000000001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_ThrowableDetail, DragVisualClass), Z_Construct_UClass_UClass, Z_Construct_UClass_UUserWidget_DragVisual_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_DragVisualClass_MetaData), NewProp_DragVisualClass_MetaData) };
+const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_TooltipClass = { "TooltipClass", nullptr, (EPropertyFlags)0x0044000000000001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_ThrowableDetail, TooltipClass), Z_Construct_UClass_UClass, Z_Construct_UClass_UActivatableWidget_WeaponTooltip_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_TooltipClass_MetaData), NewProp_TooltipClass_MetaData) };
 const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_PreviewActorClass = { "PreviewActorClass", nullptr, (EPropertyFlags)0x0044000000000001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_ThrowableDetail, PreviewActorClass), Z_Construct_UClass_UClass, Z_Construct_UClass_AWeaponPreview_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_PreviewActorClass_MetaData), NewProp_PreviewActorClass_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_RenderTargetAsset = { "RenderTargetAsset", nullptr, (EPropertyFlags)0x0144000000000001, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_ThrowableDetail, RenderTargetAsset), Z_Construct_UClass_UTextureRenderTarget2D_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_RenderTargetAsset_MetaData), NewProp_RenderTargetAsset_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_PreviewMaterialBase = { "PreviewMaterialBase", nullptr, (EPropertyFlags)0x0144000000000001, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_ThrowableDetail, PreviewMaterialBase), Z_Construct_UClass_UMaterialInterface_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_PreviewMaterialBase_MetaData), NewProp_PreviewMaterialBase_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_CachedComp = { "CachedComp", nullptr, (EPropertyFlags)0x0144000000080008, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_ThrowableDetail, CachedComp), Z_Construct_UClass_UBackpackManagerComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CachedComp_MetaData), NewProp_CachedComp_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_CachedItemInstance = { "CachedItemInstance", nullptr, (EPropertyFlags)0x0144000000000000, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_ThrowableDetail, CachedItemInstance), Z_Construct_UClass_UBackpackItemInstance_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CachedItemInstance_MetaData), NewProp_CachedItemInstance_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_PreviewActor = { "PreviewActor", nullptr, (EPropertyFlags)0x0144000000000000, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_ThrowableDetail, PreviewActor), Z_Construct_UClass_AWeaponPreview_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_PreviewActor_MetaData), NewProp_PreviewActor_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_ActiveTooltip = { "ActiveTooltip", nullptr, (EPropertyFlags)0x0144000000080008, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_ThrowableDetail, ActiveTooltip), Z_Construct_UClass_UActivatableWidget_WeaponTooltip_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ActiveTooltip_MetaData), NewProp_ActiveTooltip_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_TextBlock_WeaponName,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_TextBlock_Slot,
@@ -219,12 +232,14 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UActivata
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_Image_BottomLine,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_SlotIndex,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_DragVisualClass,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_TooltipClass,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_PreviewActorClass,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_RenderTargetAsset,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_PreviewMaterialBase,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_CachedComp,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_CachedItemInstance,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_PreviewActor,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::NewProp_ActiveTooltip,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::PropPointers) < 2048);
 UObject* (*const Z_Construct_UClass_UActivatableWidget_ThrowableDetail_Statics::DependentSingletons[])() = {
@@ -264,10 +279,10 @@ UActivatableWidget_ThrowableDetail::~UActivatableWidget_ThrowableDetail() {}
 struct Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_ThrowableDetail_h__Script_PUBG_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_UActivatableWidget_ThrowableDetail, UActivatableWidget_ThrowableDetail::StaticClass, TEXT("UActivatableWidget_ThrowableDetail"), &Z_Registration_Info_UClass_UActivatableWidget_ThrowableDetail, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UActivatableWidget_ThrowableDetail), 2442885572U) },
+		{ Z_Construct_UClass_UActivatableWidget_ThrowableDetail, UActivatableWidget_ThrowableDetail::StaticClass, TEXT("UActivatableWidget_ThrowableDetail"), &Z_Registration_Info_UClass_UActivatableWidget_ThrowableDetail, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UActivatableWidget_ThrowableDetail), 4124628640U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_ThrowableDetail_h__Script_PUBG_1677497039(TEXT("/Script/PUBG"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_ThrowableDetail_h__Script_PUBG_1256521130(TEXT("/Script/PUBG"),
 	Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_ThrowableDetail_h__Script_PUBG_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_ThrowableDetail_h__Script_PUBG_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

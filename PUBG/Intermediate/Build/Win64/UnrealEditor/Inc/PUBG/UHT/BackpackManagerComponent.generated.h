@@ -51,6 +51,7 @@ PUBG_API void FOnWeaponAttachmentsChanged_DelegateWrapper(const FMulticastScript
 
 // ********** Begin Class UBackpackManagerComponent ************************************************
 #define FID_PUBG_Source_PUBG_Public_ActorComponent_BackpackManagerComponent_h_26_RPC_WRAPPERS_NO_PURE_DECLS \
+	virtual void Server_QuickPickupItem_Implementation(APickupItem* ItemToPickup); \
 	virtual void Server_DropAttachment_Implementation(UBackpackItemInstance* WeaponInstance, EAttachmentSlot TargetSlot); \
 	virtual void Server_UnequipAttachmentToBackpack_Implementation(UBackpackItemInstance* WeaponInstance, EAttachmentSlot TargetSlot); \
 	virtual void Server_EquipGroundAttachmentToWeapon_Implementation(APickupItem* GroundAttachment, UBackpackItemInstance* WeaponInstance, EAttachmentSlot TargetSlot); \
@@ -64,6 +65,7 @@ PUBG_API void FOnWeaponAttachmentsChanged_DelegateWrapper(const FMulticastScript
 	virtual void Server_EquipGroundWeaponToSlot_Implementation(APickupItem* GroundItem, int32 TargetSlotIndex); \
 	virtual void Server_DropItem_Implementation(UBackpackItemInstance* ItemInstance); \
 	virtual void Server_PickupItem_Implementation(APickupItem* ItemToPickup); \
+	DECLARE_FUNCTION(execServer_QuickPickupItem); \
 	DECLARE_FUNCTION(execServer_DropAttachment); \
 	DECLARE_FUNCTION(execServer_UnequipAttachmentToBackpack); \
 	DECLARE_FUNCTION(execServer_EquipGroundAttachmentToWeapon); \

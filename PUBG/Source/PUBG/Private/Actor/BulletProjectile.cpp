@@ -82,7 +82,13 @@ void ABulletProjectile::HandleHit(UPrimitiveComponent* HitComponent, AActor* Oth
 	APlayerCharacter* PlayerChar = Cast<APlayerCharacter>(GetInstigator());
 	if (PlayerChar)
 	{
-		PlayerChar->Multicast_PlayImpactFX(Hit.ImpactPoint, Hit.ImpactNormal, DefaultImpactFX);
+		const EPhysicalSurface SurfaceType = UGameplayStatics::GetSurfaceType(Hit);
+		UNiagaraSystem* ImpactFX = DefaultImpactFX;
+		if (const TObjectPtr<UNiagaraSystem>* FoundFX = ImpactFXMap.Find(SurfaceType))
+		{
+			if (*FoundFX) ImpactFX = *FoundFX;
+		}
+		PlayerChar->Multicast_PlayImpactFX(Hit.ImpactPoint, Hit.ImpactNormal, ImpactFX);
 	}
 	
 	if (IsValid(OtherActor) && OtherActor != GetOwner() && OtherActor->IsA(APawn::StaticClass()))
@@ -117,6 +123,16 @@ void ABulletProjectile::HandleHit(UPrimitiveComponent* HitComponent, AActor* Oth
 					SourceASC->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), TargetASC);
 				}
 			}
+		}
+		
+		if (APlayerCharacter* VictimChar = Cast<APlayerCharacter>(OtherActor))
+		{
+			FVector SourceLoc = Hit.ImpactPoint;
+			if (InstigatorController.IsValid() && InstigatorController->GetPawn())
+			{
+				SourceLoc = InstigatorController->GetPawn()->GetActorLocation();
+			}
+			VictimChar->Multicast_PlayHitReaction(SourceLoc);
 		}
 	}
 	

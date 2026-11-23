@@ -10,6 +10,9 @@
 		"C:\\Users\\XieQi\\Documents\\GitHub\\UE5-Demo\\PUBG\\Plugins\\Developer\\RiderLink\\Source\\RiderLink\\RiderLink.Build.cs",
 		"C:\\Users\\XieQi\\Documents\\GitHub\\UE5-Demo\\PUBG\\Plugins\\Developer\\RiderLink\\Source\\RiderLogging\\RiderLogging.Build.cs",
 		"C:\\Users\\XieQi\\Documents\\GitHub\\UE5-Demo\\PUBG\\Plugins\\Developer\\RiderLink\\Source\\RiderShaderInfo\\RiderShaderInfo.Build.cs",
+		"C:\\Users\\XieQi\\Documents\\GitHub\\UE5-Demo\\PUBG\\Plugins\\EngineWire\\Source\\EngineWireFab\\EngineWireFab.Build.cs",
+		"C:\\Users\\XieQi\\Documents\\GitHub\\UE5-Demo\\PUBG\\Plugins\\EngineWire\\Source\\EngineWireValidation\\EngineWireValidation.Build.cs",
+		"C:\\Users\\XieQi\\Documents\\GitHub\\UE5-Demo\\PUBG\\Plugins\\EngineWire\\Source\\EngineWire\\EngineWire.Build.cs",
 		"C:\\Users\\XieQi\\Documents\\GitHub\\UE5-Demo\\PUBG\\Source\\PUBG.Target.cs",
 		"C:\\Users\\XieQi\\Documents\\GitHub\\UE5-Demo\\PUBG\\Source\\PUBGEditor.Target.cs"
 	],

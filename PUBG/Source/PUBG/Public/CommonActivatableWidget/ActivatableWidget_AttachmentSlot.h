@@ -7,6 +7,7 @@
 #include "CommonActivatableWidget/BaseCommonActivatableWidget.h"
 #include "ActivatableWidget_AttachmentSlot.generated.h"
 
+class UActivatableWidget_WeaponTooltip;
 class UUserWidget_DragVisual;
 class UBackpackItemInstance;
 class UBorder;
@@ -19,7 +20,6 @@ class PUBG_API UActivatableWidget_AttachmentSlot : public UBaseCommonActivatable
 	
 public:
 	void SetupAttachmentSlot(UBackpackItemInstance* AttachmentItem);
-	
 	void SetOwningWeapon(UBackpackItemInstance* InWeapon);
 
 protected:
@@ -27,6 +27,9 @@ protected:
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
 	virtual bool NativeOnDragOver(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
+	virtual void NativeConstruct() override;
+	
+protected:
 
 private:
 	UPROPERTY(meta = (BindWidget))
@@ -44,6 +47,12 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UBackpackItemInstance> CachedWeapon;
+	
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UActivatableWidget_WeaponTooltip> TooltipClass;
+
+	UPROPERTY()
+	TObjectPtr<UActivatableWidget_WeaponTooltip> ActiveTooltip;
 	
 private:
 	int32 RetryCount = 0;

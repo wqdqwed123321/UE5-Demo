@@ -735,6 +735,56 @@ DEFINE_FUNCTION(UBackpackManagerComponent::execServer_PickupItem)
 }
 // ********** End Class UBackpackManagerComponent Function Server_PickupItem ***********************
 
+// ********** Begin Class UBackpackManagerComponent Function Server_QuickPickupItem ****************
+struct BackpackManagerComponent_eventServer_QuickPickupItem_Parms
+{
+	APickupItem* ItemToPickup;
+};
+static FName NAME_UBackpackManagerComponent_Server_QuickPickupItem = FName(TEXT("Server_QuickPickupItem"));
+void UBackpackManagerComponent::Server_QuickPickupItem(APickupItem* ItemToPickup)
+{
+	BackpackManagerComponent_eventServer_QuickPickupItem_Parms Parms;
+	Parms.ItemToPickup=ItemToPickup;
+	UFunction* Func = FindFunctionChecked(NAME_UBackpackManagerComponent_Server_QuickPickupItem);
+	ProcessEvent(Func,&Parms);
+}
+struct Z_Construct_UFunction_UBackpackManagerComponent_Server_QuickPickupItem_Statics
+{
+#if WITH_METADATA
+	static constexpr UECodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/ActorComponent/BackpackManagerComponent.h" },
+	};
+#endif // WITH_METADATA
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_ItemToPickup;
+	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
+	static const UECodeGen_Private::FFunctionParams FuncParams;
+};
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UBackpackManagerComponent_Server_QuickPickupItem_Statics::NewProp_ItemToPickup = { "ItemToPickup", nullptr, (EPropertyFlags)0x0010000000000080, UECodeGen_Private::EPropertyGenFlags::Object, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(BackpackManagerComponent_eventServer_QuickPickupItem_Parms, ItemToPickup), Z_Construct_UClass_APickupItem_NoRegister, METADATA_PARAMS(0, nullptr) };
+const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UBackpackManagerComponent_Server_QuickPickupItem_Statics::PropPointers[] = {
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UBackpackManagerComponent_Server_QuickPickupItem_Statics::NewProp_ItemToPickup,
+};
+static_assert(UE_ARRAY_COUNT(Z_Construct_UFunction_UBackpackManagerComponent_Server_QuickPickupItem_Statics::PropPointers) < 2048);
+const UECodeGen_Private::FFunctionParams Z_Construct_UFunction_UBackpackManagerComponent_Server_QuickPickupItem_Statics::FuncParams = { { (UObject*(*)())Z_Construct_UClass_UBackpackManagerComponent, nullptr, "Server_QuickPickupItem", Z_Construct_UFunction_UBackpackManagerComponent_Server_QuickPickupItem_Statics::PropPointers, UE_ARRAY_COUNT(Z_Construct_UFunction_UBackpackManagerComponent_Server_QuickPickupItem_Statics::PropPointers), sizeof(BackpackManagerComponent_eventServer_QuickPickupItem_Parms), RF_Public|RF_Transient|RF_MarkAsNative, (EFunctionFlags)0x00220CC0, 0, 0, METADATA_PARAMS(UE_ARRAY_COUNT(Z_Construct_UFunction_UBackpackManagerComponent_Server_QuickPickupItem_Statics::Function_MetaDataParams), Z_Construct_UFunction_UBackpackManagerComponent_Server_QuickPickupItem_Statics::Function_MetaDataParams)},  };
+static_assert(sizeof(BackpackManagerComponent_eventServer_QuickPickupItem_Parms) < MAX_uint16);
+UFunction* Z_Construct_UFunction_UBackpackManagerComponent_Server_QuickPickupItem()
+{
+	static UFunction* ReturnFunction = nullptr;
+	if (!ReturnFunction)
+	{
+		UECodeGen_Private::ConstructUFunction(&ReturnFunction, Z_Construct_UFunction_UBackpackManagerComponent_Server_QuickPickupItem_Statics::FuncParams);
+	}
+	return ReturnFunction;
+}
+DEFINE_FUNCTION(UBackpackManagerComponent::execServer_QuickPickupItem)
+{
+	P_GET_OBJECT(APickupItem,Z_Param_ItemToPickup);
+	P_FINISH;
+	P_NATIVE_BEGIN;
+	P_THIS->Server_QuickPickupItem_Implementation(Z_Param_ItemToPickup);
+	P_NATIVE_END;
+}
+// ********** End Class UBackpackManagerComponent Function Server_QuickPickupItem ******************
+
 // ********** Begin Class UBackpackManagerComponent Function Server_SwapWeaponSlots ****************
 struct BackpackManagerComponent_eventServer_SwapWeaponSlots_Parms
 {
@@ -915,6 +965,7 @@ void UBackpackManagerComponent::StaticRegisterNativesUBackpackManagerComponent()
 		{ "Server_EquipGroundEquipmentToSlot", &UBackpackManagerComponent::execServer_EquipGroundEquipmentToSlot },
 		{ "Server_EquipGroundWeaponToSlot", &UBackpackManagerComponent::execServer_EquipGroundWeaponToSlot },
 		{ "Server_PickupItem", &UBackpackManagerComponent::execServer_PickupItem },
+		{ "Server_QuickPickupItem", &UBackpackManagerComponent::execServer_QuickPickupItem },
 		{ "Server_SwapWeaponSlots", &UBackpackManagerComponent::execServer_SwapWeaponSlots },
 		{ "Server_UnequipAttachmentToBackpack", &UBackpackManagerComponent::execServer_UnequipAttachmentToBackpack },
 		{ "Server_UnequipWeaponSlotToBackpack", &UBackpackManagerComponent::execServer_UnequipWeaponSlotToBackpack },
@@ -1031,6 +1082,7 @@ struct Z_Construct_UClass_UBackpackManagerComponent_Statics
 		{ &Z_Construct_UFunction_UBackpackManagerComponent_Server_EquipGroundEquipmentToSlot, "Server_EquipGroundEquipmentToSlot" }, // 1975019609
 		{ &Z_Construct_UFunction_UBackpackManagerComponent_Server_EquipGroundWeaponToSlot, "Server_EquipGroundWeaponToSlot" }, // 3886539988
 		{ &Z_Construct_UFunction_UBackpackManagerComponent_Server_PickupItem, "Server_PickupItem" }, // 3898706400
+		{ &Z_Construct_UFunction_UBackpackManagerComponent_Server_QuickPickupItem, "Server_QuickPickupItem" }, // 56504731
 		{ &Z_Construct_UFunction_UBackpackManagerComponent_Server_SwapWeaponSlots, "Server_SwapWeaponSlots" }, // 2833786329
 		{ &Z_Construct_UFunction_UBackpackManagerComponent_Server_UnequipAttachmentToBackpack, "Server_UnequipAttachmentToBackpack" }, // 3114824278
 		{ &Z_Construct_UFunction_UBackpackManagerComponent_Server_UnequipWeaponSlotToBackpack, "Server_UnequipWeaponSlotToBackpack" }, // 4135776871
@@ -1121,10 +1173,10 @@ UBackpackManagerComponent::~UBackpackManagerComponent() {}
 struct Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_ActorComponent_BackpackManagerComponent_h__Script_PUBG_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_UBackpackManagerComponent, UBackpackManagerComponent::StaticClass, TEXT("UBackpackManagerComponent"), &Z_Registration_Info_UClass_UBackpackManagerComponent, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UBackpackManagerComponent), 2137342181U) },
+		{ Z_Construct_UClass_UBackpackManagerComponent, UBackpackManagerComponent::StaticClass, TEXT("UBackpackManagerComponent"), &Z_Registration_Info_UClass_UBackpackManagerComponent, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UBackpackManagerComponent), 784477357U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_ActorComponent_BackpackManagerComponent_h__Script_PUBG_2489275389(TEXT("/Script/PUBG"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_ActorComponent_BackpackManagerComponent_h__Script_PUBG_1958787541(TEXT("/Script/PUBG"),
 	Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_ActorComponent_BackpackManagerComponent_h__Script_PUBG_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_ActorComponent_BackpackManagerComponent_h__Script_PUBG_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

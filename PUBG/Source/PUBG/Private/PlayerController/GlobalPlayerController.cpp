@@ -6,6 +6,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "PUBGGameplayTag.h"
 #include "Blueprint/UserWidget.h"
+#include "CommonActivatableWidget/ActivatableWidget_KillMessage.h"
 #include "CommonActivatableWidget/BaseCommonActivatableWidget.h"
 #include "CommonUserWidget/GameCommonUserWidget.h"
 #include "GameInstanceSubsystem/UIGameInstanceSubsystem.h"
@@ -40,5 +41,16 @@ void AGlobalPlayerController::BeginPlay()
 	if (InitialHudClass.IsValid())
 	{
 		UISub->PushSoftWidgetToStackAsync(PUBGGameplayTag::PUBG_UI_Stack_Hud, InitialHudClass, [](EAsyncPushWidgetState State, UBaseCommonActivatableWidget* Widget){});
+	}
+}
+
+void AGlobalPlayerController::Client_KillMessage_Implementation(const FString& KillerName, const FString& VictimName, const FString& WeaponName, bool bKnock, bool bFriendlyFire, int32 KillCount, EKillMessageRole InRole)
+{
+	if (UUIGameInstanceSubsystem* UISub = UUIGameInstanceSubsystem::Get(this))
+	{
+		if (UActivatableWidget_KillMessage* Msg = UISub->GetEmbeddedWidget<UActivatableWidget_KillMessage>())
+		{
+			Msg->InitMessage(KillerName, VictimName, WeaponName, bKnock, bFriendlyFire, KillCount, InRole);
+		}
 	}
 }

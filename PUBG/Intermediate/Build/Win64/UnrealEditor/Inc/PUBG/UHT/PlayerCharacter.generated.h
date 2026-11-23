@@ -23,18 +23,20 @@ class UPrimitiveComponent;
 enum class ECharacterGait : uint8;
 enum class ECharacterHeldSlot : uint8;
 enum class ECharacterStance : uint8;
+enum class EThrowMode : uint8;
 struct FHitResult;
 struct FVector_NetQuantize;
+struct FVector_NetQuantizeNormal;
 
 // ********** Begin Delegate FOnWeaponSlotChanged **************************************************
-#define FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_22_DELEGATE \
+#define FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_25_DELEGATE \
 PUBG_API void FOnWeaponSlotChanged_DelegateWrapper(const FMulticastScriptDelegate& OnWeaponSlotChanged);
 
 
 // ********** End Delegate FOnWeaponSlotChanged ****************************************************
 
 // ********** Begin Class APlayerCharacter *********************************************************
-#define FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_27_RPC_WRAPPERS_NO_PURE_DECLS \
+#define FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_30_RPC_WRAPPERS_NO_PURE_DECLS \
 	virtual void Client_FireRejected_Implementation(); \
 	virtual void Server_PlaySwitchWeaponMontage_Implementation(UAnimMontage* MontageToPlay, float PlayRate); \
 	virtual void Multicast_PlaySwitchFireModeMontage_Implementation(UAnimMontage* MontageToPlay); \
@@ -50,6 +52,12 @@ PUBG_API void FOnWeaponSlotChanged_DelegateWrapper(const FMulticastScriptDelegat
 	virtual void Server_SetControllerRotator_Implementation(float NewYaw, float NewPitch); \
 	virtual void Server_SetCharacterStance_Implementation(ECharacterStance NewCharacterStance); \
 	virtual void Server_SetCharacterGait_Implementation(ECharacterGait NewCharacterGait); \
+	virtual void Multicast_PlayDownedMontage_Implementation(); \
+	virtual void Multicast_PlayGrenadeMontage_Implementation(UAnimMontage* MontageToPlay); \
+	virtual void Server_PlayGrenadeMontage_Implementation(UAnimMontage* MontageToPlay); \
+	virtual void Server_ThrowGrenade_Implementation(FVector_NetQuantizeNormal ThrowDirection, float RemainingFuse); \
+	virtual void Server_SetThrowMode_Implementation(EThrowMode NewMode); \
+	virtual void Multicast_PlayHitReaction_Implementation(FVector_NetQuantize const& DamageSourceLocation); \
 	virtual void Multicast_PlaySwitchWeaponMontage_Implementation(UAnimMontage* MontageToPlay, float PlayRate); \
 	virtual void Multicast_PlayImpactFX_Implementation(FVector ImpactPoint, FVector ImpactNormal, UNiagaraSystem* ImpactFX); \
 	DECLARE_FUNCTION(execOnSphereEndOverlap); \
@@ -69,10 +77,14 @@ PUBG_API void FOnWeaponSlotChanged_DelegateWrapper(const FMulticastScriptDelegat
 	DECLARE_FUNCTION(execServer_SetControllerRotator); \
 	DECLARE_FUNCTION(execServer_SetCharacterStance); \
 	DECLARE_FUNCTION(execServer_SetCharacterGait); \
+	DECLARE_FUNCTION(execOnRep_LifeState); \
+	DECLARE_FUNCTION(execOnRep_ThrowMode); \
+	DECLARE_FUNCTION(execOnRep_IsClimbing); \
 	DECLARE_FUNCTION(execOnSwitchWeaponMontageBlendOut); \
 	DECLARE_FUNCTION(execOnSwitchWeaponMontageEnded); \
 	DECLARE_FUNCTION(execOnSwitchFireModeMontageEnded); \
 	DECLARE_FUNCTION(execOnReloadMontageEnded); \
+	DECLARE_FUNCTION(execOnRep_ClimbWarpTarget); \
 	DECLARE_FUNCTION(execOnRep_CharacterHeldSlot); \
 	DECLARE_FUNCTION(execOnWeaponAttachmentsChangedHandler); \
 	DECLARE_FUNCTION(execOnInventoryChangedHandler); \
@@ -80,6 +92,12 @@ PUBG_API void FOnWeaponSlotChanged_DelegateWrapper(const FMulticastScriptDelegat
 	DECLARE_FUNCTION(execOnRep_CharacterGait); \
 	DECLARE_FUNCTION(execAnimNotify_AttachWeaponToBack); \
 	DECLARE_FUNCTION(execAnimNotify_AttachWeaponToHand); \
+	DECLARE_FUNCTION(execMulticast_PlayDownedMontage); \
+	DECLARE_FUNCTION(execMulticast_PlayGrenadeMontage); \
+	DECLARE_FUNCTION(execServer_PlayGrenadeMontage); \
+	DECLARE_FUNCTION(execServer_ThrowGrenade); \
+	DECLARE_FUNCTION(execServer_SetThrowMode); \
+	DECLARE_FUNCTION(execMulticast_PlayHitReaction); \
 	DECLARE_FUNCTION(execMulticast_PlaySwitchWeaponMontage); \
 	DECLARE_FUNCTION(execMulticast_PlayImpactFX); \
 	DECLARE_FUNCTION(execShouldEnableWeaponIK); \
@@ -93,10 +111,10 @@ PUBG_API void FOnWeaponSlotChanged_DelegateWrapper(const FMulticastScriptDelegat
 	DECLARE_FUNCTION(execServer_InitASC);
 
 
-#define FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_27_CALLBACK_WRAPPERS
+#define FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_30_CALLBACK_WRAPPERS
 PUBG_API UClass* Z_Construct_UClass_APlayerCharacter_NoRegister();
 
-#define FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_27_INCLASS_NO_PURE_DECLS \
+#define FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_30_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesAPlayerCharacter(); \
 	friend struct Z_Construct_UClass_APlayerCharacter_Statics; \
@@ -109,9 +127,14 @@ public: \
 	enum class ENetFields_Private : uint16 \
 	{ \
 		NETFIELD_REP_START=(uint16)((int32)Super::ENetFields_Private::NETFIELD_REP_END + (int32)1), \
-		CharacterGait=NETFIELD_REP_START, \
+		ClimbWarpTarget=NETFIELD_REP_START, \
+		ClimbTopTarget, \
+		bIsClimbing, \
+		CharacterGait, \
 		CharacterStance, \
 		CharacterHeldSlot, \
+		ThrowMode, \
+		LifeState, \
 		ControllerRotator_Yaw, \
 		ControllerRotator_Pitch, \
 		CurrentLeanDirection, \
@@ -119,7 +142,7 @@ public: \
 	DECLARE_VALIDATE_GENERATED_REP_ENUMS(NO_API)
 
 
-#define FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_27_ENHANCED_CONSTRUCTORS \
+#define FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_30_ENHANCED_CONSTRUCTORS \
 	/** Deleted move- and copy-constructors, should never be used */ \
 	APlayerCharacter(APlayerCharacter&&) = delete; \
 	APlayerCharacter(const APlayerCharacter&) = delete; \
@@ -129,14 +152,14 @@ public: \
 	NO_API virtual ~APlayerCharacter();
 
 
-#define FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_24_PROLOG
-#define FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_27_GENERATED_BODY \
+#define FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_27_PROLOG
+#define FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_30_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_27_RPC_WRAPPERS_NO_PURE_DECLS \
-	FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_27_CALLBACK_WRAPPERS \
-	FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_27_INCLASS_NO_PURE_DECLS \
-	FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_27_ENHANCED_CONSTRUCTORS \
+	FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_30_RPC_WRAPPERS_NO_PURE_DECLS \
+	FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_30_CALLBACK_WRAPPERS \
+	FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_30_INCLASS_NO_PURE_DECLS \
+	FID_PUBG_Source_PUBG_Public_Character_PlayerCharacter_h_30_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

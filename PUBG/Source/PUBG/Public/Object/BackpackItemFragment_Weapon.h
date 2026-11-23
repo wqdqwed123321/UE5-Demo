@@ -93,6 +93,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "武器开火动画"))
 	TObjectPtr<UAnimMontage> WeaponFireMontage;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "角色开火动画"))
+	TObjectPtr<UAnimMontage> CharacterFireMontage;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (DisplayName = "枪口粒子特效"))
 	TObjectPtr<UNiagaraSystem> MuzzleFlashFX;

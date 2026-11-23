@@ -19,6 +19,7 @@ PUBG_API UClass* Z_Construct_UClass_AWeaponPreview_NoRegister();
 PUBG_API UClass* Z_Construct_UClass_UActivatableWidget_AttachmentSlot_NoRegister();
 PUBG_API UClass* Z_Construct_UClass_UActivatableWidget_WeaponDetail();
 PUBG_API UClass* Z_Construct_UClass_UActivatableWidget_WeaponDetail_NoRegister();
+PUBG_API UClass* Z_Construct_UClass_UActivatableWidget_WeaponTooltip_NoRegister();
 PUBG_API UClass* Z_Construct_UClass_UBackpackItemFragment_Weapon_NoRegister();
 PUBG_API UClass* Z_Construct_UClass_UBackpackItemInstance_NoRegister();
 PUBG_API UClass* Z_Construct_UClass_UBackpackManagerComponent_NoRegister();
@@ -214,6 +215,14 @@ struct Z_Construct_UClass_UActivatableWidget_WeaponDetail_Statics
 	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_PreviewActor_MetaData[] = {
 		{ "ModuleRelativePath", "Public/CommonActivatableWidget/ActivatableWidget_WeaponDetail.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_TooltipClass_MetaData[] = {
+		{ "Category", "ActivatableWidget_WeaponDetail" },
+		{ "ModuleRelativePath", "Public/CommonActivatableWidget/ActivatableWidget_WeaponDetail.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_ActiveTooltip_MetaData[] = {
+		{ "EditInline", "true" },
+		{ "ModuleRelativePath", "Public/CommonActivatableWidget/ActivatableWidget_WeaponDetail.h" },
+	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_SizeBox_Gun;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_TextBlock_Slot;
@@ -239,6 +248,8 @@ struct Z_Construct_UClass_UActivatableWidget_WeaponDetail_Statics
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_CachedWeaponData;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_CachedComp;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_PreviewActor;
+	static const UECodeGen_Private::FClassPropertyParams NewProp_TooltipClass;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_ActiveTooltip;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
 	static constexpr FClassFunctionLinkInfo FuncInfo[] = {
@@ -274,6 +285,8 @@ const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UActivatableWi
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UActivatableWidget_WeaponDetail_Statics::NewProp_CachedWeaponData = { "CachedWeaponData", nullptr, (EPropertyFlags)0x0144000000080008, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_WeaponDetail, CachedWeaponData), Z_Construct_UClass_UBackpackItemFragment_Weapon_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CachedWeaponData_MetaData), NewProp_CachedWeaponData_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UActivatableWidget_WeaponDetail_Statics::NewProp_CachedComp = { "CachedComp", nullptr, (EPropertyFlags)0x0144000000080008, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_WeaponDetail, CachedComp), Z_Construct_UClass_UBackpackManagerComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CachedComp_MetaData), NewProp_CachedComp_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UActivatableWidget_WeaponDetail_Statics::NewProp_PreviewActor = { "PreviewActor", nullptr, (EPropertyFlags)0x0144000000000000, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_WeaponDetail, PreviewActor), Z_Construct_UClass_AWeaponPreview_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_PreviewActor_MetaData), NewProp_PreviewActor_MetaData) };
+const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_UActivatableWidget_WeaponDetail_Statics::NewProp_TooltipClass = { "TooltipClass", nullptr, (EPropertyFlags)0x0044000000000001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_WeaponDetail, TooltipClass), Z_Construct_UClass_UClass, Z_Construct_UClass_UActivatableWidget_WeaponTooltip_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_TooltipClass_MetaData), NewProp_TooltipClass_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UActivatableWidget_WeaponDetail_Statics::NewProp_ActiveTooltip = { "ActiveTooltip", nullptr, (EPropertyFlags)0x0144000000080008, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_WeaponDetail, ActiveTooltip), Z_Construct_UClass_UActivatableWidget_WeaponTooltip_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ActiveTooltip_MetaData), NewProp_ActiveTooltip_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UActivatableWidget_WeaponDetail_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_WeaponDetail_Statics::NewProp_SizeBox_Gun,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_WeaponDetail_Statics::NewProp_TextBlock_Slot,
@@ -299,6 +312,8 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UActivata
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_WeaponDetail_Statics::NewProp_CachedWeaponData,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_WeaponDetail_Statics::NewProp_CachedComp,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_WeaponDetail_Statics::NewProp_PreviewActor,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_WeaponDetail_Statics::NewProp_TooltipClass,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_WeaponDetail_Statics::NewProp_ActiveTooltip,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_UActivatableWidget_WeaponDetail_Statics::PropPointers) < 2048);
 UObject* (*const Z_Construct_UClass_UActivatableWidget_WeaponDetail_Statics::DependentSingletons[])() = {
@@ -338,10 +353,10 @@ UActivatableWidget_WeaponDetail::~UActivatableWidget_WeaponDetail() {}
 struct Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h__Script_PUBG_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_UActivatableWidget_WeaponDetail, UActivatableWidget_WeaponDetail::StaticClass, TEXT("UActivatableWidget_WeaponDetail"), &Z_Registration_Info_UClass_UActivatableWidget_WeaponDetail, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UActivatableWidget_WeaponDetail), 1325692684U) },
+		{ Z_Construct_UClass_UActivatableWidget_WeaponDetail, UActivatableWidget_WeaponDetail::StaticClass, TEXT("UActivatableWidget_WeaponDetail"), &Z_Registration_Info_UClass_UActivatableWidget_WeaponDetail, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UActivatableWidget_WeaponDetail), 3233797029U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h__Script_PUBG_2092081905(TEXT("/Script/PUBG"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h__Script_PUBG_3601712262(TEXT("/Script/PUBG"),
 	Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h__Script_PUBG_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_WeaponDetail_h__Script_PUBG_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);

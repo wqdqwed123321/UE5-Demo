@@ -84,6 +84,9 @@ public:
 	UFUNCTION(Server, Reliable)
 	void Server_DropAttachment(UBackpackItemInstance* WeaponInstance, EAttachmentSlot TargetSlot);
 	
+	UFUNCTION(Server, Reliable)
+	void Server_QuickPickupItem(APickupItem* ItemToPickup);
+	
 public:
 	bool AddItemToNearbyPickupItems(APickupItem* PickupItemActor);
 	TArray<APickupItem*> GetNearbyPickupItems() const { return NearbyPickupItems; }
@@ -95,13 +98,19 @@ public:
 	int32 AddItemToBackpack(UBackpackItemDefinition* ItemDef, int32 Amount);
 	void RemoveItemFromNearbyPickupItems(APickupItem* PickupItemActor);
 	void ConsumeBackpackItem(UBackpackItemInstance* ItemInstance, int32 AmountToConsume);
+	bool ConsumeWeaponSlotItem(int32 SlotIndex, int32 Amount);
+	bool CanAutoEquipAttachment(UBackpackItemDefinition* AttachDef) const;
 	
-private:
+protected:
 	UAbilitySystemComponent* GetASC() const;
 	void ApplyBackpackCapacityGE(float InDeltaCapacity);
 	void ApplyMaxBackpackCapacityGE(float DeltaCapacity);
 	float GetItemUnitWeight(UBackpackItemDefinition* ItemDef) const;
 	float GetBackpackExtraCapacity(UBackpackItemDefinition* ItemDef) const;
+	EEquipmentSlot GetEquipmentSlotForItem(UBackpackItemDefinition* ItemDef) const;
+	int32 FindEmptyWeaponSlotForItem(UBackpackItemDefinition* ItemDef) const;
+	bool TryAutoEquipGroundAttachment(APickupItem* GroundAttachment);
+	void AddGroundItemToBackpack(APickupItem* GroundItem);
 
 private:
 	UPROPERTY(EditDefaultsOnly)

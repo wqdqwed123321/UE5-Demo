@@ -15,6 +15,7 @@ void EmptyLinkFunctionForGeneratedCodeActivatableWidget_EquipmentSlot() {}
 COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
 PUBG_API UClass* Z_Construct_UClass_UActivatableWidget_EquipmentSlot();
 PUBG_API UClass* Z_Construct_UClass_UActivatableWidget_EquipmentSlot_NoRegister();
+PUBG_API UClass* Z_Construct_UClass_UActivatableWidget_WeaponTooltip_NoRegister();
 PUBG_API UClass* Z_Construct_UClass_UBackpackManagerComponent_NoRegister();
 PUBG_API UClass* Z_Construct_UClass_UBaseCommonActivatableWidget();
 PUBG_API UClass* Z_Construct_UClass_UUserWidget_DragVisual_NoRegister();
@@ -125,6 +126,14 @@ struct Z_Construct_UClass_UActivatableWidget_EquipmentSlot_Statics
 		{ "EditInline", "true" },
 		{ "ModuleRelativePath", "Public/CommonActivatableWidget/ActivatableWidget_EquipmentSlot.h" },
 	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_TooltipClass_MetaData[] = {
+		{ "Category", "ActivatableWidget_EquipmentSlot" },
+		{ "ModuleRelativePath", "Public/CommonActivatableWidget/ActivatableWidget_EquipmentSlot.h" },
+	};
+	static constexpr UECodeGen_Private::FMetaDataPairParam NewProp_ActiveTooltip_MetaData[] = {
+		{ "EditInline", "true" },
+		{ "ModuleRelativePath", "Public/CommonActivatableWidget/ActivatableWidget_EquipmentSlot.h" },
+	};
 #endif // WITH_METADATA
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_Image_Picture;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_Border_Frame;
@@ -133,6 +142,8 @@ struct Z_Construct_UClass_UActivatableWidget_EquipmentSlot_Statics
 	static const UECodeGen_Private::FEnumPropertyParams NewProp_EquipmentSlot;
 	static const UECodeGen_Private::FClassPropertyParams NewProp_DragVisualClass;
 	static const UECodeGen_Private::FObjectPropertyParams NewProp_CachedComp;
+	static const UECodeGen_Private::FClassPropertyParams NewProp_TooltipClass;
+	static const UECodeGen_Private::FObjectPropertyParams NewProp_ActiveTooltip;
 	static const UECodeGen_Private::FPropertyParamsBase* const PropPointers[];
 	static UObject* (*const DependentSingletons[])();
 	static constexpr FClassFunctionLinkInfo FuncInfo[] = {
@@ -151,6 +162,8 @@ const UECodeGen_Private::FBytePropertyParams Z_Construct_UClass_UActivatableWidg
 const UECodeGen_Private::FEnumPropertyParams Z_Construct_UClass_UActivatableWidget_EquipmentSlot_Statics::NewProp_EquipmentSlot = { "EquipmentSlot", nullptr, (EPropertyFlags)0x0040000000000001, UECodeGen_Private::EPropertyGenFlags::Enum, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_EquipmentSlot, EquipmentSlot), Z_Construct_UEnum_PUBG_EEquipmentSlot, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_EquipmentSlot_MetaData), NewProp_EquipmentSlot_MetaData) }; // 218928670
 const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_UActivatableWidget_EquipmentSlot_Statics::NewProp_DragVisualClass = { "DragVisualClass", nullptr, (EPropertyFlags)0x0044000000000001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_EquipmentSlot, DragVisualClass), Z_Construct_UClass_UClass, Z_Construct_UClass_UUserWidget_DragVisual_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_DragVisualClass_MetaData), NewProp_DragVisualClass_MetaData) };
 const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UActivatableWidget_EquipmentSlot_Statics::NewProp_CachedComp = { "CachedComp", nullptr, (EPropertyFlags)0x0144000000080008, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_EquipmentSlot, CachedComp), Z_Construct_UClass_UBackpackManagerComponent_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_CachedComp_MetaData), NewProp_CachedComp_MetaData) };
+const UECodeGen_Private::FClassPropertyParams Z_Construct_UClass_UActivatableWidget_EquipmentSlot_Statics::NewProp_TooltipClass = { "TooltipClass", nullptr, (EPropertyFlags)0x0044000000000001, UECodeGen_Private::EPropertyGenFlags::Class, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_EquipmentSlot, TooltipClass), Z_Construct_UClass_UClass, Z_Construct_UClass_UActivatableWidget_WeaponTooltip_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_TooltipClass_MetaData), NewProp_TooltipClass_MetaData) };
+const UECodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UActivatableWidget_EquipmentSlot_Statics::NewProp_ActiveTooltip = { "ActiveTooltip", nullptr, (EPropertyFlags)0x0144000000080008, UECodeGen_Private::EPropertyGenFlags::Object | UECodeGen_Private::EPropertyGenFlags::ObjectPtr, RF_Public|RF_Transient|RF_MarkAsNative, nullptr, nullptr, 1, STRUCT_OFFSET(UActivatableWidget_EquipmentSlot, ActiveTooltip), Z_Construct_UClass_UActivatableWidget_WeaponTooltip_NoRegister, METADATA_PARAMS(UE_ARRAY_COUNT(NewProp_ActiveTooltip_MetaData), NewProp_ActiveTooltip_MetaData) };
 const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UActivatableWidget_EquipmentSlot_Statics::PropPointers[] = {
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_EquipmentSlot_Statics::NewProp_Image_Picture,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_EquipmentSlot_Statics::NewProp_Border_Frame,
@@ -159,6 +172,8 @@ const UECodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UActivata
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_EquipmentSlot_Statics::NewProp_EquipmentSlot,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_EquipmentSlot_Statics::NewProp_DragVisualClass,
 	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_EquipmentSlot_Statics::NewProp_CachedComp,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_EquipmentSlot_Statics::NewProp_TooltipClass,
+	(const UECodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UActivatableWidget_EquipmentSlot_Statics::NewProp_ActiveTooltip,
 };
 static_assert(UE_ARRAY_COUNT(Z_Construct_UClass_UActivatableWidget_EquipmentSlot_Statics::PropPointers) < 2048);
 UObject* (*const Z_Construct_UClass_UActivatableWidget_EquipmentSlot_Statics::DependentSingletons[])() = {
@@ -198,10 +213,10 @@ UActivatableWidget_EquipmentSlot::~UActivatableWidget_EquipmentSlot() {}
 struct Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h__Script_PUBG_Statics
 {
 	static constexpr FClassRegisterCompiledInInfo ClassInfo[] = {
-		{ Z_Construct_UClass_UActivatableWidget_EquipmentSlot, UActivatableWidget_EquipmentSlot::StaticClass, TEXT("UActivatableWidget_EquipmentSlot"), &Z_Registration_Info_UClass_UActivatableWidget_EquipmentSlot, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UActivatableWidget_EquipmentSlot), 2308545208U) },
+		{ Z_Construct_UClass_UActivatableWidget_EquipmentSlot, UActivatableWidget_EquipmentSlot::StaticClass, TEXT("UActivatableWidget_EquipmentSlot"), &Z_Registration_Info_UClass_UActivatableWidget_EquipmentSlot, CONSTRUCT_RELOAD_VERSION_INFO(FClassReloadVersionInfo, sizeof(UActivatableWidget_EquipmentSlot), 3007820178U) },
 	};
 };
-static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h__Script_PUBG_3583299335(TEXT("/Script/PUBG"),
+static FRegisterCompiledInInfo Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h__Script_PUBG_1684467022(TEXT("/Script/PUBG"),
 	Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h__Script_PUBG_Statics::ClassInfo, UE_ARRAY_COUNT(Z_CompiledInDeferFile_FID_PUBG_Source_PUBG_Public_CommonActivatableWidget_ActivatableWidget_EquipmentSlot_h__Script_PUBG_Statics::ClassInfo),
 	nullptr, 0,
 	nullptr, 0);
